@@ -32,5 +32,19 @@ class Note(
 
     }
 
+    override fun nextNote(): Note {
+        return if (name == NoteName.Si)
+            Note(NoteName.Do, octave + 1, volume, sign, duration)
+        else
+            Note(NoteName.values()[name.ordinal + 1], octave, volume, sign, duration)
+    }
+
+    override fun prevNote(): Note {
+        return if (name == NoteName.Do)
+            Note(NoteName.Si, octave - 1, volume, sign, duration)
+        else
+            Note(NoteName.values()[name.ordinal - 1], octave, volume, sign, duration)
+    }
+
     override fun toString(): String = "$name $octave $volume $sign $duration"
 }

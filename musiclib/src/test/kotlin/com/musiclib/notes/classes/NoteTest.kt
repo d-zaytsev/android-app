@@ -10,6 +10,33 @@ import org.junit.jupiter.api.Test
 class NoteTest {
 
     @Nested
+    inner class `Previous & Next note test` {
+        @Test
+        fun `Prev octave check`() {
+            Assertions.assertEquals(
+                "Si -1 Piano None Whole",
+                Note(NoteName.Do).prevNote().toString()
+            )
+        }
+
+        @Test
+        fun `Next octave check`() {
+            Assertions.assertEquals(
+                "Do 1 Piano None Whole",
+                Note(NoteName.Si).nextNote().toString()
+            )
+        }
+
+        @Test
+        fun `Note equal check`() {
+            Assertions.assertEquals(
+                "Re 0 Piano None Whole",
+                Note(NoteName.Do).nextNote().prevNote().nextNote().toString()
+            )
+        }
+    }
+
+    @Nested
     inner class `Note compare test` {
         @Test
         fun `Equal notes test`() {
