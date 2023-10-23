@@ -27,7 +27,7 @@ class Interval(note1: Note, note2: Note) : MusicInterval {
         )
         // Разница между нотами
         val diff =
-            abs((note1.name.dist + note1.sign.num + note1.octave * 6) - (note2.name.dist + note2.sign.num + note2.octave * 6))
+            abs((note1.name.dist + note1.sign.value + note1.octave * 6) - (note2.name.dist + note2.sign.value + note2.octave * 6))
         val ans = map[diff]
 
         // Определяем текущий интервал с помощью данных из таблицы
