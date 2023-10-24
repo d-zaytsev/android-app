@@ -1,15 +1,16 @@
 package com.app.music_app
 
+import com.app.music_app.instruments.VirtualPiano
 import com.musiclib.Alteration
 import com.musiclib.notes.Note
 import com.musiclib.notes.NoteName
-import instruments.VirtualPiano
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class VirtualPianoTest {
 
-    val vp = VirtualPiano();
+    private val vp = VirtualPiano();
 
     @Test
     fun `Main octave Do check`() {
@@ -34,6 +35,21 @@ class VirtualPianoTest {
         Assertions.assertEquals(
             "eb1",
             vp.soundPath(Note(NoteName.Mi, octave = -3, sign = Alteration.FlatSign))
+        )
+    }
+
+    @Test
+    fun `Instrument range check1`() {
+        assertFailsWith<IllegalArgumentException> {
+            vp.soundPath(Note(NoteName.La, -5, sign = Alteration.FlatSign))
+        }
+    }
+
+    @Test
+    fun `Instrument range check2`() {
+        Assertions.assertEquals(
+            "a0",
+            vp.soundPath(Note(NoteName.La, octave = -4))
         )
     }
 }

@@ -1,4 +1,4 @@
-package instruments
+package com.app.music_app.instruments
 
 import com.musiclib.Alteration
 import com.musiclib.notes.Note

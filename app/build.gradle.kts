@@ -39,6 +39,10 @@ android {
     }
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 dependencies {
 
     // ---Compose---
@@ -50,6 +54,7 @@ dependencies {
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // ---
@@ -60,4 +65,6 @@ dependencies {
 
     implementation(project(mapOf("path" to ":musiclib")))
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation(kotlin("test-junit5"))
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
 }
