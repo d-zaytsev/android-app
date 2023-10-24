@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Android-App"
 include(":app")
-include(":MusicLib")
+include(":musiclib")
