@@ -40,37 +40,37 @@ class NoteTest {
     inner class `Note compare test` {
         @Test
         fun `Equal notes test`() {
-            val res = Note(NoteName.Do).compareTo(Note(NoteName.Do));
-
-            Assertions.assertEquals(0, res);
+            Assertions.assertTrue(Note(NoteName.Do) == Note(NoteName.Do))
         }
 
         @Test
         fun `Dif octave notes test1`() {
-            val res = Note(NoteName.Do, 1).compareTo(Note(NoteName.Do, 2));
-
-            Assertions.assertEquals(-1, res);
+            Assertions.assertTrue(Note(NoteName.Do, 1) < Note(NoteName.Do, 2))
         }
 
         @Test
         fun `Dif octave notes test2`() {
-            val res = Note(NoteName.Do, 1).compareTo(Note(NoteName.Do, -1));
+            Assertions.assertTrue(Note(NoteName.Do, 1) > Note(NoteName.Do, -1));
+        }
 
-            Assertions.assertEquals(1, res);
+        @Test
+        fun `Dif octave notes test3`() {
+            Assertions.assertTrue(Note(NoteName.Si, 1) < Note(NoteName.Do, 2));
         }
 
         @Test
         fun `Equal note names test1`() {
-            val res = Note(NoteName.Do, sign = Alteration.FlatSign).compareTo(Note(NoteName.Do));
-
-            Assertions.assertEquals(-1, res);
+            Assertions.assertTrue(Note(NoteName.Do, sign = Alteration.FlatSign) < Note(NoteName.Do))
         }
 
         @Test
         fun `Equal note names test2`() {
-            val res = Note(NoteName.Do).compareTo(Note(NoteName.Do, sign = Alteration.SharpSign));
-
-            Assertions.assertEquals(-1, res);
+            Assertions.assertTrue(
+                Note(NoteName.Do) < Note(
+                    NoteName.Do,
+                    sign = Alteration.SharpSign
+                )
+            );
         }
     }
 }
