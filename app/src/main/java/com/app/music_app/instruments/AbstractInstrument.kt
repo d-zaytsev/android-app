@@ -1,6 +1,7 @@
 package com.app.music_app.instruments
 
 import com.musiclib.notes.Note
+import com.musiclib.notes.NoteRange
 
 /**
  * Представляет собой класс, связывающий ноты (класс Note) и их физическое представление на устройстве (файл)
@@ -12,8 +13,8 @@ abstract class AbstractInstrument {
      * @throws IllegalArgumentException
      * */
     abstract fun soundPath(note: Note): String
-    protected fun rangeCheck(note: Note) = instrumentRange.inRange(note)
+    protected fun rangeCheck(note: Note) = noteRange.inRange(note)
 
-    abstract val instrumentRange: InstrumentRange;
+    abstract val noteRange: NoteRange;
 
 }

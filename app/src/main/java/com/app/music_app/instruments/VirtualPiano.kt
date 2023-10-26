@@ -3,14 +3,15 @@ package com.app.music_app.instruments
 import com.musiclib.Alteration
 import com.musiclib.notes.Note
 import com.musiclib.notes.NoteName
+import com.musiclib.notes.NoteRange
 
 
 // Piano notes: https://github.com/fuhton/piano-mp3
 class VirtualPiano() : AbstractInstrument() {
 
     // Диапазон современного фортепиано: от ноты Ля субконтроктавы(-4) до ноты До пятой октавы(4)
-    override val instrumentRange =
-        InstrumentRange(Note(NoteName.La, octave = -4), Note(NoteName.Do, octave = 4))
+    override val noteRange =
+        NoteRange(Note(NoteName.La, octave = -4), Note(NoteName.Do, octave = 4))
 
     override fun soundPath(note: Note): String {
         if (!rangeCheck(note))
