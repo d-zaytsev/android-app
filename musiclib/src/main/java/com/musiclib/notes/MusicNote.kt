@@ -18,9 +18,9 @@ interface MusicNote : MusicPause {
     val octave: Int;
 
     /** @return Следующую ноту относительно этой */
-    fun nextNote(): Note;
+    fun next(): Note;
 
     /** @return Предыдущую ноту относительно этой */
-    fun prevNote(): Note;
+    fun previous(): Note;
 
 }

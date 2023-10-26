@@ -1,8 +1,8 @@
 package com.musiclib.notes
 
 /** Основные ступени (Слоговая система наименования)
- * @param dist Расстояние до ноты До в этой октаве */
-enum class NoteName(val dist: Float) {
+ * @param value Расстояние до ноты До в этой октаве */
+enum class NoteName(val value: Float) {
     Do(0f),
     Re(1f),
     Mi(2f),

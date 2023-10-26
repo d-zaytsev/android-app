@@ -15,7 +15,7 @@ class NoteTest {
         fun `Prev octave check`() {
             Assertions.assertEquals(
                 "Si -1 Piano None Whole",
-                Note(NoteName.Do).prevNote().toString()
+                Note(NoteName.Do).previous().toString()
             )
         }
 
@@ -23,7 +23,7 @@ class NoteTest {
         fun `Next octave check`() {
             Assertions.assertEquals(
                 "Do 1 Piano None Whole",
-                Note(NoteName.Si).nextNote().toString()
+                Note(NoteName.Si).next().toString()
             )
         }
 
@@ -31,7 +31,7 @@ class NoteTest {
         fun `Note equal check`() {
             Assertions.assertEquals(
                 "Re 0 Piano None Whole",
-                Note(NoteName.Do).nextNote().prevNote().nextNote().toString()
+                Note(NoteName.Do).next().previous().next().toString()
             )
         }
     }
