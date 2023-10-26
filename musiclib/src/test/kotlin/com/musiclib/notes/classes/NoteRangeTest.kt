@@ -10,13 +10,13 @@ class NoteRangeTest {
 
     @Test
     fun `Note count check`() {
-        assertEquals(6, NoteRange(Note(NoteName.Do), Note(NoteName.Si)).noteCount)
+        assertEquals(7, NoteRange(Note(NoteName.Do), Note(NoteName.Si)).noteCount)
     }
 
     @Test
     fun `Note count check (dif octavas)`() {
         assertEquals(
-            1,
+            2,
             NoteRange(Note(NoteName.Si, octave = 1), Note(NoteName.Do, octave = 2)).noteCount
         )
     }
