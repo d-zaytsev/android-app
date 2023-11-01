@@ -1,18 +1,43 @@
 package com.musiclib.notes
 
+import com.musiclib.Alteration
+
 /**
  * Представляет собой определённый диапазон нот
  */
-data class NoteRange(val from: Note, val to: Note) {
+data class NoteRange(val fromNote: Note, val endNote: Note) {
 
     init {
-        if (from > to)
+        if (fromNote > endNote)
             throw IllegalArgumentException("Left border cannot be greater than the right")
     }
 
-    /** Количество нот в диапазоне */
+    /** Список целых нот в этом диапазоне */
+    val list: List<Note>
+        get() {
+            val list = mutableListOf<Note>()
+
+            var curNote = if (fromNote.sign == Alteration.SharpSign)
+                fromNote.next()
+            else
+                fromNote
+
+            val prevEnd = if (endNote.sign == Alteration.FlatSign)
+                endNote.previous()
+            else
+                endNote
+
+            while (curNote != prevEnd) {
+                list.add(curNote)
+                curNote = curNote.next()
+            }
+
+            return list
+        }
+
+    /** Количество целых нот в диапазоне */
     val noteCount: Int
-        get() = (to.octave * 7 + to.name.ordinal) - (from.octave * 7 + from.name.ordinal - 1)
+        get() = (endNote.octave * 7 + endNote.name.ordinal) - (fromNote.octave * 7 + fromNote.name.ordinal - 1)
 
     fun inRangeAll(elements: Collection<Note>): Boolean {
         for (item in elements)
@@ -23,5 +48,5 @@ data class NoteRange(val from: Note, val to: Note) {
     }
 
     /** @return Находится ли переданная нота в диапазоне */
-    fun inRange(element: Note): Boolean = element in from..to
+    fun inRange(element: Note): Boolean = element in fromNote..endNote
 }
