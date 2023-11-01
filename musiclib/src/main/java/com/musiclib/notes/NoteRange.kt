@@ -7,6 +7,13 @@ import com.musiclib.Alteration
  */
 data class NoteRange(val fromNote: Note, val endNote: Note) {
 
+    constructor(octaveFrom: Int, endOctave: Int = octaveFrom) : this(
+        Note(
+            NoteName.Do,
+            octave = octaveFrom
+        ), Note(NoteName.Si, octave = endOctave)
+    )
+
     init {
         if (fromNote > endNote)
             throw IllegalArgumentException("Left border cannot be greater than the right")
