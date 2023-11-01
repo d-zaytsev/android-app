@@ -1,4 +1,4 @@
-package com.musiclib.notes.classes
+package musiclib.test
 
 import com.musiclib.Alteration
 import com.musiclib.notes.Note
@@ -14,7 +14,7 @@ class NoteTest {
         @Test
         fun `Prev octave check`() {
             Assertions.assertEquals(
-                "Si -1 Piano None Whole",
+                "Si -1 None",
                 Note(NoteName.Do).previous().toString()
             )
         }
@@ -22,7 +22,7 @@ class NoteTest {
         @Test
         fun `Next octave check`() {
             Assertions.assertEquals(
-                "Do 1 Piano None Whole",
+                "Do 1 None",
                 Note(NoteName.Si).next().toString()
             )
         }
@@ -30,7 +30,7 @@ class NoteTest {
         @Test
         fun `Note equal check`() {
             Assertions.assertEquals(
-                "Re 0 Piano None Whole",
+                "Re 0 None",
                 Note(NoteName.Do).next().previous().next().toString()
             )
         }

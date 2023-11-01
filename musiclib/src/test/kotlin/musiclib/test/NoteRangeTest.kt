@@ -1,4 +1,4 @@
-package com.musiclib.notes.classes
+package musiclib.test
 
 import com.musiclib.notes.Note
 import com.musiclib.notes.NoteName

@@ -1,4 +1,4 @@
-package com.musiclib.notes.classes
+package musiclib.test
 
 import com.musiclib.Alteration
 import com.musiclib.intervals.Interval
