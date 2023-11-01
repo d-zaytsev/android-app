@@ -1,4 +1,4 @@
-package com.app.music_app.view
+package com.app.music_app.view.piano_keyboard
 
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect
@@ -6,10 +6,9 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 
-class PianoKeyShape(private val radius: Dp) : Shape {
+class PianoKeyShape(private val radius: Float) : Shape {
     override fun createOutline(
         size: Size,
         layoutDirection: LayoutDirection,
@@ -23,8 +22,8 @@ class PianoKeyShape(private val radius: Dp) : Shape {
                 0f,
                 CornerRadius(0f, 0f),
                 CornerRadius(0f, 0f),
-                CornerRadius(radius.value, radius.value),
-                CornerRadius(radius.value, radius.value)
+                CornerRadius(radius, radius),
+                CornerRadius(radius, radius)
             )
         )
     }
