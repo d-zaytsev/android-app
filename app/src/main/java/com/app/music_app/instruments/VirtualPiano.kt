@@ -30,11 +30,10 @@ class VirtualPiano() : AbstractInstrument() {
         val oct = note.octave + 4 // Главная октава - 4я по счёту в файлах
 
         // бемоль = диез, в файлах только бемоли
-        if (note.sign == Alteration.SharpSign)
-            return map[note.nextNote().name] + "b" + oct.toString()
-        else if (note.sign == Alteration.FlatSign)
-            return map[note.name] + "b" + oct.toString()
-        else
-            return map[note.name] + oct.toString()
+        return when (note.sign) {
+            Alteration.SharpSign -> map[note.next().name] + "b" + oct.toString()
+            Alteration.FlatSign -> map[note.name] + "b" + oct.toString()
+            else -> map[note.name] + oct.toString()
+        }
     }
 }
