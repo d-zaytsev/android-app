@@ -2,8 +2,6 @@ package com.app.music_app.view.piano_keyboard
 
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +16,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +42,8 @@ class PianoKeyboard(
     private val whiteKeySize = DpSize(size.width / noteRange.noteCount, size.height)
     private val darkKeySize = DpSize((whiteKeySize.width.value / 3).dp, whiteKeySize.height / 2)
 
+    private val pressedButtonColor = Color(164, 222, 235);
+
     // Additional key size info
     private val darkKeySide = darkKeySize.width.value / 2
     private val whiteKeyWidth = whiteKeySize.width.value
@@ -49,6 +51,8 @@ class PianoKeyboard(
     // Text
     private val textVertPadding = (whiteKeySize.height.value / 10).dp
     private val keyNameFont = androidx.compose.ui.text.TextStyle(fontSize = 13.sp)
+
+    private val colorMap : MutableMap<Note, MutableState<Color>> = mutableMapOf()
 
     init {
         if (!noteRange.fromNote.isWhole() || !noteRange.endNote.isWhole())
@@ -78,22 +82,26 @@ class PianoKeyboard(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start
             ) {
-                var curNote = noteRange.fromNote;
+                var curWhiteNote = noteRange.fromNote;
                 repeat(noteRange.noteCount) {
                     // Расстояние от правого края прошлой чёрной ноты до левого края этой
                     val spaceSize =
-                        if (noteRange.fromNote == curNote && !hasDarkKey(curNote)) whiteKeyWidth
-                        else if (noteRange.fromNote != curNote && !hasDarkKey(curNote)) whiteKeyWidth - darkKeySide
-                        else if (!hasDarkKey(curNote.previous())) whiteKeyWidth - darkKeySide
-                        else if (noteRange.fromNote == curNote) whiteKeyWidth - darkKeySide
+                        if (noteRange.fromNote == curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth
+                        else if (noteRange.fromNote != curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth - darkKeySide
+                        else if (!hasDarkKey(curWhiteNote.previous())) whiteKeyWidth - darkKeySide
+                        else if (noteRange.fromNote == curWhiteNote) whiteKeyWidth - darkKeySide
                         else whiteKeyWidth - darkKeySide * 2
 
                     Spacer(modifier = Modifier.width(spaceSize.dp))
 
-                    if (hasDarkKey(curNote) && curNote != noteRange.endNote)
-                        PianoKey(curNote, darkKeySize, 0.dp, 5f, Color.Black)
+                    val curNote = curWhiteNote.toExt()
 
-                    curNote = curNote.next()
+                    if (hasDarkKey(curNote) && curNote != noteRange.endNote) {
+                        colorMap[curNote] = remember { mutableStateOf(Color.Black) }
+                        PianoKey(curNote, darkKeySize, 0.dp, 5f, colorMap[curNote]!!.value)
+                    }
+
+                    curWhiteNote = curWhiteNote.next()
                 }
             }
             // --- Подписи
@@ -115,22 +123,32 @@ class PianoKeyboard(
         }
     }
 
-    private fun hasDarkKey(note: Note) = note.name != NoteName.Mi && note.name != NoteName.Si
+    /**
+     * Активирует/деактивирует клавишу
+     * @throws IllegalArgumentException
+     */
+    fun mark(note: Note) {
+        if (!noteRange.inRange(note))
+            throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-    private fun playSound(note: Note) {
-        val sound = soundOf?.invoke(note);
-
-        if (sound != null && sound.isPlaying)
-            sound.stop()
-        sound?.start()
+        if (colorMap[note]?.value != null && colorMap[note]?.value == pressedButtonColor)
+            colorMap[note]?.value =
+                if (note.isWhole())
+                    Color.White
+                else
+                    Color.Black
+        else
+            colorMap[note]?.value = pressedButtonColor
     }
 
     @Composable
-    fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
-        // В этой области любые элементы, запрашивающие LocalRippleTheme, получат PianoRippleTheme
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme()) {
+    private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
+
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(pressedButtonColor)) {
             Button(
-                onClick = { playSound(note.toExt()) },
+                onClick = {
+                    playSound(note)
+                },
                 modifier = Modifier
                     .size(size)
                     .padding(padding),
@@ -142,8 +160,9 @@ class PianoKeyboard(
         }
     }
 
+
     @Composable
-    fun PianoKeyName(note: Note) {
+    private fun PianoKeyName(note: Note) {
         val text = note.name.toString()
 
         AutoResizedText(
@@ -154,5 +173,15 @@ class PianoKeyboard(
             style = keyNameFont,
         )
 
+    }
+
+    private fun hasDarkKey(note: Note) = note.name != NoteName.Mi && note.name != NoteName.Si
+
+    private fun playSound(note: Note) {
+        val sound = soundOf?.invoke(note);
+
+        if (sound != null && sound.isPlaying)
+            sound.stop()
+        sound?.start()
     }
 }

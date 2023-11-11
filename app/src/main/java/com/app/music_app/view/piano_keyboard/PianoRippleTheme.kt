@@ -6,7 +6,7 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-class PianoRippleTheme (private val pressedButtonColor: Color = Color(164, 222, 235)) : RippleTheme {
+class PianoRippleTheme (private val pressedButtonColor: Color) : RippleTheme {
     @Composable
     override fun defaultColor(): Color = pressedButtonColor
 
