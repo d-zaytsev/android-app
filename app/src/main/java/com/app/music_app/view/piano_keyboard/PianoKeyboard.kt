@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,9 +44,6 @@ class PianoKeyboard(
     // Additional key size info
     private val darkKeySide = darkKeySize.width.value / 2
     private val whiteKeyWidth = whiteKeySize.width.value
-
-    // Other keys information
-    private val pressedButtonColor = Color(164, 222, 235)
 
     // Text
     private val textVertPadding = (whiteKeySize.height.value / 10).dp
@@ -127,39 +126,34 @@ class PianoKeyboard(
 
     @Composable
     fun DarkPianoKey(note: Note) {
-        val interactionSource = remember { MutableInteractionSource() }
-        val isPressed = interactionSource.collectIsPressedAsState().value
-        val color = if (isPressed) pressedButtonColor else Color.Black
-
-        Button(
-            onClick = { playSound(note.toExt()) },
-            interactionSource = interactionSource,
-            modifier = Modifier
-                .size(darkKeySize),
-            shape = PianoKeyShape(5f),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = color
-            )
-        ) {}
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme()) {
+            Button(
+                onClick = { playSound(note.toExt()) },
+                modifier = Modifier
+                    .size(darkKeySize),
+                shape = PianoKeyShape(5f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black
+                )
+            ) {}
+        }
     }
 
     @Composable
     fun WhitePianoKey(note: Note) {
-        val interactionSource = remember { MutableInteractionSource() }
-        val isPressed = interactionSource.collectIsPressedAsState().value
-        val color = if (isPressed) pressedButtonColor else Color.White
-
-        Button(
-            onClick = { playSound(note) },
-            interactionSource = interactionSource,
-            modifier = Modifier
-                .size(whiteKeySize)
-                .padding(0.5.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = color,
-            ),
-            shape = PianoKeyShape(15f)
-        ) {
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme())
+        {
+            Button(
+                onClick = { playSound(note) },
+                modifier = Modifier
+                    .size(whiteKeySize)
+                    .padding(0.5.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                ),
+                shape = PianoKeyShape(15f)
+            ) {
+            }
         }
     }
 
