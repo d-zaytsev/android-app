@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,7 +68,7 @@ class PianoKeyboard(
 
                 var curNote = noteRange.fromNote
                 repeat(noteRange.noteCount) {
-                    WhitePianoKey(curNote)
+                    PianoKey(curNote, whiteKeySize, 0.5.dp, 15f, Color.White)
                     curNote = curNote.next()
                 }
             }
@@ -90,7 +91,7 @@ class PianoKeyboard(
                     Spacer(modifier = Modifier.width(spaceSize.dp))
 
                     if (hasDarkKey(curNote) && curNote != noteRange.endNote)
-                        DarkPianoKey(curNote)
+                        PianoKey(curNote, darkKeySize, 0.dp, 5f, Color.Black)
 
                     curNote = curNote.next()
                 }
@@ -125,35 +126,19 @@ class PianoKeyboard(
     }
 
     @Composable
-    fun DarkPianoKey(note: Note) {
+    fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
+        // В этой области любые элементы, запрашивающие LocalRippleTheme, получат PianoRippleTheme
         CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme()) {
             Button(
                 onClick = { playSound(note.toExt()) },
                 modifier = Modifier
-                    .size(darkKeySize),
-                shape = PianoKeyShape(5f),
+                    .size(size)
+                    .padding(padding),
+                shape = PianoKeyShape(shapeRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Black
+                    containerColor = color
                 )
             ) {}
-        }
-    }
-
-    @Composable
-    fun WhitePianoKey(note: Note) {
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme())
-        {
-            Button(
-                onClick = { playSound(note) },
-                modifier = Modifier
-                    .size(whiteKeySize)
-                    .padding(0.5.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White,
-                ),
-                shape = PianoKeyShape(15f)
-            ) {
-            }
         }
     }
 
