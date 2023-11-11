@@ -18,6 +18,10 @@ class Note(
             false
     }
 
+    override fun hashCode(): Int {
+        return this.toString().hashCode()
+    }
+
 
     override fun next(): Note {
         return if (name == NoteName.Si)

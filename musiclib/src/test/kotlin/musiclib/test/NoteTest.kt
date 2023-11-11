@@ -40,7 +40,7 @@ class NoteTest {
     inner class `Note compare test` {
         @Test
         fun `Equal notes test`() {
-            Assertions.assertTrue(Note(NoteName.Do) == Note(NoteName.Do))
+            Assertions.assertTrue(Note(NoteName.Do, octave = 1, sign = Alteration.SharpSign) == Note(NoteName.Do, octave = 1, sign = Alteration.SharpSign))
         }
 
         @Test
