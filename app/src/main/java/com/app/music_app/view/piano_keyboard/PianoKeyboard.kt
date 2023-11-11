@@ -83,8 +83,9 @@ class PianoKeyboard(
                     // Расстояние от правого края прошлой чёрной ноты до левого края этой
                     val spaceSize =
                         if (noteRange.fromNote == curNote && !hasDarkKey(curNote)) whiteKeyWidth
+                        else if (noteRange.fromNote != curNote && !hasDarkKey(curNote)) whiteKeyWidth - darkKeySide
+                        else if (!hasDarkKey(curNote.previous())) whiteKeyWidth - darkKeySide
                         else if (noteRange.fromNote == curNote) whiteKeyWidth - darkKeySide
-                        else if (!hasDarkKey(curNote.previous())) whiteKeyWidth
                         else whiteKeyWidth - darkKeySide * 2
 
                     Spacer(modifier = Modifier.width(spaceSize.dp))
