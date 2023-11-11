@@ -1,5 +1,6 @@
 package com.app.music_app.view.piano_keyboard
 
+import android.content.Context
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.view.text.AutoResizedText
+import com.example.android_app.R
 import com.musiclib.notes.Note
 import com.musiclib.notes.NoteName
 import com.musiclib.notes.NoteRange
@@ -35,6 +37,7 @@ import com.musiclib.notes.NoteRange
 class PianoKeyboard(
     private val noteRange: NoteRange,
     private val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
+    context: Context,
     private val soundOf: ((Note) -> MediaPlayer)? = null
 ) {
 
@@ -52,7 +55,16 @@ class PianoKeyboard(
     private val textVertPadding = (whiteKeySize.height.value / 10).dp
     private val keyNameFont = androidx.compose.ui.text.TextStyle(fontSize = 13.sp)
 
+    // Maps
     private val colorMap : MutableMap<Note, MutableState<Color>> = mutableMapOf()
+    private val nameMap: Map<NoteName, String> = mapOf(
+        NoteName.Do to context.getString(R.string.note_name_do),
+        NoteName.Re to context.getString(R.string.note_name_re),
+        NoteName.Mi to context.getString(R.string.note_name_mi),
+        NoteName.Fa to context.getString(R.string.note_name_fa),
+        NoteName.Sol to context.getString(R.string.note_name_sol),
+        NoteName.La to context.getString(R.string.note_name_la),
+        NoteName.Si to context.getString(R.string.note_name_si))
 
     init {
         if (!noteRange.fromNote.isWhole() || !noteRange.endNote.isWhole())
@@ -72,7 +84,8 @@ class PianoKeyboard(
 
                 var curNote = noteRange.fromNote
                 repeat(noteRange.noteCount) {
-                    PianoKey(curNote, whiteKeySize, 0.5.dp, 15f, Color.White)
+                    colorMap[curNote] = remember { mutableStateOf(Color.White) }
+                    PianoKey(curNote, whiteKeySize, 0.5.dp, 15f, colorMap[curNote]?.value ?: Color.White)
                     curNote = curNote.next()
                 }
             }
@@ -98,7 +111,7 @@ class PianoKeyboard(
 
                     if (hasDarkKey(curNote) && curNote != noteRange.endNote) {
                         colorMap[curNote] = remember { mutableStateOf(Color.Black) }
-                        PianoKey(curNote, darkKeySize, 0.dp, 5f, colorMap[curNote]!!.value)
+                        PianoKey(curNote, darkKeySize, 0.dp, 5f, colorMap[curNote]?.value ?: Color.Black)
                     }
 
                     curWhiteNote = curWhiteNote.next()
@@ -160,16 +173,20 @@ class PianoKeyboard(
         }
     }
 
-
     @Composable
     private fun PianoKeyName(note: Note) {
-        val text = note.name.toString()
+        val text = nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
+
+        val pad = if (text.length == 1)
+            (whiteKeyWidth / 3).dp
+        else
+            (whiteKeyWidth / 4 - text.length).dp
 
         AutoResizedText(
             text = text,
             modifier = Modifier
                 .alpha(0.5f)
-                .padding((whiteKeyWidth / 4 - text.length).dp, textVertPadding),
+                .padding(pad, textVertPadding),
             style = keyNameFont,
         )
 

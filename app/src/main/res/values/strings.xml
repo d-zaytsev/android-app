@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Android-App</string>
+    <string name="app_name" translatable="false">Music Trainer</string>
+    <string name="note_name_do">C</string>
+    <string name="note_name_re">D</string>
+    <string name="note_name_mi">E</string>
+    <string name="note_name_fa">F</string>
+    <string name="note_name_sol">G</string>
+    <string name="note_name_la">A</string>
+    <string name="note_name_si">B</string>
 </resources>
