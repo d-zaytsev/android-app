@@ -13,7 +13,7 @@ abstract class AbstractInstrument {
      * @return Путь к файлу с нужным звуком
      * @throws IllegalArgumentException
      * */
-    protected abstract fun soundPath(note: Note): String
+    abstract fun soundPath(note: Note): String
 
     /**
      *  @return индекс ресурса, связанного с нотой
