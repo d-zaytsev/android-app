@@ -14,4 +14,5 @@ interface BasicNote {
 
     /** Номер октавы, 0 - главная */
     val octave: Int
+
 }
