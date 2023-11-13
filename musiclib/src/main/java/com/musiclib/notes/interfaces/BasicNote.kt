@@ -1,16 +1,17 @@
-package com.musiclib.notes
+package com.musiclib.notes.interfaces
 
 import com.musiclib.Alteration
+import com.musiclib.notes.NoteName
 
 /** Представляет собой ноту (абсолютную ступень) */
-interface MusicNote {
+interface BasicNote {
 
     /** Ступень (слоговая нотация) */
-    val name: NoteName;
+    val name: NoteName
 
     /** Знак альтерации */
-    val sign: Alteration;
+    val sign: Alteration
 
     /** Номер октавы, 0 - главная */
-    val octave: Int;
+    val octave: Int
 }

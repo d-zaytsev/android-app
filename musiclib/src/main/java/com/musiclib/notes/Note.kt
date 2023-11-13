@@ -1,6 +1,7 @@
 package com.musiclib.notes
 
 import com.musiclib.Alteration
+import com.musiclib.notes.interfaces.BasicNote
 
 /**
  * Представляет собой абстрактную ноту определённой высоты
@@ -9,7 +10,7 @@ class Note(
     override val name: NoteName,
     override val octave: Int = 0,
     override val sign: Alteration = Alteration.None,
-) : MusicNote, Comparable<Note> {
+) : BasicNote, Comparable<Note> {
     /** Сравнивает ноты по высоте */
     override fun compareTo(other: Note): Int =
         (octave * 7 + sign.value + name.value).compareTo(other.octave * 7 + other.sign.value + other.name.value)
