@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.music_app.note_player.MelodyPlayer
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
@@ -37,8 +38,8 @@ import com.musiclib.notes.NoteRange
 class PianoKeyboard(
     private val noteRange: NoteRange,
     private val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
-    context: Context,
-    private val soundOf: ((Note) -> MediaPlayer)? = null
+    private val context: Context,
+    private val player: MelodyPlayer?
 ) {
 
     // Piano key size
@@ -195,7 +196,7 @@ class PianoKeyboard(
     private fun hasDarkKey(note: Note) = note.name != NoteName.Mi && note.name != NoteName.Si
 
     private fun playSound(note: Note) {
-        val sound = soundOf?.invoke(note);
+        val sound = player?.soundOf(context, note);
 
         if (sound != null && sound.isPlaying)
             sound.stop()
