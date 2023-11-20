@@ -10,7 +10,7 @@ import kotlin.test.assertFailsWith
 
 class VirtualPianoTest {
 
-    private val vp = VirtualPiano();
+    private val vp = VirtualPiano()
 
     @Test
     fun `Main octave Do check`() {
