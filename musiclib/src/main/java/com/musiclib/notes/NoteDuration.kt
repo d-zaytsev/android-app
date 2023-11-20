@@ -1,6 +1,6 @@
 package com.musiclib.notes
 
-enum class NoteDuration(val num: Float) {
+enum class NoteDuration(val value: Float) {
     Whole(1f),         // целая
     Half(0.5f),        // половинная
     Quarter(0.25f),    // четвёртая

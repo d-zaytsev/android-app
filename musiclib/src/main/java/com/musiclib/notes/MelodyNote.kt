@@ -6,15 +6,15 @@ import com.musiclib.notes.interfaces.MelodyNote
 /**
  * Представляет собой ноту, содержащую дополнительную информацию о своём звучании
  */
-class SoundNote(
-    override val volume: NoteVolume,
+class MelodyNote(
     override val name: NoteName,
-    override val sign: Alteration,
-    override val octave: Int,
-    override val duration: NoteDuration
+    override val volume: NoteVolume = NoteVolume.Forte,
+    override val sign: Alteration = Alteration.None,
+    override val octave: Int = 0,
+    override val duration: NoteDuration = NoteDuration.Whole
 ) : MelodyNote {
 
-    constructor(note: Note) : this(NoteVolume.Forte, note.name, note.sign, note.octave, NoteDuration.Whole)
+    constructor(note: Note) : this(note.name, NoteVolume.Forte , note.sign, note.octave, NoteDuration.Whole)
 
     fun toSimpleNote(): Note = Note(name, octave, sign)
 
