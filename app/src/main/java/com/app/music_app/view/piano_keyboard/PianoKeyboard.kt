@@ -199,7 +199,7 @@ class PianoKeyboard(
         val sound = player?.soundOf(context, note);
 
         if (sound != null && sound.isPlaying)
-            sound.stop()
+            sound.release()
         sound?.start()
     }
 }
