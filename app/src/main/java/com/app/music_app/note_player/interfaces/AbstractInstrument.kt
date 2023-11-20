@@ -1,4 +1,4 @@
-package com.app.music_app.note_player.instruments
+package com.app.music_app.note_player.interfaces
 
 import android.content.Context
 import com.musiclib.notes.Note

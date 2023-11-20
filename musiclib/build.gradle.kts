@@ -14,4 +14,5 @@ tasks.named<Test>("test") {
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }
