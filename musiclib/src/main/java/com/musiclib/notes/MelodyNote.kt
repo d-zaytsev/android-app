@@ -16,7 +16,7 @@ class MelodyNote(
 
     constructor(note: Note) : this(note.name, NoteVolume.Forte , note.sign, note.octave, NoteDuration.Whole)
 
-    fun toSimpleNote(): Note = Note(name, octave, sign)
+    fun toBasicNote(): Note = Note(name, octave, sign)
 
     override fun toString(): String = "$name $octave $sign $volume $duration"
     override fun hashCode(): Int = this.toString().hashCode()

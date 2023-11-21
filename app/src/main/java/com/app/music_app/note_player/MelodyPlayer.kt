@@ -2,7 +2,6 @@ package com.app.music_app.note_player
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.media.PlaybackParams
 import com.app.music_app.note_player.interfaces.AbstractInstrument
 import com.app.music_app.note_player.interfaces.MelodyPlayer
 import com.musiclib.notes.MelodyNote
@@ -11,10 +10,7 @@ import com.musiclib.notes.NoteDuration
 import com.musiclib.notes.NoteVolume
 import com.musiclib.notes.Pause
 import com.musiclib.notes.interfaces.Melody
-import com.musiclib.notes.interfaces.MusicPause
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MelodyPlayer(override val instrument: AbstractInstrument) :
     MelodyPlayer {
@@ -24,9 +20,10 @@ class MelodyPlayer(override val instrument: AbstractInstrument) :
         return mp
     }
 
+    /** Получить MediaPlayer с учётом громкости ноты */
     private fun melodyNote(context: Context, note: MelodyNote): MediaPlayer {
-        val mp =
-            MediaPlayer.create(context, instrument.resourceIdByNote(context, note.toSimpleNote()))
+        // MediaPlayer не имеет настроек длительности исполнения файлов => мы можем поменять только громкость
+        val mp = soundOf(context, note.toBasicNote())
         // Громкость звучания
         val volume = mapOf(
             NoteVolume.Fortissimo to 1f,
@@ -41,17 +38,17 @@ class MelodyPlayer(override val instrument: AbstractInstrument) :
     }
 
     override suspend fun play(context: Context, melody: Melody) {
-        //TODO поддержка разного темпа
         for (note in melody.notes) {
             when (note) {
                 is MelodyNote -> {
                     val mp = melodyNote(context, note)
                     mp.start()
+                    // После истечения *длительности ноты* мы прекращаем проигрывание файла
                     delay(delayTime(note.duration, melody.temp).toLong())
                     mp.release()
                 }
 
-                // приостанавливаем на время паузы
+                // пауза на время музыкальной паузы
                 is Pause -> delay(delayTime(note.duration, melody.temp).toLong())
 
                 else -> throw IllegalArgumentException("Can't recognize element $note in melody list")
