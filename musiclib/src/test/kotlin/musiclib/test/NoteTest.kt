@@ -1,8 +1,8 @@
 package musiclib.test
 
-import com.musiclib.Alteration
+import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteName
+import com.musiclib.notes.data.NoteName
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -40,7 +40,8 @@ class NoteTest {
     inner class `Note compare test` {
         @Test
         fun `Equal notes test`() {
-            Assertions.assertTrue(Note(NoteName.Do, octave = 1, sign = Alteration.SharpSign) == Note(NoteName.Do, octave = 1, sign = Alteration.SharpSign))
+            Assertions.assertTrue(Note(NoteName.Do, octave = 1, sign = Alteration.SharpSign) == Note(
+                NoteName.Do, octave = 1, sign = Alteration.SharpSign))
         }
 
         @Test

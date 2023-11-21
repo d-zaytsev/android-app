@@ -1,6 +1,7 @@
 package com.musiclib.notes
 
-import com.musiclib.Alteration
+import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.data.NoteName
 import com.musiclib.notes.interfaces.BasicNote
 
 /**

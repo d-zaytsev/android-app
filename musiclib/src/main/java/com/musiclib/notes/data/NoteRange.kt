@@ -1,6 +1,6 @@
-package com.musiclib.notes
+package com.musiclib.notes.data
 
-import com.musiclib.Alteration
+import com.musiclib.notes.Note
 
 /**
  * Представляет собой определённый диапазон нот

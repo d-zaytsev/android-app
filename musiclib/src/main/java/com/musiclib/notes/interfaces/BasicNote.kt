@@ -1,7 +1,7 @@
 package com.musiclib.notes.interfaces
 
-import com.musiclib.Alteration
-import com.musiclib.notes.NoteName
+import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.data.NoteName
 
 /** Представляет собой ноту (абсолютную ступень) */
 interface BasicNote {

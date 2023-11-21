@@ -1,4 +1,4 @@
-package com.musiclib.notes
+package com.musiclib.notes.data
 
 /** Основные ступени (Слоговая система наименования)
  * @param value Расстояние до ноты До в этой октаве */

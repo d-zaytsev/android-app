@@ -1,7 +1,6 @@
 package com.app.music_app.view.piano_keyboard
 
 import android.content.Context
-import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,8 +31,8 @@ import com.app.music_app.note_player.MelodyPlayer
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteName
-import com.musiclib.notes.NoteRange
+import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.data.NoteRange
 
 class PianoKeyboard(
     private val noteRange: NoteRange,

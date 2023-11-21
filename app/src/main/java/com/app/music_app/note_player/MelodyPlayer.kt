@@ -6,8 +6,8 @@ import com.app.music_app.note_player.interfaces.AbstractInstrument
 import com.app.music_app.note_player.interfaces.MelodyPlayer
 import com.musiclib.notes.MelodyNote
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteDuration
-import com.musiclib.notes.NoteVolume
+import com.musiclib.notes.data.NoteDuration
+import com.musiclib.notes.data.NoteVolume
 import com.musiclib.notes.Pause
 import com.musiclib.notes.interfaces.Melody
 import kotlinx.coroutines.delay

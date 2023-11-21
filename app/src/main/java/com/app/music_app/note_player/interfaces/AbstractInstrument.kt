@@ -2,7 +2,7 @@ package com.app.music_app.note_player.interfaces
 
 import android.content.Context
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteRange
+import com.musiclib.notes.data.NoteRange
 
 /**
  * Представляет собой класс, связывающий ноты (класс Note) и их физическое представление на устройстве (файл)

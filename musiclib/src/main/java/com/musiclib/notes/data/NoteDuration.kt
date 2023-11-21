@@ -1,5 +1,9 @@
-package com.musiclib.notes
+package com.musiclib.notes.data
 
+/**
+ * Перечисление возможных длительностей ноты
+ * @param value Коэффициент
+ * */
 enum class NoteDuration(val value: Float) {
     Whole(1f),         // целая
     Half(0.5f),        // половинная
