@@ -17,7 +17,6 @@ interface MelodyPlayer {
     /** @return звук переданной ноты */
     fun soundOf(context: Context, note: Note): MediaPlayer
 
-    /** @return звук переданной ноты */
-    fun soundOf(context: Context, note: com.musiclib.notes.MelodyNote): MediaPlayer
+    /** Проигрывает переданную композицию */
     suspend fun play(context: Context, melody: Melody)
 }

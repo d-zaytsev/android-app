@@ -24,7 +24,7 @@ class MelodyPlayer(override val instrument: AbstractInstrument) :
         return mp
     }
 
-    override fun soundOf(context: Context, note: com.musiclib.notes.MelodyNote): MediaPlayer {
+    private fun melodyNote(context: Context, note: MelodyNote): MediaPlayer {
         val mp =
             MediaPlayer.create(context, instrument.resourceIdByNote(context, note.toSimpleNote()))
         // Громкость звучания
@@ -37,43 +37,28 @@ class MelodyPlayer(override val instrument: AbstractInstrument) :
             ?: throw NullPointerException("MelodyPlayer can't find settings for such NoteVolume")
         mp.setVolume(volume, volume)
 
-        // Длительность звучания
-        // TODO настроить это получше
-        val speed = mapOf(
-            NoteDuration.Whole to 1f,
-            NoteDuration.Half to 2f,
-            NoteDuration.Quarter to 2f,
-            NoteDuration.Eight to 2.5f,
-            NoteDuration.Sixteenth to 3f
-        )[note.duration]
-            ?: throw NullPointerException("MelodyPlayer can't find settings for such NoteVolume")
-        mp.setVolume(volume, volume)
-
-        val params = PlaybackParams().setSpeed(speed) // установка скорости воспроизведения
-        mp.playbackParams = params
-
         return mp
     }
 
     override suspend fun play(context: Context, melody: Melody) {
         //TODO поддержка разного темпа
         for (note in melody.notes) {
-            // Если ноту можно сыграть, то играем
             when (note) {
                 is MelodyNote -> {
-                    val mp = soundOf(context, note)
+                    val mp = melodyNote(context, note)
                     mp.start()
-                    delay(delayTime(note.duration, melody.temp))
+                    delay(delayTime(note.duration, melody.temp).toLong())
+                    mp.release()
                 }
 
                 // приостанавливаем на время паузы
-                is Pause -> delay(delayTime(note.duration, melody.temp))
+                is Pause -> delay(delayTime(note.duration, melody.temp).toLong())
 
                 else -> throw IllegalArgumentException("Can't recognize element $note in melody list")
             }
         }
     }
 
-    private fun delayTime(duration: NoteDuration, temp: Int) = (duration.value * temp).toLong()
+    private fun delayTime(duration: NoteDuration, temp: Int) = duration.value * temp
 
 }
