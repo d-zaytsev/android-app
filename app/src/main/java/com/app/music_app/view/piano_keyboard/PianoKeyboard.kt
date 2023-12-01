@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.note_player.MelodyPlayer
+import com.app.music_app.view.colors.AppColors
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
@@ -44,8 +46,6 @@ class PianoKeyboard(
     // Piano key size
     private val whiteKeySize = DpSize(size.width / noteRange.noteCount, size.height)
     private val darkKeySize = DpSize((whiteKeySize.width.value / 3).dp, whiteKeySize.height / 2)
-
-    private val pressedButtonColor = Color(164, 222, 235);
 
     // Additional key size info
     private val darkKeySide = darkKeySize.width.value / 2
@@ -144,20 +144,23 @@ class PianoKeyboard(
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-        if (colorMap[note]?.value != null && colorMap[note]?.value == pressedButtonColor)
+        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.lightBlue)
             colorMap[note]?.value =
                 if (note.isWhole())
                     Color.White
                 else
                     Color.Black
         else
-            colorMap[note]?.value = pressedButtonColor
+            colorMap[note]?.value = AppColors.lightBlue
     }
 
+    /**
+     * Рисует клавишу с указанными свойствами
+     * */
     @Composable
     private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
 
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(pressedButtonColor)) {
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.lightBlue)) {
             Button(
                 onClick = {
                     playSound(note)
@@ -173,6 +176,9 @@ class PianoKeyboard(
         }
     }
 
+    /**
+     * Отрисовывает названия для клавиш
+     * */
     @Composable
     private fun PianoKeyName(note: Note) {
         val text = nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
