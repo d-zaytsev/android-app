@@ -1,5 +1,6 @@
 package com.app.music_app.view.play_button
 
+import android.content.Context
 import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.offset
@@ -23,13 +24,28 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.music_app.note_player.MelodyPlayer
+import com.app.music_app.note_player.instruments.VirtualPiano
+import com.app.music_app.note_player.interfaces.AbstractInstrument
 import com.app.music_app.view.colors.AppColors
 import com.example.android_app.R
+import com.musiclib.notes.MelodyNote
+import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.interfaces.Melody
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PlayButton(size: DpSize) {
+fun PlayButton(
+    size: DpSize = DpSize(300.dp, 50.dp),
+    melody: com.musiclib.notes.Melody,
+    instrument: AbstractInstrument,
+    context: Context
+) {
     val iconWidth = size.height
     val textSize = (size.height.value / 2).sp
 
@@ -37,11 +53,15 @@ fun PlayButton(size: DpSize) {
 
     var selected by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (selected) 0.8f else 1f, label = "")
+    var color by remember { mutableStateOf(AppColors.lightBlue) }
+
+    var isPlaying by remember { mutableStateOf(false) }
 
     Button(
-        onClick = { },
+        onClick = {
+        },
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppColors.lightBlue
+            containerColor = color
         ),
         modifier = Modifier
             .size(size)
@@ -50,10 +70,20 @@ fun PlayButton(size: DpSize) {
                 // рассматриваются разные случаи action
                 when (it.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        selected = true
+                        if (!isPlaying)
+                            selected = true
                     }
 
                     MotionEvent.ACTION_UP -> {
+                        if (!isPlaying) {
+                            CoroutineScope(Dispatchers.Default).launch {
+                                isPlaying = true
+                                color = Color.Gray
+                                MelodyPlayer(instrument).play(context, melody)
+                                isPlaying = false
+                                color = AppColors.lightBlue
+                            }
+                        }
                         selected = false
                     }
                 }
