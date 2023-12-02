@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.note_player.MelodyPlayer
+import com.app.music_app.view.AbstractDrawClass
 import com.app.music_app.view.colors.AppColors
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
@@ -38,10 +38,10 @@ import com.musiclib.notes.data.NoteRange
 
 class PianoKeyboard(
     private val noteRange: NoteRange,
-    private val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
-    private val context: Context,
+    override val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
+    override val context: Context,
     private val player: MelodyPlayer?
-) {
+) : AbstractDrawClass() {
 
     // Piano key size
     private val whiteKeySize = DpSize(size.width / noteRange.noteCount, size.height)
@@ -73,7 +73,7 @@ class PianoKeyboard(
     }
 
     @Composable
-    fun Draw() {
+    override fun Draw() {
         Box(
             modifier = Modifier
                 .size(size)
