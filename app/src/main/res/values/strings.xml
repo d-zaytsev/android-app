@@ -8,4 +8,5 @@
     <string name="note_name_la">A</string>
     <string name="note_name_si">B</string>
     <string name="repeat">Repeat</string>
+    <string name="piano_box_text">Choose the elements in the order they sounded</string>
 </resources>

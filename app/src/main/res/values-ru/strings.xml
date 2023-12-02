@@ -8,4 +8,5 @@
     <string name="note_name_la">ля</string>
     <string name="note_name_si">си</string>
     <string name="repeat">Ещё раз</string>
+    <string name="piano_box_text">Выбери элементы в порядке их звучания</string>
 </resources>
