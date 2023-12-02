@@ -27,13 +27,9 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.note_player.MelodyPlayer
-import com.app.music_app.note_player.instruments.VirtualPiano
 import com.app.music_app.note_player.interfaces.AbstractInstrument
 import com.app.music_app.view.colors.AppColors
 import com.example.android_app.R
-import com.musiclib.notes.MelodyNote
-import com.musiclib.notes.data.NoteName
-import com.musiclib.notes.interfaces.Melody
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,7 +49,7 @@ fun PlayButton(
 
     var selected by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (selected) 0.8f else 1f, label = "")
-    var color by remember { mutableStateOf(AppColors.lightBlue) }
+    var color by remember { mutableStateOf(AppColors.LightBlue) }
 
     var isPlaying by remember { mutableStateOf(false) }
 
@@ -81,7 +77,7 @@ fun PlayButton(
                                 color = Color.Gray
                                 MelodyPlayer(instrument).play(context, melody)
                                 isPlaying = false
-                                color = AppColors.lightBlue
+                                color = AppColors.LightBlue
                             }
                         }
                         selected = false

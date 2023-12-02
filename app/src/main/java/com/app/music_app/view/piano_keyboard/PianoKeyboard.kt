@@ -144,14 +144,14 @@ class PianoKeyboard(
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.lightBlue)
+        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.LightBlue)
             colorMap[note]?.value =
                 if (note.isWhole())
                     Color.White
                 else
                     Color.Black
         else
-            colorMap[note]?.value = AppColors.lightBlue
+            colorMap[note]?.value = AppColors.LightBlue
     }
 
     /**
@@ -160,7 +160,7 @@ class PianoKeyboard(
     @Composable
     private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
 
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.lightBlue)) {
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightBlue)) {
             Button(
                 onClick = {
                     playSound(note)
