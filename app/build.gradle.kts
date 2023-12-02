@@ -34,8 +34,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_18
-        targetCompatibility = JavaVersion.VERSION_18
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -46,11 +46,15 @@ tasks.withType<Test> {
 dependencies {
 
     // ---Compose---
-    implementation("androidx.compose.runtime:runtime:1.6.0-alpha08")
-    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.runtime:runtime:1.6.0-beta02")
+    implementation ("androidx.compose.material3:material3")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
-    implementation("androidx.activity:activity-ktx:1.8.0")
-    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.activity:activity-ktx:1.8.1")
+    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.compose.material:material:1.5.4")
+    implementation("androidx.compose.ui:ui:1.5.4")
+    // Full set of material icons
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Android Studio Preview support
     implementation("androidx.compose.ui:ui-tooling-preview")

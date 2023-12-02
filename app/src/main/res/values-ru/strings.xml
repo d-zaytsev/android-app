@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="note_name_do">до</string>
+    <string name="note_name_re">ре</string>
+    <string name="note_name_mi">ми</string>
+    <string name="note_name_fa">фа</string>
+    <string name="note_name_sol">соль</string>
+    <string name="note_name_la">ля</string>
+    <string name="note_name_si">си</string>
+    <string name="repeat">Ещё раз</string>
+</resources>

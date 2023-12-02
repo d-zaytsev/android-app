@@ -1,9 +1,8 @@
-package com.app.music_app.instruments
+package com.app.music_app.note_player.interfaces
 
 import android.content.Context
-import android.media.MediaPlayer
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteRange
+import com.musiclib.notes.data.NoteRange
 
 /**
  * Представляет собой класс, связывающий ноты (класс Note) и их физическое представление на устройстве (файл)
@@ -15,12 +14,12 @@ abstract class AbstractInstrument {
      * @throws IllegalArgumentException
      * */
     abstract fun soundPath(note: Note): String
-    protected fun rangeCheck(note: Note) = noteRange.inRange(note)
 
     /**
      *  @return индекс ресурса, связанного с нотой
+     *  @throws IllegalArgumentException
      *  */
-    private fun resourceIdByNote(context: Context, note: Note): Int {
+    fun resourceIdByNote(context: Context, note: Note): Int {
         val res = context.resources.getIdentifier(soundPath(note), "raw", "com.example.android_app")
 
         if (res == 0)
@@ -28,12 +27,6 @@ abstract class AbstractInstrument {
         return res
     }
 
-    /**
-     * @return Звук переданной ноты
-     * */
-    fun soundOf(context: Context, note: Note): MediaPlayer =
-        MediaPlayer.create(context, resourceIdByNote(context, note))
-
-    abstract val noteRange: NoteRange;
+    abstract val instrumentRange: NoteRange;
 
 }

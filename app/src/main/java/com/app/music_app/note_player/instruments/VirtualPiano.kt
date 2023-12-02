@@ -1,20 +1,21 @@
-package com.app.music_app.instruments
+package com.app.music_app.note_player.instruments
 
-import com.musiclib.Alteration
+import com.app.music_app.note_player.interfaces.AbstractInstrument
+import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteName
-import com.musiclib.notes.NoteRange
+import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.data.NoteRange
 
 
 // Piano notes: https://github.com/fuhton/piano-mp3
 class VirtualPiano() : AbstractInstrument() {
 
     // Диапазон современного фортепиано: от ноты Ля субконтроктавы(-4) до ноты До пятой октавы(4)
-    override val noteRange =
+    override val instrumentRange =
         NoteRange(Note(NoteName.La, octave = -4), Note(NoteName.Do, octave = 4))
 
     override fun soundPath(note: Note): String {
-        if (!rangeCheck(note))
+        if (!instrumentRange.inRange(note))
             throw IllegalArgumentException("Note is outside the permissible musical range of the ${this.javaClass}")
 
         val map = mapOf(

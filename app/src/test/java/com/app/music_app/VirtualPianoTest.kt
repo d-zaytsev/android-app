@@ -1,16 +1,16 @@
 package com.app.music_app
 
-import com.app.music_app.instruments.VirtualPiano
-import com.musiclib.Alteration
+import com.app.music_app.note_player.instruments.VirtualPiano
+import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteName
+import com.musiclib.notes.data.NoteName
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
 class VirtualPianoTest {
 
-    private val vp = VirtualPiano();
+    private val vp = VirtualPiano()
 
     @Test
     fun `Main octave Do check`() {

@@ -1,12 +1,17 @@
 package com.musiclib.notes
 
-import com.musiclib.Alteration
+import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.interfaces.BasicNote
 
+/**
+ * Представляет собой абстрактную ноту определённой высоты
+ * */
 class Note(
     override val name: NoteName,
     override val octave: Int = 0,
     override val sign: Alteration = Alteration.None,
-) : MusicNote, Comparable<Note> {
+) : BasicNote, Comparable<Note> {
     /** Сравнивает ноты по высоте */
     override fun compareTo(other: Note): Int =
         (octave * 7 + sign.value + name.value).compareTo(other.octave * 7 + other.sign.value + other.name.value)
@@ -18,27 +23,37 @@ class Note(
             false
     }
 
+    override fun hashCode(): Int {
+        return this.toString().hashCode()
+    }
 
-    override fun next(): Note {
+    /** @return Следующую ноту относительно этой */
+    fun next(): Note {
         return if (name == NoteName.Si)
             Note(NoteName.Do, octave + 1, sign)
         else
             Note(NoteName.values()[name.ordinal + 1], octave, sign)
     }
+    /** @return Предыдущую ноту относительно этой */
 
-    override fun previous(): Note {
+    fun previous(): Note {
         return if (name == NoteName.Do)
             Note(NoteName.Si, octave - 1, sign)
         else
             Note(NoteName.values()[name.ordinal - 1], octave, sign)
     }
 
-    override fun isWhole(): Boolean = sign == Alteration.NaturalSign || sign == Alteration.None
+    /** @return Целая нота */
+    fun isWhole(): Boolean = sign == Alteration.NaturalSign || sign == Alteration.None
 
-    override fun toWhole() = Note(name, octave, Alteration.None)
-    override fun toExt() = Note(name, octave, Alteration.SharpSign)
+    /** @return Повышенная на пол тона нота */
+    fun toWhole() = Note(name, octave, Alteration.None)
 
-    override fun loLow() = Note(name, octave, Alteration.FlatSign)
+    /** @return Повышенная на пол тона нота */
+    fun toExt() = Note(name, octave, Alteration.SharpSign)
+
+    /**@return Пониженная на пол тона нота*/
+    fun loLow() = Note(name, octave, Alteration.FlatSign)
 
     override fun toString(): String = "$name $octave $sign"
 }

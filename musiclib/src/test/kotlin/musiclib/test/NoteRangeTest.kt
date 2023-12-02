@@ -1,8 +1,8 @@
 package musiclib.test
 
 import com.musiclib.notes.Note
-import com.musiclib.notes.NoteName
-import com.musiclib.notes.NoteRange
+import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.data.NoteRange
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
