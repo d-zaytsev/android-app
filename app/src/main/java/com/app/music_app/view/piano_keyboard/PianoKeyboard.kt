@@ -1,7 +1,9 @@
 package com.app.music_app.view.piano_keyboard
 
 import android.content.Context
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -38,9 +42,9 @@ import com.musiclib.notes.data.NoteRange
 
 class PianoKeyboard(
     private val noteRange: NoteRange,
-    override val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
+    override val size: DpSize,
     override val context: Context,
-    private val player: MelodyPlayer?
+    private val player: MelodyPlayer? = null
 ) : AbstractDrawClass() {
 
     // Piano key size
@@ -77,7 +81,6 @@ class PianoKeyboard(
         Box(
             modifier = Modifier
                 .size(size)
-                .background(color = Color.LightGray)
         ) {
             // --- Белые клавиши
             Row(modifier = Modifier.fillMaxSize()) {
