@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.app.music_app.view.colors.AppColors
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.example.android_app.R
 
@@ -29,8 +30,9 @@ import com.example.android_app.R
 @Composable
 fun PianoCheckbox(
     modifier: Modifier = Modifier,
-    mainColor: Color = Color(72, 202, 228),
-    backgroundColor: Color = Color(202, 240, 248),
+    borderColor: Color = Color.White,
+    pianoBoxBackColor: Color = AppColors.LightCyan,
+    textColor: Color = AppColors.PacificCyan,
     vararg keyboards: PianoKeyboard,
 ) {
     Column(
@@ -40,7 +42,7 @@ fun PianoCheckbox(
         Text(
             stringResource(R.string.piano_box_text),
             textAlign = TextAlign.Center,
-            color = mainColor,
+            color = textColor,
             fontWeight = FontWeight.Bold
         )
         // Общий контейнер
@@ -48,10 +50,10 @@ fun PianoCheckbox(
             modifier = Modifier
                 .fillMaxSize()
                 .border(
-                    BorderStroke(3.dp, color = mainColor),
+                    BorderStroke(3.dp, color = borderColor),
                     shape = RoundedCornerShape(10.dp)
                 )
-                .background(backgroundColor, shape = RoundedCornerShape(10.dp)),
+                .background(borderColor, shape = RoundedCornerShape(10.dp)),
             contentAlignment = Alignment.Center
         ) {
             RowWithWrap (horizontalSpacer = 20.dp,
@@ -62,9 +64,10 @@ fun PianoCheckbox(
                         modifier = Modifier
                             .size(keyboards[it].size.times(1.2f))
                             .border(
-                                BorderStroke(1.dp, color = mainColor),
+                                BorderStroke(1.dp, color = borderColor),
                                 shape = RoundedCornerShape(15.dp)
                             )
+                            .background(pianoBoxBackColor, shape = RoundedCornerShape(15.dp))
                             .padding(3.dp),
                         contentAlignment = Alignment.Center
                     ) {
