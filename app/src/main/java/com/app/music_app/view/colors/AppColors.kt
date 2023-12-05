@@ -16,4 +16,7 @@ object AppColors {
         get() = Color(0, 119, 182)
     val FederalBlue: Color
         get() = Color(3, 4, 94)
+
+    val WhiteSmoke: Color
+        get() = Color(245, 245, 245)
 }
