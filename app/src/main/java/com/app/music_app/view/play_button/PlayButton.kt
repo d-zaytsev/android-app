@@ -47,7 +47,7 @@ fun PlayButton(
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
     size: DpSize = DpSize(300.dp, 50.dp),
-    mainColor: Color = AppColors.LightBlue
+    mainColor: Color = AppColors.LightCyan
 ) {
     val iconWidth = size.height
     val textSize = (size.height.value / 2).sp
@@ -84,7 +84,7 @@ fun PlayButton(
                                 color = Color.Gray
                                 MelodyPlayer(instrument).play(context, melody)
                                 isPlaying = false
-                                color = AppColors.LightBlue
+                                color = AppColors.LightCyan
                             }
                         }
                         selected = false

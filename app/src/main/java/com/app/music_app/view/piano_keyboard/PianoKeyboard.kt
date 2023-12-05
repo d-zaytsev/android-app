@@ -1,9 +1,6 @@
 package com.app.music_app.view.piano_keyboard
 
 import android.content.Context
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,11 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
@@ -147,14 +142,14 @@ class PianoKeyboard(
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.LightBlue)
+        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.LightCyan)
             colorMap[note]?.value =
                 if (note.isWhole())
                     Color.White
                 else
                     Color.Black
         else
-            colorMap[note]?.value = AppColors.LightBlue
+            colorMap[note]?.value = AppColors.LightCyan
     }
 
     /**
@@ -163,7 +158,7 @@ class PianoKeyboard(
     @Composable
     private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
 
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightBlue)) {
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightCyan)) {
             Button(
                 onClick = {
                     playSound(note)
