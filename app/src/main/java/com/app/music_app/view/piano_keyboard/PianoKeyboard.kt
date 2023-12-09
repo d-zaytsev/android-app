@@ -55,7 +55,7 @@ class PianoKeyboard(
     private val keyNameFont = androidx.compose.ui.text.TextStyle(fontSize = 13.sp)
 
     // Maps
-    private val colorMap : MutableMap<Note, MutableState<Color>> = mutableMapOf()
+    private val colorMap: MutableMap<Note, MutableState<Color>> = mutableMapOf()
     private val nameMap: Map<NoteName, String> = mapOf(
         NoteName.Do to context.getString(R.string.note_name_do),
         NoteName.Re to context.getString(R.string.note_name_re),
@@ -63,7 +63,8 @@ class PianoKeyboard(
         NoteName.Fa to context.getString(R.string.note_name_fa),
         NoteName.Sol to context.getString(R.string.note_name_sol),
         NoteName.La to context.getString(R.string.note_name_la),
-        NoteName.Si to context.getString(R.string.note_name_si))
+        NoteName.Si to context.getString(R.string.note_name_si)
+    )
 
     init {
         if (!noteRange.fromNote.isWhole() || !noteRange.endNote.isWhole())
@@ -83,7 +84,13 @@ class PianoKeyboard(
                 var curNote = noteRange.fromNote
                 repeat(noteRange.noteCount) {
                     colorMap[curNote] = remember { mutableStateOf(Color.White) }
-                    PianoKey(curNote, whiteKeySize, 0.5.dp, 15f, colorMap[curNote]?.value ?: Color.White)
+                    PianoKey(
+                        note = curNote, size = whiteKeySize,
+                        padding = 0.5.dp,
+                        shapeRadius = 15f,
+                        color = colorMap[curNote]?.value ?: Color.White,
+                        canPress = player != null
+                    )
                     curNote = curNote.next()
                 }
             }
@@ -109,7 +116,14 @@ class PianoKeyboard(
 
                     if (hasDarkKey(curNote) && curNote != noteRange.endNote) {
                         colorMap[curNote] = remember { mutableStateOf(Color.Black) }
-                        PianoKey(curNote, darkKeySize, 0.dp, 5f, colorMap[curNote]?.value ?: Color.Black)
+                        PianoKey(
+                            curNote,
+                            darkKeySize,
+                            0.dp,
+                            5f,
+                            colorMap[curNote]?.value ?: Color.Black,
+                            player != null
+                        )
                     }
 
                     curWhiteNote = curWhiteNote.next()
@@ -156,10 +170,18 @@ class PianoKeyboard(
      * Рисует клавишу с указанными свойствами
      * */
     @Composable
-    private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
+    private fun PianoKey(
+        note: Note,
+        size: DpSize,
+        padding: Dp,
+        shapeRadius: Float,
+        color: Color,
+        canPress: Boolean = true
+    ) {
 
         CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightCyan)) {
             Button(
+                enabled = canPress,
                 onClick = {
                     playSound(note)
                 },
@@ -168,7 +190,8 @@ class PianoKeyboard(
                     .padding(padding),
                 shape = PianoKeyShape(shapeRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color
+                    containerColor = color,
+                    disabledContainerColor = color
                 )
             ) {}
         }
@@ -179,7 +202,8 @@ class PianoKeyboard(
      * */
     @Composable
     private fun PianoKeyName(note: Note) {
-        val text = nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
+        val text =
+            nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
 
         val pad = if (text.length == 1)
             (whiteKeyWidth / 3).dp
