@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -54,17 +55,18 @@ fun PlayButton(
 
     val text = stringResource(R.string.repeat)
 
+    // selected позволяет определить, нажата ли кнопка в данный момент
     var selected by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (selected) 0.8f else 1f, label = "")
-    var color by remember { mutableStateOf(mainColor) }
 
     var isPlaying by remember { mutableStateOf(false) }
 
     Button(
-        onClick = {
-        },
+        enabled = !isPlaying,
+        onClick = {},
         colors = ButtonDefaults.buttonColors(
-            containerColor = color
+            containerColor = mainColor,
+            disabledContainerColor = Color.Gray
         ),
         modifier = Modifier
             .size(size)
@@ -81,10 +83,8 @@ fun PlayButton(
                         if (!isPlaying) {
                             CoroutineScope(Dispatchers.Default).launch {
                                 isPlaying = true
-                                color = Color.Gray
                                 MelodyPlayer(instrument).play(context, melody)
                                 isPlaying = false
-                                color = AppColors.LightCyan
                             }
                         }
                         selected = false
