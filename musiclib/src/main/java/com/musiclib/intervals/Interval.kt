@@ -5,8 +5,8 @@ import kotlin.math.abs
 
 class Interval(note1: Note, note2: Note) : MusicInterval {
 
-    override val name: IntervalName;
-    override val type: IntervalType;
+    override val name: IntervalName
+    override val type: IntervalType
 
     init {
         // Перенёс таблицу интервалов в map

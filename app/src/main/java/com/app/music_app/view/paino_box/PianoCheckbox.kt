@@ -93,7 +93,7 @@ fun PianoCheckbox(
                             )
                             .background(color, shape = RoundedCornerShape(15.dp))
                             .padding(3.dp)
-                            .pointerInput(PointerEventType.Press) {
+                            .pointerInput(Unit) {
                                     color = pianoBoxPressedColor
                             },
                         contentAlignment = Alignment.Center
