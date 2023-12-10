@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -92,12 +93,8 @@ fun PianoCheckbox(
                             )
                             .background(color, shape = RoundedCornerShape(15.dp))
                             .padding(3.dp)
-                            .pointerInput(Unit) {
-                                awaitEachGesture {
+                            .pointerInput(PointerEventType.Press) {
                                     color = pianoBoxPressedColor
-                                    Log.w("TEST", this.currentEvent.type.toString())
-                                    awaitFirstDown().also { it.consume() }
-                                }
                             },
                         contentAlignment = Alignment.Center
                     ) {
