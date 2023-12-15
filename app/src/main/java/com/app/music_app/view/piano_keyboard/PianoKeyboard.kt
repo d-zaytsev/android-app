@@ -1,7 +1,7 @@
 package com.app.music_app.view.piano_keyboard
 
 import android.content.Context
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,10 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -36,11 +38,16 @@ import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
 import com.musiclib.notes.data.NoteRange
 
+/**
+ * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
+ * @param noteRange Диапазон нот для отрисовки
+ * @param player То, через что ноты будут исполняться
+ */
 class PianoKeyboard(
     private val noteRange: NoteRange,
-    override val size: DpSize = DpSize((noteRange.noteCount * 30).dp, 100.dp),
+    override val size: DpSize,
     override val context: Context,
-    private val player: MelodyPlayer?
+    private val player: MelodyPlayer? = null
 ) : AbstractDrawClass() {
 
     // Piano key size
@@ -56,7 +63,7 @@ class PianoKeyboard(
     private val keyNameFont = androidx.compose.ui.text.TextStyle(fontSize = 13.sp)
 
     // Maps
-    private val colorMap : MutableMap<Note, MutableState<Color>> = mutableMapOf()
+    private val colorMap: MutableMap<Note, MutableState<Color>> = mutableMapOf()
     private val nameMap: Map<NoteName, String> = mapOf(
         NoteName.Do to context.getString(R.string.note_name_do),
         NoteName.Re to context.getString(R.string.note_name_re),
@@ -64,7 +71,8 @@ class PianoKeyboard(
         NoteName.Fa to context.getString(R.string.note_name_fa),
         NoteName.Sol to context.getString(R.string.note_name_sol),
         NoteName.La to context.getString(R.string.note_name_la),
-        NoteName.Si to context.getString(R.string.note_name_si))
+        NoteName.Si to context.getString(R.string.note_name_si)
+    )
 
     init {
         if (!noteRange.fromNote.isWhole() || !noteRange.endNote.isWhole())
@@ -74,10 +82,10 @@ class PianoKeyboard(
 
     @Composable
     override fun Draw() {
+
         Box(
             modifier = Modifier
                 .size(size)
-                .background(color = Color.LightGray)
         ) {
             // --- Белые клавиши
             Row(modifier = Modifier.fillMaxSize()) {
@@ -85,7 +93,13 @@ class PianoKeyboard(
                 var curNote = noteRange.fromNote
                 repeat(noteRange.noteCount) {
                     colorMap[curNote] = remember { mutableStateOf(Color.White) }
-                    PianoKey(curNote, whiteKeySize, 0.5.dp, 15f, colorMap[curNote]?.value ?: Color.White)
+                    PianoKey(
+                        note = curNote, size = whiteKeySize,
+                        padding = 0.5.dp,
+                        shapeRadius = 15f,
+                        color = colorMap[curNote]?.value ?: Color.White,
+                        canPress = player != null
+                    )
                     curNote = curNote.next()
                 }
             }
@@ -111,7 +125,14 @@ class PianoKeyboard(
 
                     if (hasDarkKey(curNote) && curNote != noteRange.endNote) {
                         colorMap[curNote] = remember { mutableStateOf(Color.Black) }
-                        PianoKey(curNote, darkKeySize, 0.dp, 5f, colorMap[curNote]?.value ?: Color.Black)
+                        PianoKey(
+                            curNote,
+                            darkKeySize,
+                            0.dp,
+                            5f,
+                            colorMap[curNote]?.value ?: Color.Black,
+                            player != null
+                        )
                     }
 
                     curWhiteNote = curWhiteNote.next()
@@ -144,24 +165,32 @@ class PianoKeyboard(
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.LightBlue)
+        if (colorMap[note]?.value != null && colorMap[note]?.value == AppColors.LightCyan)
             colorMap[note]?.value =
                 if (note.isWhole())
                     Color.White
                 else
                     Color.Black
         else
-            colorMap[note]?.value = AppColors.LightBlue
+            colorMap[note]?.value = AppColors.LightCyan
     }
 
     /**
      * Рисует клавишу с указанными свойствами
      * */
     @Composable
-    private fun PianoKey(note: Note, size: DpSize, padding: Dp, shapeRadius: Float, color: Color) {
+    private fun PianoKey(
+        note: Note,
+        size: DpSize,
+        padding: Dp,
+        shapeRadius: Float,
+        color: Color,
+        canPress: Boolean = true
+    ) {
 
-        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightBlue)) {
+        CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(AppColors.LightCyan)) {
             Button(
+                enabled = canPress,
                 onClick = {
                     playSound(note)
                 },
@@ -170,7 +199,8 @@ class PianoKeyboard(
                     .padding(padding),
                 shape = PianoKeyShape(shapeRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = color
+                    containerColor = color,
+                    disabledContainerColor = color
                 )
             ) {}
         }
@@ -181,7 +211,8 @@ class PianoKeyboard(
      * */
     @Composable
     private fun PianoKeyName(note: Note) {
-        val text = nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
+        val text =
+            nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
 
         val pad = if (text.length == 1)
             (whiteKeyWidth / 3).dp

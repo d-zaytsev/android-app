@@ -34,30 +34,38 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Элемент интерфейса, представляющий собой кнопку для воспроизведения мелодии. Имеет фиксированный размер
+ * @param melody Мелодия, которая будет проигрываться при нажатии
+ * @param instrument Инструмент, на котором будет воспроизводиться мелодия
+ * @param mainColor Цвет кнопки
+ * */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PlayButton(
-    size: DpSize = DpSize(300.dp, 50.dp),
+    context: Context,
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
-    context: Context
+    size: DpSize = DpSize(300.dp, 50.dp),
+    mainColor: Color = AppColors.LightCyan
 ) {
     val iconWidth = size.height
     val textSize = (size.height.value / 2).sp
 
     val text = stringResource(R.string.repeat)
 
+    // selected позволяет определить, нажата ли кнопка в данный момент
     var selected by remember { mutableStateOf(false) }
     val scale by animateFloatAsState(if (selected) 0.8f else 1f, label = "")
-    var color by remember { mutableStateOf(AppColors.LightBlue) }
 
     var isPlaying by remember { mutableStateOf(false) }
 
     Button(
-        onClick = {
-        },
+        enabled = !isPlaying,
+        onClick = {},
         colors = ButtonDefaults.buttonColors(
-            containerColor = color
+            containerColor = mainColor,
+            disabledContainerColor = Color.Gray
         ),
         modifier = Modifier
             .size(size)
@@ -74,10 +82,8 @@ fun PlayButton(
                         if (!isPlaying) {
                             CoroutineScope(Dispatchers.Default).launch {
                                 isPlaying = true
-                                color = Color.Gray
                                 MelodyPlayer(instrument).play(context, melody)
                                 isPlaying = false
-                                color = AppColors.LightBlue
                             }
                         }
                         selected = false

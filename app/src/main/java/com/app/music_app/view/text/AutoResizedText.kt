@@ -19,7 +19,7 @@ fun AutoResizedText(
     modifier: Modifier = Modifier,
     color: Color = style.color
 ) {
-    // При изменении стиля перерисовка
+    // При изменении стиля -> перерисовка
     var resizedTextStyle by remember {
         mutableStateOf(style)
     }
@@ -52,7 +52,7 @@ fun AutoResizedText(
                     )
                 }
                 resizedTextStyle = resizedTextStyle.copy(
-                    fontSize = resizedTextStyle.fontSize * 0.7
+                    fontSize = resizedTextStyle.fontSize * 0.8
                 )
             } else {
                 shouldDraw = true
