@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Button
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.stringResource
@@ -47,7 +49,7 @@ fun PlayButton(
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
     size: DpSize = DpSize(300.dp, 50.dp),
-    mainColor: Color = AppColors.LightCyan
+    mainColor: Color = AppColors.PacificCyan
 ) {
     val iconWidth = size.height
     val textSize = (size.height.value / 2).sp
@@ -70,6 +72,7 @@ fun PlayButton(
         modifier = Modifier
             .size(size)
             .scale(scale)
+            .shadow(20.dp, shape = RoundedCornerShape(10.dp))
             .pointerInteropFilter {
                 // рассматриваются разные случаи action
                 when (it.action) {
