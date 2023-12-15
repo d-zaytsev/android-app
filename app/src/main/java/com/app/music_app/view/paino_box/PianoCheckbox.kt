@@ -17,11 +17,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.app.music_app.view.colors.AppColors
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
@@ -35,32 +38,33 @@ import com.example.android_app.R
 @Composable
 fun PianoCheckbox(
     modifier: Modifier = Modifier,
-    backColor: Color = AppColors.WhiteSmoke,
+    backColor: Color = Color.White,
     pianoBoxDefaultColor: Color = AppColors.LightCyan,
     pianoBoxPressedColor: Color = AppColors.PacificCyan,
     textColor: Color = AppColors.PacificCyan,
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
     vararg keyboards: PianoKeyboard,
 ) {
+
+    // TODO ЗВУК ПРИ ВЫБОРЕ ЭЛЕМЕНТА (ТОЛЬКО КОГДА ВЫБРАТЬ МОЖНО)
+
     Column(
-        modifier = modifier,
+        modifier = modifier
+            .shadow(1.dp, RoundedCornerShape(10.dp) )
+            .background(backColor, RoundedCornerShape(10.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             stringResource(R.string.piano_box_text),
             textAlign = TextAlign.Center,
             color = textColor,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            style = TextStyle(textDecoration = TextDecoration.Underline)
         )
         // Общий контейнер
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .border(
-                    BorderStroke(3.dp, color = backColor),
-                    shape = RoundedCornerShape(10.dp)
-                )
-                .background(backColor, RoundedCornerShape(10.dp)),
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             RowWithWrap(
