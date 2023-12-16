@@ -5,7 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,11 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import com.app.music_app.view.colors.AppColors
+import androidx.compose.ui.unit.sp
+import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.example.android_app.R
 
@@ -38,28 +42,32 @@ import com.example.android_app.R
 @Composable
 fun PianoCheckbox(
     modifier: Modifier = Modifier,
+    text: String = stringResource(R.string.piano_box_text),
     backColor: Color = Color.White,
-    pianoBoxDefaultColor: Color = AppColors.LightCyan,
-    pianoBoxPressedColor: Color = AppColors.PacificCyan,
-    textColor: Color = AppColors.PacificCyan,
+    pianoBoxDefaultColor: Color = AppColor.NonPhotoBlue,
+    pianoBoxPressedColor: Color = AppColor.PacificCyan,
+    textColor: Color = Color.Black,
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
     vararg keyboards: PianoKeyboard,
 ) {
 
-    // TODO ЗВУК ПРИ ВЫБОРЕ ЭЛЕМЕНТА (ТОЛЬКО КОГДА ВЫБРАТЬ МОЖНО)
+    if (keyboards.isEmpty())
+        throw IllegalArgumentException("Can't draw zero keyboards")
 
     Column(
         modifier = modifier
-            .shadow(1.dp, RoundedCornerShape(10.dp) )
+            .shadow(1.dp, RoundedCornerShape(10.dp))
             .background(backColor, RoundedCornerShape(10.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            stringResource(R.string.piano_box_text),
+            text,
             textAlign = TextAlign.Center,
             color = textColor,
             fontWeight = FontWeight.Bold,
-            style = TextStyle(textDecoration = TextDecoration.Underline)
+            fontSize = 20.sp,
+            fontFamily = FontFamily.SansSerif,
+            modifier = Modifier.padding(10.dp)
         )
         // Общий контейнер
         Box(
@@ -68,8 +76,8 @@ fun PianoCheckbox(
             contentAlignment = Alignment.Center
         ) {
             RowWithWrap(
-                horizontalSpacer = 20.dp,
-                verticalSpacer = 20.dp
+                horizontalSpacer = keyboards[0].size.height / 5,
+                verticalSpacer = keyboards[0].size.width / 2
             ) {
 
                 var clicksCount by remember { mutableStateOf(0) }
