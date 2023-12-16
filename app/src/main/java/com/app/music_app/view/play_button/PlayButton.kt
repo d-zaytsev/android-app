@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.note_player.MelodyPlayer
 import com.app.music_app.note_player.interfaces.AbstractInstrument
-import com.app.music_app.view.colors.AppColors
+import com.app.music_app.view.colors.AppColor
 import com.example.android_app.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +49,7 @@ fun PlayButton(
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
     size: DpSize = DpSize(300.dp, 50.dp),
-    mainColor: Color = AppColors.PacificCyan
+    mainColor: Color = AppColor.PacificCyan
 ) {
     val iconWidth = size.height
     val textSize = (size.height.value / 2).sp
