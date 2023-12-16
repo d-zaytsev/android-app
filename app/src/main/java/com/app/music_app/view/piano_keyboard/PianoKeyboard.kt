@@ -132,7 +132,7 @@ class PianoKeyboard(
 
                     val curNote = curWhiteNote.toExt()
 
-                    if (hasDarkKey(curNote) && curNote != noteRange.endNote) {
+                    if (hasDarkKey(curNote) && curWhiteNote != noteRange.endNote) {
                         // Условие чтобы не рисовать последнюю чёрную клавишу
                         if (colorMap[curNote] == null)
                             colorMap[curNote] = toMarkMap[curNote] ?: Color.Black

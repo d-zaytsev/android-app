@@ -77,7 +77,7 @@ fun PianoCheckbox(
         ) {
             RowWithWrap(
                 horizontalSpacer = keyboards[0].size.height / 5,
-                verticalSpacer = keyboards[0].size.width / 2
+                verticalSpacer = keyboards[0].size.width / 5
             ) {
 
                 var clicksCount by remember { mutableStateOf(0) }
