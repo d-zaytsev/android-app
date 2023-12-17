@@ -33,6 +33,7 @@ import com.example.android_app.R
 import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
 import com.musiclib.NoteRange
+import com.musiclib.notes.data.Alteration
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
@@ -177,6 +178,10 @@ class PianoKeyboard(
     fun mark(note: Note, markColor: Color? = null) {
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
+
+        // В общем случае note.isLow() != note.prev().toExt(), но конкретно тут это работает так
+
+        val note = if (note.isLow()) note.previous().toExt() else note
 
         val color = markColor ?: if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor
         toMarkMap[note] = color

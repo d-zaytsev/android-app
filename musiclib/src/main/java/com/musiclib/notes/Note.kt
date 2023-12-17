@@ -45,6 +45,9 @@ class Note(
 
     /** @return Целая нота */
     fun isWhole(): Boolean = sign == Alteration.NaturalSign || sign == Alteration.None
+    fun isExt(): Boolean = sign == Alteration.FlatSign
+    fun isLow(): Boolean = sign == Alteration.FlatSign
+
 
     /** @return Повышенная на пол тона нота */
     fun toWhole() = Note(name, octave, Alteration.None)

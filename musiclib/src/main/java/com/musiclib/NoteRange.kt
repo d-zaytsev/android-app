@@ -1,5 +1,6 @@
 package com.musiclib
 
+import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
 import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.data.NoteName
@@ -8,7 +9,6 @@ import com.musiclib.notes.data.NoteName
  * Представляет собой определённый диапазон нот
  */
 data class NoteRange(val fromNote: Note, val endNote: Note) {
-
     constructor(octaveFrom: Int, endOctave: Int = octaveFrom) : this(
         Note(
             NoteName.Do,
