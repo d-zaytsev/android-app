@@ -32,7 +32,7 @@ import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
-import com.musiclib.notes.data.NoteRange
+import com.musiclib.NoteRange
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
@@ -40,15 +40,15 @@ import com.musiclib.notes.data.NoteRange
  * @param player То, через что ноты будут исполняться
  */
 class PianoKeyboard(
-    private val noteRange: NoteRange,
+    private val context: Context,
     val size: DpSize,
-    val context: Context,
+    private val noteRange: NoteRange,
     private val player: MelodyPlayer? = null
 ) {
 
     // Piano key size
-    private val whiteKeySize = DpSize(size.width / noteRange.noteCount, size.height)
-    private val darkKeySize = DpSize((whiteKeySize.width.value / 3).dp, whiteKeySize.height / 2)
+    private val whiteKeySize = DpSize((size.width) / noteRange.wholeNotesSize, size.height)
+    private val darkKeySize = DpSize((whiteKeySize.width / 3), whiteKeySize.height / 2)
 
     // Additional key size info
     private val darkKeySide = darkKeySize.width.value / 2
@@ -96,7 +96,7 @@ class PianoKeyboard(
             Row(modifier = Modifier.fillMaxSize()) {
 
                 var curNote = noteRange.fromNote
-                repeat(noteRange.noteCount) {
+                repeat(noteRange.wholeNotesSize) {
                     // Для изменения цвета в mark
                     if (colorMap[curNote] == null)
                         colorMap[curNote] = toMarkMap[curNote] ?: Color.White
@@ -119,7 +119,7 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start
             ) {
                 var curWhiteNote = noteRange.fromNote;
-                repeat(noteRange.noteCount) {
+                repeat(noteRange.wholeNotesSize) {
                     // Расстояние от правого края прошлой чёрной ноты до левого края этой
                     val spaceSize =
                         if (noteRange.fromNote == curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth
@@ -156,7 +156,7 @@ class PianoKeyboard(
                 verticalAlignment = Alignment.Top
             ) {
                 var curNote = noteRange.fromNote
-                repeat(noteRange.noteCount) {
+                repeat(noteRange.wholeNotesSize) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom

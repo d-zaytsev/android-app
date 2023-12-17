@@ -3,8 +3,13 @@ package com.app.music_app.view.play_button
 import android.content.Context
 import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QueueMusic
@@ -48,12 +53,8 @@ fun PlayButton(
     context: Context,
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
-    size: DpSize = DpSize(300.dp, 50.dp),
     mainColor: Color = AppColor.PacificCyan
 ) {
-    val iconWidth = size.height
-    val textSize = (size.height.value / 2).sp
-
     val text = stringResource(R.string.repeat)
 
     // selected позволяет определить, нажата ли кнопка в данный момент
@@ -70,7 +71,7 @@ fun PlayButton(
             disabledContainerColor = Color.Gray
         ),
         modifier = Modifier
-            .size(size)
+            .fillMaxSize()
             .scale(scale)
             .shadow(20.dp, shape = RoundedCornerShape(10.dp))
             .pointerInteropFilter {
@@ -97,7 +98,7 @@ fun PlayButton(
     ) {
         Icon(
             modifier = Modifier
-                .size(iconWidth),
+                .scale(1.5f),
             imageVector = Icons.Rounded.QueueMusic,
             contentDescription = "Refresh button",
             tint = Color.White
@@ -106,10 +107,8 @@ fun PlayButton(
             text = text,
             color = Color.White,
             textAlign = TextAlign.Center,
-            fontSize = textSize,
-            modifier = Modifier
-                .weight(1f)
-                .offset(x = -iconWidth / 2), //иконка сдвигает текст слишком вправо
+            fontSize = 25.sp,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }

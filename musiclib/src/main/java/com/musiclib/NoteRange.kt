@@ -1,6 +1,8 @@
-package com.musiclib.notes.data
+package com.musiclib
 
 import com.musiclib.notes.Note
+import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.data.NoteName
 
 /**
  * Представляет собой определённый диапазон нот
@@ -20,7 +22,7 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
     }
 
     /** Список целых нот в этом диапазоне */
-    val list: List<Note>
+    val wholeNotes: List<Note>
         get() {
             val list = mutableListOf<Note>()
 
@@ -43,7 +45,7 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
         }
 
     /** Количество целых нот в диапазоне */
-    val noteCount: Int
+    val wholeNotesSize: Int
         get() = (endNote.octave * 7 + endNote.name.ordinal) - (fromNote.octave * 7 + fromNote.name.ordinal - 1)
 
     fun inRangeAll(elements: Collection<Note>): Boolean {

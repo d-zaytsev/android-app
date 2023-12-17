@@ -36,12 +36,10 @@ import com.example.android_app.R
 
 /**
  * Рисует checkbox с клавиатурами
- * @param modifier Позволяет настраивать размеры контейнера
  * @param keyboards Элементы для отрисовки
  * */
 @Composable
 fun PianoCheckbox(
-    modifier: Modifier = Modifier,
     text: String = stringResource(R.string.piano_box_text),
     backColor: Color = Color.White,
     pianoBoxDefaultColor: Color = AppColor.NonPhotoBlue,
@@ -55,7 +53,7 @@ fun PianoCheckbox(
         throw IllegalArgumentException("Can't draw zero keyboards")
 
     Column(
-        modifier = modifier
+        modifier = Modifier
             .shadow(1.dp, RoundedCornerShape(10.dp))
             .background(backColor, RoundedCornerShape(10.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
