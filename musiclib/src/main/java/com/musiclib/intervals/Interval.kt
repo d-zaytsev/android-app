@@ -1,14 +1,17 @@
 package com.musiclib.intervals
 
 import com.musiclib.notes.Note
+import com.musiclib.notes.data.NoteName
 import kotlin.math.abs
 
-class Interval(note1: Note, note2: Note) : MusicInterval {
+class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = IntervalType.Pure) : MusicInterval {
 
-    override val name: IntervalName
-    override val type: IntervalType
+    override var name: IntervalName
+        private set
+    override var type: IntervalType
+        private set
 
-    init {
+    constructor(note1: Note, note2: Note) : this() {
         // Перенёс таблицу интервалов в map
         val map = mapOf(
             0f to Pair(IntervalName.Prima, IntervalType.Pure),
@@ -36,8 +39,13 @@ class Interval(note1: Note, note2: Note) : MusicInterval {
         this.type = ans.second
     }
 
+    init {
+        this.name = name;
+        this.type = type;
+    }
+
     override fun compareTo(other: MusicInterval): Int =
         (name.stepsCount + type.tone).compareTo(other.name.stepsCount + other.type.tone);
 
-    override fun toString(): String = "${type.toString()} ${name.toString()}"
+    override fun toString(): String = "$type $name"
 }
