@@ -16,38 +16,28 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
         ), Note(NoteName.Si, octave = endOctave)
     )
 
+    private val notesList: List<Note>
     init {
         if (fromNote > endNote)
             throw IllegalArgumentException("Left border cannot be greater than the right")
+
+        this.notesList = mutableListOf()
+
+        var curNote = fromNote
+        while (curNote != endNote) {
+            notesList.add(curNote)
+            curNote = curNote.add(0.5f)
+        }
+        notesList.add(endNote)
     }
 
-    /** Список целых нот в этом диапазоне */
-    val wholeNotes: List<Note>
-        get() {
-            val list = mutableListOf<Note>()
+    /** Список всех нот в этом диапазоне */
+    val notes: List<Note>
+        get() = notesList
 
-            var curNote = if (fromNote.sign == Alteration.SharpSign)
-                fromNote.next()
-            else
-                fromNote
 
-            val prevEnd = if (endNote.sign == Alteration.FlatSign)
-                endNote.previous()
-            else
-                endNote
-
-            while (curNote != prevEnd) {
-                list.add(curNote)
-                curNote = curNote.next()
-            }
-
-            return list
-        }
-
-    /** Количество целых нот в диапазоне */
-    val wholeNotesSize: Int
-        get() = (endNote.octave * 7 + endNote.name.ordinal) - (fromNote.octave * 7 + fromNote.name.ordinal - 1)
-
+    /** @return Находится ли переданная нота в диапазоне */
+    fun inRange(element: Note): Boolean = element in fromNote..endNote
     fun inRangeAll(elements: Collection<Note>): Boolean {
         for (item in elements)
             if (!inRange(item))
@@ -55,7 +45,4 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
 
         return true
     }
-
-    /** @return Находится ли переданная нота в диапазоне */
-    fun inRange(element: Note): Boolean = element in fromNote..endNote
 }
