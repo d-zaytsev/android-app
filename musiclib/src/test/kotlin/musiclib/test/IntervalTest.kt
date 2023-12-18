@@ -51,6 +51,13 @@ class IntervalTest {
         }
 
         @Test
+        fun `Distance check #4`() {
+            val interval = Interval(Note(NoteName.Do), Note(NoteName.Do, sign = Alteration.SharpSign))
+
+            assertEquals(0.5f, interval.distance)
+        }
+
+        @Test
         fun `Creating a non-existent interval`() {
             assertThrows<IllegalArgumentException>
             {
