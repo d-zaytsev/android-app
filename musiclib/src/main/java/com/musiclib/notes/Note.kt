@@ -30,6 +30,7 @@ class Note(
         else
             Note(NoteName.entries[name.ordinal - 1], octave, sign)
     }
+
     fun isWhole(): Boolean = sign == Alteration.None
     fun isExt(): Boolean = sign == Alteration.FlatSign
     fun isLow(): Boolean = sign == Alteration.FlatSign
@@ -45,12 +46,17 @@ class Note(
         val value = (if (this > 0) this else abs(this) - 1)
         val octave = (value / 6).toInt()
 
-        for (noteName in NoteName.entries) {
-            for (noteSign in Alteration.entries) {
+        val names = NoteName.entries
+        val signs = Alteration.entries.filterNot { alt -> alt == Alteration.NaturalSign }
+
+        // Перебираем все возможные варианты и пытаемся найти подходящий
+        for (noteName in names) {
+            for (noteSign in signs) {
                 if (noteSign.value + noteName.value + octave * 6f == value) {
                     if (noteName == NoteName.Mi && noteSign == Alteration.SharpSign)
                         continue
 
+                    // В зависимости от знака возвращаем разное
                     return if (this > 0)
                         Note(noteName, octave, noteSign)
                     else

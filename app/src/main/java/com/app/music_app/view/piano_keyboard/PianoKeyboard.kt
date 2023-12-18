@@ -34,6 +34,7 @@ import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
 import com.musiclib.NoteRange
 import com.musiclib.notes.data.Alteration
+import kotlin.math.sign
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
@@ -131,7 +132,7 @@ class PianoKeyboard(
 
                     Spacer(modifier = Modifier.width(spaceSize.dp))
 
-                    val curNote = curWhiteNote.toExt()
+                    val curNote = Note(curWhiteNote.name, octave = curWhiteNote.octave, sign = Alteration.SharpSign)
 
                     if (hasDarkKey(curNote) && curWhiteNote != noteRange.endNote) {
                         // Условие чтобы не рисовать последнюю чёрную клавишу
@@ -178,10 +179,6 @@ class PianoKeyboard(
     fun mark(note: Note, markColor: Color? = null) {
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
-
-        // В общем случае note.isLow() != note.prev().toExt(), но конкретно тут это работает так
-
-        val note = if (note.isLow()) note.previous().toExt() else note
 
         val color = markColor ?: if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor
         toMarkMap[note] = color

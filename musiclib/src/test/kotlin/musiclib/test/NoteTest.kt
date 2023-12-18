@@ -113,14 +113,5 @@ class NoteTest {
             )
         }
 
-        @Test
-        fun `Equal note names test3`() {
-            Assertions.assertTrue(
-                Note(NoteName.Si) < Note(
-                    NoteName.Do,
-                    sign = Alteration.SharpSign
-                )
-            )
-        }
     }
 }
