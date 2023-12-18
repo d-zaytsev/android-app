@@ -5,7 +5,6 @@ import kotlin.math.abs
 
 class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = IntervalType.Pure) :
     MusicInterval {
-
     override var name: IntervalName
         private set
     override var type: IntervalType
@@ -41,12 +40,10 @@ class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = Int
     }
 
     constructor(note1: Note, note2: Note) : this() {
-        // Перенёс таблицу интервалов в map
-
-
         // Разница между нотами
         val diff =
             abs((note1.name.value + note1.sign.value + note1.octave * 6) - (note2.name.value + note2.sign.value + note2.octave * 6))
+        this.distance = diff
 
         if (!distanceArray.contains(diff))
             throw IllegalArgumentException("Such music interval doesn't exist")
