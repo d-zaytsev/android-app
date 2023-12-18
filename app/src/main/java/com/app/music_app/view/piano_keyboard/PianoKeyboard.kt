@@ -48,8 +48,11 @@ class PianoKeyboard(
     private val player: MelodyPlayer? = null
 ) {
 
+    // Кол-во целых нот в диапазоне
+    private val wholeNotesCount = noteRange.notes.filter { it.isWhole() }.size
+
     // Piano key size
-    private val whiteKeySize = DpSize((size.width) / noteRange.wholeNotesSize, size.height)
+    private val whiteKeySize = DpSize((size.width) / wholeNotesCount, size.height)
     private val darkKeySize = DpSize((whiteKeySize.width / 3), whiteKeySize.height / 2)
 
     // Additional key size info
@@ -98,7 +101,7 @@ class PianoKeyboard(
             Row(modifier = Modifier.fillMaxSize()) {
 
                 var curNote = noteRange.fromNote
-                repeat(noteRange.wholeNotesSize) {
+                repeat(wholeNotesCount) {
                     // Для изменения цвета в mark
                     if (colorMap[curNote] == null)
                         colorMap[curNote] = toMarkMap[curNote] ?: Color.White
@@ -121,7 +124,7 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start
             ) {
                 var curWhiteNote = noteRange.fromNote;
-                repeat(noteRange.wholeNotesSize) {
+                repeat(wholeNotesCount) {
                     // Расстояние от правого края прошлой чёрной ноты до левого края этой
                     val spaceSize =
                         if (noteRange.fromNote == curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth
@@ -132,7 +135,11 @@ class PianoKeyboard(
 
                     Spacer(modifier = Modifier.width(spaceSize.dp))
 
-                    val curNote = Note(curWhiteNote.name, octave = curWhiteNote.octave, sign = Alteration.SharpSign)
+                    val curNote = Note(
+                        curWhiteNote.name,
+                        octave = curWhiteNote.octave,
+                        sign = Alteration.SharpSign
+                    )
 
                     if (hasDarkKey(curNote) && curWhiteNote != noteRange.endNote) {
                         // Условие чтобы не рисовать последнюю чёрную клавишу
@@ -158,7 +165,7 @@ class PianoKeyboard(
                 verticalAlignment = Alignment.Top
             ) {
                 var curNote = noteRange.fromNote
-                repeat(noteRange.wholeNotesSize) {
+                repeat(wholeNotesCount) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
@@ -175,36 +182,31 @@ class PianoKeyboard(
      * Активирует клавишу
      * @throws IllegalArgumentException
      */
-    @Composable
     fun mark(note: Note, markColor: Color? = null) {
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
-        val color = markColor ?: if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor
+        val color =
+            markColor ?: if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor
+
         toMarkMap[note] = color
-        if (::colorMap.isInitialized) {
-            LaunchedEffect(colorMap) {
-                colorMap[note] = color
-            }
-        }
+
+        if (::colorMap.isInitialized)
+            colorMap[note] = color // Если не будет работать добавь LaunchedEffect 🤑
     }
 
     /**
      * Возвращает клавишу в обычный цвет
      * @throws IllegalArgumentException
      */
-    @Composable
     fun unmark(note: Note) {
         if (!noteRange.inRange(note))
             throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
 
         toMarkMap.remove(note)
         if (::colorMap.isInitialized)
-        {
-            LaunchedEffect(null) {
-                colorMap[note] = if (note.isWhole()) Color.White else Color.Black
-            }
-        }
+            colorMap[note] = if (note.isWhole()) Color.White else Color.Black
+
     }
 
     /**
