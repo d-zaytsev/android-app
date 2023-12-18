@@ -17,7 +17,17 @@ class MelodyNote(
     override val duration: NoteDuration = NoteDuration.Whole
 ) : MelodyNote {
 
-    constructor(note: Note) : this(note.name, NoteVolume.Forte , note.sign, note.octave, NoteDuration.Whole)
+    constructor(
+        note: Note,
+        volume: NoteVolume = NoteVolume.Forte,
+        duration: NoteDuration = NoteDuration.Whole
+    ) : this(
+        note.name,
+        volume,
+        note.sign,
+        note.octave,
+        duration
+    )
 
     fun toBasicNote(): Note = Note(name, octave, sign)
 
