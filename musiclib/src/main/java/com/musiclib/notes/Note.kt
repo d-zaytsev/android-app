@@ -3,6 +3,7 @@ package com.musiclib.notes
 import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.data.NoteName
 import com.musiclib.notes.interfaces.BasicNote
+import kotlin.math.abs
 
 /**
  * Представляет собой абстрактную ноту определённой высоты
@@ -12,9 +13,62 @@ class Note(
     override val octave: Int = 0,
     override val sign: Alteration = Alteration.None,
 ) : BasicNote, Comparable<Note> {
+
+    /** @return Следующую ноту относительно этой */
+    fun next(): Note {
+        return if (name == NoteName.Si)
+            Note(NoteName.Do, octave + 1, sign)
+        else
+            Note(NoteName.entries[name.ordinal + 1], octave, sign)
+    }
+
+    /** @return Предыдущую ноту относительно этой */
+
+    fun previous(): Note {
+        return if (name == NoteName.Do)
+            Note(NoteName.Si, octave - 1, sign)
+        else
+            Note(NoteName.entries[name.ordinal - 1], octave, sign)
+    }
+    fun isWhole(): Boolean = sign == Alteration.None
+    fun isExt(): Boolean = sign == Alteration.FlatSign
+    fun isLow(): Boolean = sign == Alteration.FlatSign
+
+    fun add(value: Float) =
+        (this.pitch + value).toNote() ?: throw IllegalArgumentException("Can't add $value to note")
+
+    val pitch = octave * 6 + sign.value + name.value
+    private fun Float.toNote(): Note? {
+        if (this == 0f)
+            return Note(NoteName.Do)
+
+        val value = (if (this > 0) this else abs(this) - 1)
+        val octave = (value / 6).toInt()
+
+        for (noteName in NoteName.entries) {
+            for (noteSign in Alteration.entries) {
+                if (noteSign.value + noteName.value + octave * 6f == value) {
+                    if (noteName == NoteName.Mi && noteSign == Alteration.SharpSign)
+                        continue
+
+                    return if (this > 0)
+                        Note(noteName, octave, noteSign)
+                    else
+                        Note(
+                            NoteName.entries[NoteName.entries.size - noteName.ordinal - 1],
+                            -1 * octave - 1,
+                            noteSign
+                        )
+                }
+            }
+        }
+
+        return null
+    }
+
     /** Сравнивает ноты по высоте */
     override fun compareTo(other: Note): Int =
-        (octave * 7 + sign.value + name.value).compareTo(other.octave * 7 + other.sign.value + other.name.value)
+        pitch.compareTo(other.pitch)
 
     override fun equals(other: Any?): Boolean {
         return if (other is Note)
@@ -24,39 +78,8 @@ class Note(
     }
 
     override fun hashCode(): Int {
-        return this.toString().hashCode()
+        return this.pitch.hashCode()
     }
-
-    /** @return Следующую ноту относительно этой */
-    fun next(): Note {
-        return if (name == NoteName.Si)
-            Note(NoteName.Do, octave + 1, sign)
-        else
-            Note(NoteName.values()[name.ordinal + 1], octave, sign)
-    }
-    /** @return Предыдущую ноту относительно этой */
-
-    fun previous(): Note {
-        return if (name == NoteName.Do)
-            Note(NoteName.Si, octave - 1, sign)
-        else
-            Note(NoteName.values()[name.ordinal - 1], octave, sign)
-    }
-
-    /** @return Целая нота */
-    fun isWhole(): Boolean = sign == Alteration.NaturalSign || sign == Alteration.None
-    fun isExt(): Boolean = sign == Alteration.FlatSign
-    fun isLow(): Boolean = sign == Alteration.FlatSign
-
-
-    /** @return Повышенная на пол тона нота */
-    fun toWhole() = Note(name, octave, Alteration.None)
-
-    /** @return Повышенная на пол тона нота */
-    fun toExt() = Note(name, octave, Alteration.SharpSign)
-
-    /**@return Пониженная на пол тона нота*/
-    fun loLow() = Note(name, octave, Alteration.FlatSign)
 
     override fun toString(): String = "$name $octave $sign"
 }

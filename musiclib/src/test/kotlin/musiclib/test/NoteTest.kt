@@ -10,6 +10,45 @@ import org.junit.jupiter.api.Test
 class NoteTest {
 
     @Nested
+    inner class `Add test` {
+        @Test
+        fun `Check #1`() {
+            Assertions.assertEquals(
+                "Do 0 SharpSign",
+                Note(NoteName.Do).add(0.5f).toString()
+            )
+        }
+        @Test
+        fun `Check #2`() {
+            Assertions.assertEquals(
+                "Re 0 None",
+                Note(NoteName.Do).add(1f).toString()
+            )
+        }
+        @Test
+        fun `Check #3`() {
+            Assertions.assertEquals(
+                "Fa 0 None",
+                Note(NoteName.Mi).add(0.5f).toString()
+            )
+        }
+        @Test
+        fun `Check #4`() {
+            Assertions.assertEquals(
+                "Do 1 None",
+                Note(NoteName.Si).add(0.5f).toString()
+            )
+        }
+        @Test
+        fun `Check #5`() {
+            Assertions.assertEquals(
+                "Si 0 None",
+                Note(NoteName.Do, octave = 1).add(-0.5f).toString()
+            )
+        }
+    }
+
+    @Nested
     inner class `Previous & Next note test` {
         @Test
         fun `Prev octave check`() {
@@ -61,7 +100,7 @@ class NoteTest {
 
         @Test
         fun `Equal note names test1`() {
-            Assertions.assertTrue(Note(NoteName.Do, sign = Alteration.FlatSign) < Note(NoteName.Do))
+            Assertions.assertTrue(Note(NoteName.Do, sign = Alteration.FlatSign) == Note(NoteName.Si, octave = -1))
         }
 
         @Test
@@ -71,7 +110,17 @@ class NoteTest {
                     NoteName.Do,
                     sign = Alteration.SharpSign
                 )
-            );
+            )
+        }
+
+        @Test
+        fun `Equal note names test3`() {
+            Assertions.assertTrue(
+                Note(NoteName.Si) < Note(
+                    NoteName.Do,
+                    sign = Alteration.SharpSign
+                )
+            )
         }
     }
 }
