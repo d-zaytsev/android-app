@@ -47,7 +47,7 @@ fun CompareTaskManager(
     // Ограничения на аргументы
     if (possibleIntervals.size < 2)
         throw IllegalArgumentException("Can't use less than 2 intervals")
-    if (range.notes.size < 3)
+    if (range.wholeNotesCount < 3)
         throw IllegalArgumentException("Can't such small note range")
     if (taskCount < 1)
         throw IllegalArgumentException("Can't be less than 1 task")
@@ -194,7 +194,7 @@ private fun Keyboards(
                 second.next().toWhole()
             else second
         )
-        val size = DpSize((range.notes.filter { it.isWhole() }.size * 33).dp, 100.dp)
+        val size = DpSize((range.wholeNotesCount * 33).dp, 100.dp)
 
         val keyboard = PianoKeyboard(context, size, range)
         keyboard.mark(notePair.first); keyboard.mark(notePair.second)

@@ -49,7 +49,7 @@ class PianoKeyboard(
 ) {
 
     // Кол-во целых нот в диапазоне
-    private val wholeNotesCount = noteRange.notes.filter { it.isWhole() }.size
+    private val wholeNotesCount = noteRange.wholeNotesCount
 
     // Piano key size
     private val whiteKeySize = DpSize((size.width) / wholeNotesCount, size.height)
