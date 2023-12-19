@@ -34,6 +34,7 @@ import kotlin.math.abs
  * @param chooseVariants Кол-во вариантов выбора
  * @param taskCount Кол-во заданий
  * @param fixFirstNote Нужно ли фиксировать ноту при поиске интервала
+ * @param fixDirection Нужно ли играть ноты только от малой к большей
  * */
 @Composable
 fun CompareTaskManager(
@@ -42,6 +43,7 @@ fun CompareTaskManager(
     chooseVariants: IntRange,
     taskCount: Int,
     fixFirstNote: Boolean = true,
+    fixDirection: Boolean = true,
     vararg possibleIntervals: Interval
 ) {
     // Ограничения на аргументы
@@ -63,77 +65,50 @@ fun CompareTaskManager(
 
         val navController = rememberNavController()         // С помощью него переключаемся
 
-        val resPair = generateTasks(                        // Генерируем все мелодии и клавиатуры
-            context = context,
-            variants = chooseVariants,
-            intervals = possibleIntervals,
-            fixFirstNote = fixFirstNote,
-            range = range,
-            taskCount = taskCount
-        )
-
-        val melodies = resPair.first
-        val pianos = resPair.second
-
         NavHost( // Содержит все экраны
             navController = navController,
             startDestination = "task0"
         ) {
-
             for (i in 0 until taskCount) {
+                // генерируем задание
+                val variantsCount = chooseVariants.random()
+                val pairList = mutableListOf<Pair<Note, Note>>()
+                val pastIntervals = mutableListOf<Interval>()
+
+                repeat(variantsCount) {
+                    val randomInterval =
+                        possibleIntervals.filterNot { pastIntervals.contains(it) }.random()
+                    pastIntervals.add(randomInterval)
+
+                    val notePair =
+                        if (fixFirstNote) getPair(
+                            range.notes.random(),
+                            randomInterval,
+                            range
+                        ) else getPair(
+                            randomInterval,
+                            range
+                        )
+
+                    pairList.add(notePair)
+                }
+
                 composable("task$i") {
                     CompareTaskPage(
                         context = context,
-                        melodyToPlay = melodies[i],
+                        melodyToPlay = Melody(pairList.toTypedArray()),
                         playInstrument = VirtualPiano(),
                         onEnd = {
                             points++
                             navController.navigate("task${(i + 1)}")
                         },
-                        keyboards = pianos[i]
+                        keyboards = Keyboards(context, pairList.toTypedArray())
                     )
                 }
             }
 
         }
     }
-}
-
-private fun generateTasks(
-    context: Context,
-    variants: IntRange,
-    fixFirstNote: Boolean,
-    range: NoteRange,
-    taskCount: Int,
-    vararg intervals: Interval
-): Pair<Array<Melody>, Array<Array<PianoKeyboard>>> {
-    val melodyList = mutableListOf<Melody>()
-    val pianoList = mutableListOf<Array<PianoKeyboard>>()
-    repeat(taskCount) {
-        // генерируем задание
-        val variantsCount = variants.random()
-        val pairList = mutableListOf<Pair<Note, Note>>()
-        val pastIntervals = mutableListOf<Interval>()
-
-        repeat(variantsCount) {
-            val randomInterval =
-                intervals.filterNot { pastIntervals.contains(it) }.random()
-            pastIntervals.add(randomInterval)
-
-            val notePair =
-                if (fixFirstNote) getPair(range.notes.random(), randomInterval, range) else getPair(
-                    randomInterval,
-                    range
-                )
-
-            pairList.add(notePair)
-        }
-
-        melodyList.add(Melody(pairList.toTypedArray()))
-        pianoList.add(Keyboards(context, pairList.toTypedArray()))
-    }
-
-    return Pair(melodyList.toTypedArray(), pianoList.toTypedArray())
 }
 
 private fun getPair(first: Note, interval: Interval, range: NoteRange): Pair<Note, Note> {
@@ -157,13 +132,17 @@ private fun getPair(interval: Interval, range: NoteRange): Pair<Note, Note> {
  * Создаёт мелодию из переданных пар нот
  */
 private fun Melody(
-    notesFromIntervals: Array<Pair<Note, Note>>
+    notesFromIntervals: Array<Pair<Note, Note>>,
+    fixDirection: Boolean = false
 ): Melody {
     val melodyList = mutableListOf<MusicPause>()
     for (notes in notesFromIntervals) {
-        // Добавляем интерва
-        melodyList.add(MelodyNote(notes.first, duration = NoteDuration.Half))
-        melodyList.add(MelodyNote(notes.second, duration = NoteDuration.Half))
+        // Добавляем интервалы
+        val first = if (fixDirection) if (notes.first < notes.second) notes.first else notes.second else notes.first
+        val second = if (fixDirection) if (notes.first < notes.second) notes.second else notes.first else notes.second
+
+        melodyList.add(MelodyNote(first, duration = NoteDuration.Half))
+        melodyList.add(MelodyNote(second, duration = NoteDuration.Half))
         melodyList.add(Pause(NoteDuration.Half))
     }
     // Последняя пауза лишняя

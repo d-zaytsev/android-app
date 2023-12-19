@@ -17,8 +17,6 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
     init {
         if (fromNote > endNote)
             throw IllegalArgumentException("Left border cannot be greater than the right")
-
-
     }
 
     val notes: List<Note>
