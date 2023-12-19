@@ -31,16 +31,16 @@ jobs:
           cache: 'gradle'
 
       - name: Change permissions
-        run: chmod +x ./gradle
+        run: chmod +x ./gradlew
 
       - name: Run gradle tests
-        run: ./gradle test
+        run: ./gradlew test
 
       - name: Build gradle project
-        run: ./gradle build
+        run: ./gradlew build
 
       - name: Build APK (Debug)
-        run: ./gradle assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Upload APK (Debug)
         uses: actions/upload-artifact@v3
