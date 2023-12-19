@@ -4,7 +4,7 @@ import com.app.music_app.note_player.interfaces.AbstractInstrument
 import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
-import com.musiclib.notes.data.NoteRange
+import com.musiclib.NoteRange
 
 
 // Piano notes: https://github.com/fuhton/piano-mp3
