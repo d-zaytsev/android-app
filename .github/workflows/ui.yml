@@ -30,8 +30,8 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+      - name: Change permissions
+        run: chmod +x ./gradle
 
       - name: Run gradle tests
         run: ./gradle test
@@ -39,7 +39,7 @@ jobs:
       - name: Build gradle project
         run: ./gradle build
 
-      - name: Build APK (Debug) - ${{ env.main_project_module }} module
+      - name: Build APK (Debug)
         run: ./gradle assembleDebug
 
       - name: Upload APK (Debug)
