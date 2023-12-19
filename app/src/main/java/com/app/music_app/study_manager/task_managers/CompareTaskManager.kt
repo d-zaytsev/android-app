@@ -1,4 +1,4 @@
-package com.app.music_app.study_manager.compare_task
+package com.app.music_app.study_manager.task_managers
 
 import android.content.Context
 import androidx.compose.foundation.layout.Column
@@ -25,7 +25,6 @@ import com.musiclib.notes.Pause
 import com.musiclib.notes.data.Alteration
 import com.musiclib.notes.data.NoteDuration
 import com.musiclib.notes.interfaces.MusicPause
-import java.lang.StrictMath.random
 import kotlin.math.abs
 
 /**

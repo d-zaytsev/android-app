@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
-import com.app.music_app.study_manager.compare_task.CompareTaskManager
+import com.app.music_app.study_manager.task_managers.CompareTaskManager
 import com.musiclib.notes.Note
 import com.musiclib.notes.data.NoteName
 import com.musiclib.NoteRange
