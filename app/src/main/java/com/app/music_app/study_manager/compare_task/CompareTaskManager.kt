@@ -74,11 +74,6 @@ fun CompareTaskManager(
             navController = navController,
             startDestination = "task0"
         ) {
-            composable("result") {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Your Score: $points/$taskCount")
-                }
-            }
 
             // Создаём экраны один за одним
             for (i in 0 until taskCount) {
@@ -102,16 +97,13 @@ fun CompareTaskManager(
                 val keyboards = Keyboards(context, pairList.toTypedArray())
 
                 composable("task$i") {
-                    // Либо переходим к следующему таску, либо идём на экран завершения
-                    val navPath = if (i < taskCount - 1) "task${i + 1}" else "result"
-
                     CompareTaskPage(
                         context = context,
                         melodyToPlay = melody,
                         playInstrument = VirtualPiano(),
                         onEnd = {
                             points++
-                            navController.navigate(navPath) {
+                            navController.navigate("task${(i + 1)}") {
                                 popUpTo("task$i") // удаляем из стека
                             }
                         },
