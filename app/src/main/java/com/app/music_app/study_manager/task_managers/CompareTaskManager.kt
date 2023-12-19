@@ -1,19 +1,32 @@
 package com.app.music_app.study_manager.task_managers
 
 import android.content.Context
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.note_player.instruments.VirtualPiano
 import com.app.music_app.study_manager.pages.CompareTaskPage
+import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.task_progress_indicator.TaskProgressBar
 import com.musiclib.NoteRange
@@ -60,56 +73,104 @@ fun CompareTaskManager(
 
     Column {
 
-        var points by remember { mutableStateOf(0) } // Кол-во верно сделанных заданий
+        var succeedPoints by remember { mutableStateOf(0) } // Кол-во верно сделанных заданий
+        var points by remember { mutableStateOf(0) }
         TaskProgressBar(points, taskCount)                 // Прогресс сверху
 
         val navController = rememberNavController()         // С помощью него переключаемся
+
+        val melodies = mutableListOf<Melody>()
+        val pianos = mutableListOf<Array<PianoKeyboard>>()
+
+        repeat(taskCount) {
+            // генерируем задание
+            val variantsCount = chooseVariants.random()
+            val pairList = mutableListOf<Pair<Note, Note>>()
+            val pastIntervals = mutableListOf<Interval>()
+
+            repeat(variantsCount) {
+                // получаем пары нот
+                val randomInterval =
+                    possibleIntervals.filterNot { pastIntervals.contains(it) }.random()
+                pastIntervals.add(randomInterval)
+
+                val notePair =
+                    if (fixFirstNote) getPair(
+                        range.notes.random(),
+                        randomInterval,
+                        range
+                    ) else getPair(
+                        randomInterval,
+                        range
+                    )
+
+                pairList.add(notePair)
+            }
+
+            melodies.add(getMelody(pairList.toTypedArray(), fixDirection))
+            pianos.add(getKeyboards(context, pairList.toTypedArray()))
+        }
+
+        val hasInit = remember {
+            mutableStateListOf<Boolean>().apply {
+                repeat(taskCount) {
+                    add(false)
+                }
+            }
+        }
 
         NavHost( // Содержит все экраны
             navController = navController,
             startDestination = "task0"
         ) {
-            for (i in 0 until taskCount) {
-                // генерируем задание
-                val variantsCount = chooseVariants.random()
-                val pairList = mutableListOf<Pair<Note, Note>>()
-                val pastIntervals = mutableListOf<Interval>()
 
-                repeat(variantsCount) {
-                    val randomInterval =
-                        possibleIntervals.filterNot { pastIntervals.contains(it) }.random()
-                    pastIntervals.add(randomInterval)
+            // Экран с результатами
+            composable("results") {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.background(AppColor.WhiteSmoke).fillMaxSize()
+                ) {
+                    Spacer(modifier = Modifier.fillMaxHeight(0.3f))
+                    Box(modifier = Modifier
+                        .fillMaxHeight(0.1f)
+                        .fillMaxWidth(),
+                        contentAlignment = Alignment.Center) {
+                        Text("$succeedPoints / $taskCount", fontSize = 30.sp, color = AppColor.PacificCyan)
+                    }
+                    Spacer(modifier = Modifier.fillMaxHeight(0.5f))
 
-                    val notePair =
-                        if (fixFirstNote) getPair(
-                            range.notes.random(),
-                            randomInterval,
-                            range
-                        ) else getPair(
-                            randomInterval,
-                            range
-                        )
-
-                    pairList.add(notePair)
                 }
+            }
 
+            // Экраны с заданиями
+            for (i in 0..taskCount) {
                 composable("task$i") {
-                    CompareTaskPage(
-                        context = context,
-                        melodyToPlay = Melody(pairList.toTypedArray()),
-                        playInstrument = VirtualPiano(),
-                        onEnd = {
-                            points++
-                            navController.navigate("task${(i + 1)}")
-                        },
-                        keyboards = Keyboards(context, pairList.toTypedArray())
-                    )
+                    if (!hasInit[i]) {
+                        CompareTaskPage(
+                            context = context,
+                            melodyToPlay = melodies[i],
+                            playInstrument = VirtualPiano(),
+                            onEnd = {
+                                if (it)
+                                    succeedPoints++
+                                points++
+                                hasInit[i] = true
+                                if (i < taskCount - 1)
+                                    navController.navigate("task${i + 1}")
+                                else
+                                    navController.navigate("results")
+                            },
+                            keyboards = pianos[i]
+                        )
+                    }
                 }
             }
 
         }
     }
+
 }
+
 
 private fun getPair(first: Note, interval: Interval, range: NoteRange): Pair<Note, Note> {
     val second = range.notes.filter { abs(first.pitch - it.pitch) == interval.distance }.random()
@@ -131,15 +192,17 @@ private fun getPair(interval: Interval, range: NoteRange): Pair<Note, Note> {
 /**
  * Создаёт мелодию из переданных пар нот
  */
-private fun Melody(
+private fun getMelody(
     notesFromIntervals: Array<Pair<Note, Note>>,
     fixDirection: Boolean = false
 ): Melody {
     val melodyList = mutableListOf<MusicPause>()
     for (notes in notesFromIntervals) {
         // Добавляем интервалы
-        val first = if (fixDirection) if (notes.first < notes.second) notes.first else notes.second else notes.first
-        val second = if (fixDirection) if (notes.first < notes.second) notes.second else notes.first else notes.second
+        val first =
+            if (fixDirection) if (notes.first < notes.second) notes.first else notes.second else notes.first
+        val second =
+            if (fixDirection) if (notes.first < notes.second) notes.second else notes.first else notes.second
 
         melodyList.add(MelodyNote(first, duration = NoteDuration.Half))
         melodyList.add(MelodyNote(second, duration = NoteDuration.Half))
@@ -154,7 +217,7 @@ private fun Melody(
 /**
  * Создаёт клавиатуры для отрисовки из переданных пар нот
  * */
-private fun Keyboards(
+private fun getKeyboards(
     context: Context,
     notesFromIntervals: Array<Pair<Note, Note>>
 ): Array<PianoKeyboard> {
@@ -167,7 +230,7 @@ private fun Keyboards(
         // Создаём noteRange для фортепиано (по бокам только белые клавиши)
         val range = NoteRange(
             if (!first.isWhole())
-                first.previous().toWhole()
+                first.toWhole()
             else first,
             if (!second.isWhole())
                 second.next().toWhole()
