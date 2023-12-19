@@ -39,7 +39,8 @@ jobs:
       - name: Build gradle project
         run: ./gradlew build
 
-      - name: dorny/test-reporter@v1
+      - name: Tests report
+        uses: dorny/test-reporter@v1
         with:
             artifact: test-results
             name: JUnit tests
