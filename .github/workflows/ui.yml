@@ -39,12 +39,18 @@ jobs:
       - name: Build gradle project
         run: ./gradlew build
 
+      - name: Unit tests save
+        uses: actions/upload-artifact@v1
+        with:
+          name: unit-tests-results
+          path: ${{ env.main_project_module }}/build/reports/tests/index.html
+
       - name: Tests report
         uses: dorny/test-reporter@v1
         with:
             artifact: test-results
             name: JUnit tests
-            path: '*.xml'
+            path: '${{ env.main_project_module }}/build/reports/tests/index.html'
             reporter: java-junit
 
       - name: Build APK (Debug)
