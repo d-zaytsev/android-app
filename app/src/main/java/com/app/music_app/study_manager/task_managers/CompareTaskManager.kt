@@ -1,6 +1,7 @@
 package com.app.music_app.study_manager.task_managers
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -71,17 +72,12 @@ fun CompareTaskManager(
     if (possibleIntervals.maxOf { it.distance } < range.fromNote.pitch - range.endNote.pitch)
         throw IllegalArgumentException("You choose too small range for such intervals")
 
-    Column {
 
-        var succeedPoints by remember { mutableStateOf(0) } // Кол-во верно сделанных заданий
-        var points by remember { mutableStateOf(0) }
-        TaskProgressBar(points, taskCount)                 // Прогресс сверху
+    val melodies = remember { mutableListOf<Melody>() }
+    val pianos = remember { mutableListOf<Array<PianoKeyboard>>() }
 
-        val navController = rememberNavController()         // С помощью него переключаемся
-
-        val melodies = mutableListOf<Melody>()
-        val pianos = mutableListOf<Array<PianoKeyboard>>()
-
+    // При перерисовке повторять вычисления не нужно
+    remember {
         repeat(taskCount) {
             // генерируем задание
             val variantsCount = chooseVariants.random()
@@ -110,14 +106,24 @@ fun CompareTaskManager(
             melodies.add(getMelody(pairList.toTypedArray(), fixDirection))
             pianos.add(getKeyboards(context, pairList.toTypedArray()))
         }
+    }
 
-        val hasInit = remember {
-            mutableStateListOf<Boolean>().apply {
-                repeat(taskCount) {
-                    add(false)
+    Column {
+
+        var succeedPoints by remember { mutableStateOf(0) } // Кол-во верно сделанных заданий
+        var points by remember { mutableStateOf(0) }
+        TaskProgressBar(points, taskCount)                 // Прогресс сверху
+
+        val navController = rememberNavController()         // С помощью него переключаемся
+
+        val hasInit =
+            remember {                            // Нужно чтобы не провалиться в зацикливание
+                mutableStateListOf<Boolean>().apply {
+                    repeat(taskCount) {
+                        add(false)
+                    }
                 }
             }
-        }
 
         NavHost( // Содержит все экраны
             navController = navController,
@@ -128,14 +134,22 @@ fun CompareTaskManager(
             composable("results") {
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.background(AppColor.WhiteSmoke).fillMaxSize()
+                    modifier = Modifier
+                        .background(AppColor.WhiteSmoke)
+                        .fillMaxSize()
                 ) {
                     Spacer(modifier = Modifier.fillMaxHeight(0.3f))
-                    Box(modifier = Modifier
-                        .fillMaxHeight(0.1f)
-                        .fillMaxWidth(),
-                        contentAlignment = Alignment.Center) {
-                        Text("$succeedPoints / $taskCount", fontSize = 30.sp, color = AppColor.PacificCyan)
+                    Box(
+                        modifier = Modifier
+                            .fillMaxHeight(0.1f)
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            "$succeedPoints / $taskCount",
+                            fontSize = 30.sp,
+                            color = AppColor.PacificCyan
+                        )
                     }
                     Spacer(modifier = Modifier.fillMaxHeight(0.5f))
 
@@ -175,6 +189,7 @@ fun CompareTaskManager(
 private fun getPair(first: Note, interval: Interval, range: NoteRange): Pair<Note, Note> {
     val second = range.notes.filter { abs(first.pitch - it.pitch) == interval.distance }.random()
 
+    Log.d("PAIR", Pair(first, second).toString())
     return Pair(first, second)
 }
 
