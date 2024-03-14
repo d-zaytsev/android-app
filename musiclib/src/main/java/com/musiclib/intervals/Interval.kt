@@ -16,6 +16,8 @@ class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = Int
      * Таблица интервалов
      */
     companion object {
+        const val OCTAVE_DISTANCE = 6f
+
         private val distanceArray =
             arrayOf(0f, 0.5f, 1f, 1.5f, 2f, 2.5f, 3f, 3.5f, 4f, 4.5f, 5f, 5.5f, 6f)
 
@@ -52,9 +54,8 @@ class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = Int
      */
     constructor(note1: Note, note2: Note) : this() {
         // Дистанция между нотами
-        val octaveDistance = 6
         val diff =
-            abs((note1.name.value + note1.sign.value + note1.octave * octaveDistance) - (note2.name.value + note2.sign.value + note2.octave * octaveDistance))
+            abs((note1.name.value + note1.sign.value + note1.octave * OCTAVE_DISTANCE) - (note2.name.value + note2.sign.value + note2.octave * OCTAVE_DISTANCE))
 
         require(distanceArray.contains(diff)) { "Music interval with such distance doesn't exist" }
 
