@@ -1,9 +1,8 @@
 package com.musiclib.notes
 
-import com.musiclib.notes.data.Alteration
-import com.musiclib.notes.data.NoteName
 import com.musiclib.notes.interfaces.BasicNote
-import kotlin.math.abs
+import com.musiclib.notes.note_metadata.Alteration
+import com.musiclib.notes.note_metadata.NoteName
 
 /**
  * Представляет собой абстрактную ноту определённой высоты
@@ -14,63 +13,64 @@ class Note(
     override val sign: Alteration = Alteration.None,
 ) : BasicNote, Comparable<Note> {
 
-    /** @return Следующую ноту относительно этой */
-    fun next(): Note {
+    init {
+        require(name != NoteName.Mi || sign != Alteration.SharpSign) { "Can't create note (Mi-SharpSign)" }
+        require(name != NoteName.Fa || sign != Alteration.FlatSign) { "Can't create note (Mi-FlatSign)" }
+        require(name != NoteName.Si || sign != Alteration.SharpSign) { "Can't create note (Si-SharpSign)" }
+        require(name != NoteName.Do || sign != Alteration.FlatSign) { "Can't create note (Do-FlatSign)" }
+    }
+
+    /** @return Следующую целую ноту относительно этой */
+    fun nextWhole(): Note {
         return if (name == NoteName.Si)
             Note(NoteName.Do, octave + 1, sign)
         else
             Note(NoteName.entries[name.ordinal + 1], octave, sign)
     }
 
-    /** @return Предыдущую ноту относительно этой */
+    /** @return Предыдущую целую ноту относительно этой */
 
-    fun previous(): Note {
+    fun previousWhole(): Note {
         return if (name == NoteName.Do)
             Note(NoteName.Si, octave - 1, sign)
         else
             Note(NoteName.entries[name.ordinal - 1], octave, sign)
     }
 
+    /** @return Нота, повышенная на полтона */
+    fun nextSemitone(): Note {
+        return if (sign == Alteration.FlatSign)
+            Note(name, octave, Alteration.None)
+        else if (sign == Alteration.SharpSign)
+            Note(nextWhole().name, octave, Alteration.None)
+        else if (name == NoteName.Si)
+            Note(NoteName.Do, octave + 1, sign)
+        else if (name == NoteName.Mi)
+            Note(NoteName.Fa, octave, Alteration.None)
+        else
+            Note(name, octave, Alteration.SharpSign)
+
+    }
+
+    /** @return Нота, пониженная на полтона */
+    fun previousSemitone(): Note {
+        return if (sign == Alteration.SharpSign)
+            Note(name, octave, Alteration.None)
+        else if (sign == Alteration.FlatSign)
+            Note(previousWhole().name, octave, Alteration.None)
+        else if (name == NoteName.Do)
+            Note(NoteName.Si, octave - 1, sign)
+        else if (name == NoteName.Fa)
+            Note(NoteName.Mi, octave, Alteration.None)
+        else
+            Note(name, octave, Alteration.FlatSign)
+    }
+
     fun isWhole(): Boolean = sign == Alteration.None
     fun isExt(): Boolean = sign == Alteration.FlatSign
     fun isLow(): Boolean = sign == Alteration.FlatSign
 
-    fun add(value: Float) =
-        (this.pitch + value).toNote() ?: throw IllegalArgumentException("Can't add $value to note")
-
     val pitch = octave * 6 + sign.value + name.value
-    private fun Float.toNote(): Note? {
-        if (this == 0f)
-            return Note(NoteName.Do)
-
-        val value = (if (this > 0) this else abs(this) - 1)
-        val octave = (value / 6).toInt()
-
-        val names = NoteName.entries
-        val signs = Alteration.entries.filterNot { alt -> alt == Alteration.NaturalSign }
-
-        // Перебираем все возможные варианты и пытаемся найти подходящий
-        for (noteName in names) {
-            for (noteSign in signs) {
-                if (noteSign.value + noteName.value + octave * 6f == value) {
-                    if (noteName == NoteName.Mi && noteSign == Alteration.SharpSign)
-                        continue
-
-                    // В зависимости от знака возвращаем разное
-                    return if (this > 0)
-                        Note(noteName, octave, noteSign)
-                    else
-                        Note(
-                            NoteName.entries[NoteName.entries.size - noteName.ordinal - 1],
-                            -1 * octave - 1,
-                            noteSign
-                        )
-                }
-            }
-        }
-
-        return null
-    }
 
     /** Сравнивает ноты по высоте */
     override fun compareTo(other: Note): Int =
