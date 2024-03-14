@@ -15,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,10 +30,9 @@ import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.NoteRange
-import com.musiclib.notes.data.Alteration
-import kotlin.math.sign
+import com.musiclib.notes.note_metadata.Alteration
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой

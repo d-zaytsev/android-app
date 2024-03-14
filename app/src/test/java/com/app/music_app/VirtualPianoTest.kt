@@ -1,9 +1,9 @@
 package com.app.music_app
 
 import com.app.music_app.note_player.instruments.VirtualPiano
-import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith

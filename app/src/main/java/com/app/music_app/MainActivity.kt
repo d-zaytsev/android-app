@@ -6,10 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import com.app.music_app.study_manager.task_managers.CompareTaskManager
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.NoteRange
 import com.musiclib.intervals.Interval
-import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.note_metadata.Alteration
 
 
 class MainActivity : ComponentActivity() {

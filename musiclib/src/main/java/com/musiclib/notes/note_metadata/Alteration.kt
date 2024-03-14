@@ -1,4 +1,4 @@
-package com.musiclib.notes.data
+package com.musiclib.notes.note_metadata
 
 /**
  * Представляет собой перечисление возможных знаков альтерации

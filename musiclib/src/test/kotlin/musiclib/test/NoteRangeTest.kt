@@ -1,7 +1,7 @@
 package musiclib.test
 
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.NoteRange
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -17,7 +17,7 @@ class NoteRangeTest {
     fun `Note count check (dif octavas)`() {
         assertEquals(
             2,
-            NoteRange(Note(NoteName.Si, octave = 1), Note(NoteName.Do, octave = 2)).notes.size
+            NoteRange(Note(NoteName.Si, octave = 1), Note(NoteName.Do, octave = 2)).wholeNotesCount
         )
     }
 
@@ -26,7 +26,7 @@ class NoteRangeTest {
         val range = NoteRange(0)
         assertEquals(
             2,
-            NoteRange(Note(NoteName.Si, octave = 1), Note(NoteName.Do, octave = 2)).notes.size
+            NoteRange(Note(NoteName.Si, octave = 1), Note(NoteName.Do, octave = 2)).wholeNotesCount
         )
     }
 }

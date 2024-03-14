@@ -1,11 +1,11 @@
 package musiclib.test
 
-import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

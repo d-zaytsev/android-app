@@ -1,9 +1,9 @@
 package com.app.music_app.note_player.instruments
 
 import com.app.music_app.note_player.interfaces.AbstractInstrument
-import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.NoteRange
 
 

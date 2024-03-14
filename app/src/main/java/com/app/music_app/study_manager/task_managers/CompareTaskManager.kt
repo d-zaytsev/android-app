@@ -12,12 +12,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,8 +36,8 @@ import com.musiclib.notes.Melody
 import com.musiclib.notes.MelodyNote
 import com.musiclib.notes.Note
 import com.musiclib.notes.Pause
-import com.musiclib.notes.data.Alteration
-import com.musiclib.notes.data.NoteDuration
+import com.musiclib.notes.note_metadata.Alteration
+import com.musiclib.notes.note_metadata.NoteDuration
 import com.musiclib.notes.interfaces.MusicPause
 import kotlin.math.abs
 
