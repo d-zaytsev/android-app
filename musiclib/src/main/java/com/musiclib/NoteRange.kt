@@ -1,12 +1,12 @@
-package com.musiclib.notes.data
+package com.musiclib
 
 import com.musiclib.notes.Note
+import com.musiclib.notes.data.NoteName
 
 /**
  * Представляет собой определённый диапазон нот
  */
 data class NoteRange(val fromNote: Note, val endNote: Note) {
-
     constructor(octaveFrom: Int, endOctave: Int = octaveFrom) : this(
         Note(
             NoteName.Do,
@@ -19,33 +19,39 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
             throw IllegalArgumentException("Left border cannot be greater than the right")
     }
 
-    /** Список целых нот в этом диапазоне */
-    val list: List<Note>
+    val notes: List<Note>
         get() {
             val list = mutableListOf<Note>()
 
-            var curNote = if (fromNote.sign == Alteration.SharpSign)
-                fromNote.next()
-            else
-                fromNote
+            var curNote = fromNote
+            while (curNote != endNote) {
+                list.add(curNote)
+                curNote = curNote.add(0.5f)
+            }
+            list.add(endNote)
 
-            val prevEnd = if (endNote.sign == Alteration.FlatSign)
-                endNote.previous()
-            else
-                endNote
+            return list
+        }
+    val wholeNotes: List<Note>
+        get() {
+            val list = mutableListOf<Note>()
 
-            while (curNote != prevEnd) {
+            var curNote = fromNote
+            while (curNote != endNote) {
                 list.add(curNote)
                 curNote = curNote.next()
             }
+            list.add(endNote)
 
             return list
         }
 
     /** Количество целых нот в диапазоне */
-    val noteCount: Int
+    val wholeNotesCount: Int
         get() = (endNote.octave * 7 + endNote.name.ordinal) - (fromNote.octave * 7 + fromNote.name.ordinal - 1)
 
+    /** @return Находится ли переданная нота в диапазоне */
+    fun inRange(element: Note): Boolean = element in fromNote..endNote
     fun inRangeAll(elements: Collection<Note>): Boolean {
         for (item in elements)
             if (!inRange(item))
@@ -53,7 +59,4 @@ data class NoteRange(val fromNote: Note, val endNote: Note) {
 
         return true
     }
-
-    /** @return Находится ли переданная нота в диапазоне */
-    fun inRange(element: Note): Boolean = element in fromNote..endNote
 }

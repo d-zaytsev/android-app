@@ -3,8 +3,14 @@ package com.app.music_app.view.play_button
 import android.content.Context
 import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Button
@@ -19,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.stringResource
@@ -28,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.note_player.MelodyPlayer
 import com.app.music_app.note_player.interfaces.AbstractInstrument
-import com.app.music_app.view.colors.AppColors
+import com.app.music_app.view.colors.AppColor
 import com.example.android_app.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -46,12 +53,8 @@ fun PlayButton(
     context: Context,
     melody: com.musiclib.notes.Melody,
     instrument: AbstractInstrument,
-    size: DpSize = DpSize(300.dp, 50.dp),
-    mainColor: Color = AppColors.LightCyan
+    mainColor: Color = AppColor.PacificCyan
 ) {
-    val iconWidth = size.height
-    val textSize = (size.height.value / 2).sp
-
     val text = stringResource(R.string.repeat)
 
     // selected позволяет определить, нажата ли кнопка в данный момент
@@ -68,8 +71,9 @@ fun PlayButton(
             disabledContainerColor = Color.Gray
         ),
         modifier = Modifier
-            .size(size)
+            .fillMaxSize()
             .scale(scale)
+            .shadow(20.dp, shape = RoundedCornerShape(10.dp))
             .pointerInteropFilter {
                 // рассматриваются разные случаи action
                 when (it.action) {
@@ -94,7 +98,7 @@ fun PlayButton(
     ) {
         Icon(
             modifier = Modifier
-                .size(iconWidth),
+                .scale(1.5f),
             imageVector = Icons.Rounded.QueueMusic,
             contentDescription = "Refresh button",
             tint = Color.White
@@ -103,10 +107,8 @@ fun PlayButton(
             text = text,
             color = Color.White,
             textAlign = TextAlign.Center,
-            fontSize = textSize,
-            modifier = Modifier
-                .weight(1f)
-                .offset(x = -iconWidth / 2), //иконка сдвигает текст слишком вправо
+            fontSize = 25.sp,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
