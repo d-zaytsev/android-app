@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,11 +75,12 @@ fun CompareTaskManager(
         throw IllegalArgumentException("You choose too small range for such intervals")
 
 
-    val melodies = remember { mutableListOf<Melody>() }
-    val pianos = remember { mutableListOf<Array<PianoKeyboard>>() }
-
     // При перерисовке повторять вычисления не нужно
-    remember {
+
+    val res = remember {
+        val melodies = mutableListOf<Melody>()
+        val pianos = mutableListOf<Array<PianoKeyboard>>()
+
         repeat(taskCount) {
             // генерируем задание
             val variantsCount = chooseVariants.random()
@@ -106,7 +109,12 @@ fun CompareTaskManager(
             melodies.add(getMelody(pairList.toTypedArray(), fixDirection))
             pianos.add(getKeyboards(context, pairList.toTypedArray()))
         }
+
+        return@remember Pair(melodies, pianos)
     }
+
+    val melodies = res.first
+    val pianos = res.second
 
     Column {
 
