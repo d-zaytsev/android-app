@@ -2,7 +2,7 @@ package musiclib.test
 
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
-import com.musiclib.NoteRange
+import com.musiclib.notes.range.NoteRange
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -10,7 +10,7 @@ class NoteRangeTest {
 
     @Test
     fun `Note count check`() {
-        assertEquals(12, NoteRange(Note(NoteName.Do), Note(NoteName.Si)).notes.size)
+        assertEquals(7, NoteRange(Note(NoteName.Do), Note(NoteName.Si)).wholeNotesCount)
     }
 
     @Test
