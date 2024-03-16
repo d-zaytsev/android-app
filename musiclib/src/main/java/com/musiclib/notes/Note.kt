@@ -8,33 +8,48 @@ import com.musiclib.notes.note_metadata.NoteName
  * Представляет собой абстрактную ноту определённой высоты
  * */
 class Note(
-    override val name: NoteName,
-    override val octave: Int = 0,
-    override val sign: Alteration = Alteration.None,
+    override var name: NoteName,
+    override var octave: Int = 0,
+    override var sign: Alteration = Alteration.None
 ) : BasicNote, Comparable<Note> {
 
+    /**
+     * Некорректные ноты сдвигаются к полнам нотам
+     */
     init {
-        require(name != NoteName.Mi || sign != Alteration.SharpSign) { "Can't create note (Mi-SharpSign)" }
-        require(name != NoteName.Fa || sign != Alteration.FlatSign) { "Can't create note (Mi-FlatSign)" }
-        require(name != NoteName.Si || sign != Alteration.SharpSign) { "Can't create note (Si-SharpSign)" }
-        require(name != NoteName.Do || sign != Alteration.FlatSign) { "Can't create note (Do-FlatSign)" }
+        if (name == NoteName.Mi && sign == Alteration.SharpSign) {
+            name = NoteName.Fa
+            sign = Alteration.None
+        } else if (name == NoteName.Fa && sign == Alteration.FlatSign) {
+            name = NoteName.Mi
+            sign = Alteration.None
+        } else if (name == NoteName.Si && sign == Alteration.SharpSign) {
+            octave++
+            name = NoteName.Do
+            sign = Alteration.None
+        } else if (name == NoteName.Do && sign == Alteration.FlatSign) {
+            octave--
+            name = NoteName.Si
+            sign = Alteration.None
+        }
+
     }
 
-    /** @return Следующую целую ноту относительно этой */
-    fun nextWhole(): Note {
+    /** @return Следующую целую ноту относительно этой (это не сдвиг на тон) */
+    fun nextWhole(solveAmbiguousNotes: Boolean = true): Note {
         return if (name == NoteName.Si)
             Note(NoteName.Do, octave + 1, sign)
         else
-            Note(NoteName.entries[name.ordinal + 1], octave, sign)
+            Note(NoteName.entries[name.ordinal + 1], octave, Alteration.None)
     }
 
-    /** @return Предыдущую целую ноту относительно этой */
+    /** @return Предыдущую целую ноту относительно этой (это не сдвиг на тон) */
 
-    fun previousWhole(): Note {
+    fun previousWhole(solveAmbiguousNotes: Boolean = true): Note {
         return if (name == NoteName.Do)
             Note(NoteName.Si, octave - 1, sign)
         else
-            Note(NoteName.entries[name.ordinal - 1], octave, sign)
+            Note(NoteName.entries[name.ordinal - 1], octave, Alteration.None)
     }
 
     /** @return Нота, повышенная на полтона */
