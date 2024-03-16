@@ -1,6 +1,7 @@
 package com.app.music_app.study_manager.task_managers
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -78,6 +79,8 @@ fun CompareTaskManager(
         val hasInit =
             remember { Array(taskCount) { false } } // Нужно чтобы не провалиться в зацикливание
 
+        Log.d("AMOGUS", "Prepare screens")
+
         NavHost( // Содержит все экраны
             navController = navController,
             startDestination = "task0"
@@ -107,6 +110,8 @@ fun CompareTaskManager(
                     Spacer(modifier = Modifier.fillMaxHeight(0.5f))
 
                 }
+                Log.d("AMOGUS", "Result screen was created")
+
             }
 
             // Экраны с заданиями
@@ -114,35 +119,35 @@ fun CompareTaskManager(
                 val i = it
                 composable("task$i") {
                     // Если экран ещё не был проинициализирован
-                    if (!hasInit[i]) {
-                        // Получаем данные для отрисовки страницы 
-                        val pairs = pairsByIntervals(
-                            chooseVariants,
-                            fixFirstNote,
-                            noteList,
-                            possibleIntervals
-                        )
-                        val melodies = getMelodies(pairs, fixDirection)
-                        val pianos = getKeyboards(context, pairs)
+                    // Получаем данные для отрисовки страницы
+                    val pairs = pairsByIntervals(
+                        chooseVariants,
+                        fixFirstNote,
+                        noteList,
+                        possibleIntervals
+                    )
+                    val melodies = getMelodies(pairs, fixDirection)
+                    val pianos = getKeyboards(context, pairs)
 
-                        CompareTaskPage(
-                            context = context,
-                            melodyToPlay = melodies,
-                            playInstrument = VirtualPiano(),
-                            onEnd = { success ->
-                                if (success)
-                                    succeedPoints++
-                                points++
-                                hasInit[i] = true
-                                if (i < taskCount - 1)
-                                    navController.navigate("task${i + 1}")
-                                else
-                                    navController.navigate("results")
-                            },
-                            keyboards = pianos
-                        )
-                    }
+                    CompareTaskPage(
+                        context = context,
+                        melodyToPlay = melodies,
+                        playInstrument = VirtualPiano(),
+                        onEnd = { success ->
+                            if (success)
+                                succeedPoints++
+                            points++
+                            hasInit[i] = true
+                            if (i < taskCount - 1)
+                                navController.navigate("task${i + 1}")
+                            else
+                                navController.navigate("results")
+                        },
+                        keyboards = pianos
+                    )
+                    Log.d("AMOGUS", "Task$i was created")
                 }
+
             }
 
         }
@@ -233,13 +238,16 @@ private fun getKeyboards(
     notesFromIntervals: Array<Pair<Note, Note>>
 ): Array<PianoKeyboard> {
     fun Note.toWhole(): Note {
-        if (isWhole()) (return this) else (if (isExt()) (return previousSemitone()) else (return nextSemitone()))
+        if (isWhole()) (return this) else (if (isExt()) (return nextSemitone()) else (return previousSemitone()))
     }
 
     val keyboardsToDraw = mutableListOf<PianoKeyboard>().apply {
         for (notes in notesFromIntervals) {
+            // Меняем местами если порядок нарушен (чтобы NoteRange не сломался)
+            val first = if (notes.first > notes.second) notes.second.toWhole() else notes.first.toWhole()
+            val second = if (notes.first > notes.second) notes.first.toWhole() else notes.second.toWhole()
             // Создаём noteRange для фортепиано (по бокам только белые клавиши)
-            val range = NoteRange(notes.first.toWhole(), notes.second.toWhole())
+            val range = NoteRange(first, second)
             // Стандартные размеры для фортепианы
             // TODO возможно нужны будут исправления тут
             val size = DpSize((range.wholeNotesCount * 33).dp, 100.dp)
