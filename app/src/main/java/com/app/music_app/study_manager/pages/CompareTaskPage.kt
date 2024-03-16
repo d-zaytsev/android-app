@@ -17,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -59,13 +60,11 @@ fun CompareTaskPage(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // --- Наполнение страницы ---
-
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
         )
-
         Box(
             modifier = Modifier
                 .height(50.dp)
@@ -84,11 +83,10 @@ fun CompareTaskPage(
         )
 
 
-        var curInd by remember { mutableStateOf(0) } // Текущий верный индекс
+        var curInd by remember { mutableIntStateOf(0) } // Текущий верный индекс
 
         val shuffledKeyboards =
-            keyboards.clone().also { it.shuffle() } // Чтобы порядок мог быть неправильный
-
+            keyboards.clone().also { it.shuffle() } // Чтобы порядок был непредсказуем
 
         Box(modifier = Modifier.padding(30.dp)) {
             // Через время переходим на следующий экран
