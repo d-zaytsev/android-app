@@ -93,15 +93,11 @@ class PianoKeyboard(
             // --- Белые клавиши
             Row(modifier = Modifier.fillMaxSize()) {
                 for (whiteNote in whiteKeys) {
-                    // Для изменения цвета в mark
-                    colorMap[whiteNote] = colorMap[whiteNote] ?: Color.White
-
                     PianoKey(
                         note = whiteNote, size = whiteKeySize,
                         padding = 0.5.dp, // Расстояние между клавишами
                         shapeRadius = 15f,
-                        color = colorMap[whiteNote]
-                            ?: throw NullPointerException("Can't color key $whiteNote"),
+                        color = colorMap[whiteNote] ?: Color.White,
                         canPress = player != null
                     )
                 }
@@ -127,14 +123,12 @@ class PianoKeyboard(
 
                     // Рисуем чёрную
                     if (!key.isWhole() && key != noteRange.endInclusive) {
-                        colorMap[key] = colorMap[key] ?: Color.Black
                         PianoKey(
                             key,
                             darkKeySize,
                             0.dp,
                             5f,
-                            color = colorMap[key]
-                                ?: throw NullPointerException("Can't color key $key"),
+                            color = colorMap[key] ?: Color.Black,
                             player != null
                         )
                     }
