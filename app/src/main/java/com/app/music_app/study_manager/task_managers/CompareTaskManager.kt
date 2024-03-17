@@ -89,8 +89,6 @@ fun CompareTaskManager(
         // Список с названиями всех экранов с заданиями
         val screens = Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" }
 
-        Log.d("AMOGUS", "RECOMPOSING!")
-
         NavHost( // Содержит все экраны
             navController = navController,
             startDestination = screens[0]
@@ -120,45 +118,43 @@ fun CompareTaskManager(
                     Spacer(modifier = Modifier.fillMaxHeight(0.5f))
 
                 }
-                Log.d("AMOGUS", "Result screen was created")
-
             }
 
-            screens.forEachIndexed { i, screenName ->
+            for (i in 0 until taskCount) {
                 // Если экран ещё не был проинициализирован
-                composable(screenName) {
-                    Log.d("AMOGUS", "Composing $screenName...")
-
+                composable(screens[i]) {
                     // Получаем данные для отрисовки страницы
-                    val pairs = pairsByIntervals(
-                        chooseVariants,
-                        fixFirstNote,
-                        noteList,
-                        possibleIntervals
-                    )
-                    val melodies = getMelodies(pairs, fixDirection)
-                    val pianos = getKeyboards(context, pairs)
+                    val pairs = remember {
+                        pairsByIntervals(
+                            chooseVariants,
+                            fixFirstNote,
+                            noteList,
+                            possibleIntervals
+                        )
+                    }
+                    val melodies = remember { getMelodies(pairs, fixDirection) }
+                    val pianos = remember { getKeyboards(context, pairs) }
 
                     CompareTaskPage(
                         context = context,
                         melodyToPlay = melodies,
                         playInstrument = VirtualPiano(),
                         onEnd = { success ->
-                            Log.d("AMOGUS", "$screenName: User choose something")
-
                             if (success)
                                 succeedPoints++
                             points++
                             if (i < taskCount - 1) {
-                                navController.navigate(screens[i + 1])
-                                Log.d("AMOGUS", "$screenName -> ${screens[i + 1]}")
+                                navController.navigate(screens[i + 1]) {
+                                    popUpTo(screens[i + 1])
+                                }
 
                             } else
-                                navController.navigate(ScreenNames.RESULTS_SCREEN)
+                                navController.navigate(ScreenNames.RESULTS_SCREEN) {
+                                    popUpTo(ScreenNames.RESULTS_SCREEN)
+                                }
                         },
                         keyboards = pianos
                     )
-                    Log.d("AMOGUS", "Task$i was created")
                 }
             }
 
@@ -172,7 +168,6 @@ fun CompareTaskManager(
 private fun getPair(first: Note, interval: Interval, notes: List<Note>): Pair<Note, Note> {
     // Все подходящие ноты (по расстоянию друг от друга),
     // я считаю тупым перебором потому что откладывать расстояние честно слишком сложно
-    // TODO оптимизировать
     val suitable = notes.filter { abs(first.pitch - it.pitch) == interval.distance }
     if (suitable.isEmpty())
         throw Exception("Can't find suitable note! Interval and random note don't match")

@@ -49,8 +49,7 @@ fun CompareTaskPage(
     vararg keyboards: PianoKeyboard
 ) {
 
-    if (keyboards.size < 2)
-        throw IllegalArgumentException("Can't draw less than 2 intervals")
+    require(keyboards.size >= 2) { "Can't draw less than 2 intervals" }
 
     Column(
         modifier = Modifier
@@ -82,11 +81,10 @@ fun CompareTaskPage(
                 .fillMaxHeight(0.2f)
         )
 
-
         var curInd by remember { mutableIntStateOf(0) } // Текущий верный индекс
 
         val shuffledKeyboards =
-            keyboards.clone().also { it.shuffle() } // Чтобы порядок был непредсказуем
+            remember { keyboards.clone().also { it.shuffle() } } // Чтобы порядок был непредсказуем
 
         Box(modifier = Modifier.padding(30.dp)) {
             // Через время переходим на следующий экран
