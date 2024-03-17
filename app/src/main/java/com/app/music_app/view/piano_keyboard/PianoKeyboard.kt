@@ -85,7 +85,6 @@ class PianoKeyboard(
     fun Draw() {
         val keys = remember { noteRange.toList() }
         val whiteKeys = remember { keys.filter { it.isWhole() } }
-        val blackKeys = remember { keys.filter { !it.isWhole() } }
 
         Box(
             modifier = Modifier
@@ -113,39 +112,32 @@ class PianoKeyboard(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start
             ) {
-                var curWhiteNote = noteRange.start
-                repeat(wholeNotesCount) {
-                    // Расстояние от правого края прошлой чёрной ноты до левого края этой
-                    val spaceSize =
-                        if (noteRange.start == curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth
-                        else if (noteRange.start != curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth - darkKeySide
-                        else if (!hasDarkKey(curWhiteNote.previousWhole())) whiteKeyWidth - darkKeySide
-                        else if (noteRange.start == curWhiteNote) whiteKeyWidth - darkKeySide
-                        else whiteKeyWidth - darkKeySide * 2
+                for (key in keys) {
+                    // Вычисляем отступ от прошлой клавиши
+                    val space =
+                        if (!key.isWhole()) 0f
+                        else if (key.name == NoteName.Si || key.name == NoteName.Mi || key == noteRange.endInclusive)
+                            whiteKeyWidth
+                        else if (key.name == NoteName.Do || key.name == NoteName.Fa || key == noteRange.start)
+                            whiteKeyWidth - darkKeySide
+                        else
+                            whiteKeyWidth - darkKeySide * 2
 
-                    Spacer(modifier = Modifier.width(spaceSize.dp))
+                    Spacer(modifier = Modifier.width(space.dp))
 
-                    val curNote = Note(
-                        curWhiteNote.name,
-                        octave = curWhiteNote.octave,
-                        sign = Alteration.SharpSign
-                    )
-
-                    if (hasDarkKey(curNote) && curWhiteNote != noteRange.endInclusive) {
-                        // Условие чтобы не рисовать последнюю чёрную клавишу
-                        colorMap[curNote] = colorMap[curNote] ?: Color.Black
+                    // Рисуем чёрную
+                    if (!key.isWhole() && key != noteRange.endInclusive) {
+                        colorMap[key] = colorMap[key] ?: Color.Black
                         PianoKey(
-                            curNote,
+                            key,
                             darkKeySize,
                             0.dp,
                             5f,
-                            color = colorMap[curNote]
-                                ?: throw NullPointerException("Can't color key $curNote"),
+                            color = colorMap[key]
+                                ?: throw NullPointerException("Can't color key $key"),
                             player != null
                         )
                     }
-
-                    curWhiteNote = curWhiteNote.nextWhole()
                 }
             }
             // --- Подписи
@@ -153,14 +145,12 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.Top
             ) {
-                var curNote = noteRange.start
-                repeat(wholeNotesCount) {
+                for (whiteKey in whiteKeys){
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
                     ) {
-                        PianoKeyName(curNote)
-                        curNote = curNote.nextWhole()
+                        PianoKeyName(whiteKey)
                     }
                 }
             }
