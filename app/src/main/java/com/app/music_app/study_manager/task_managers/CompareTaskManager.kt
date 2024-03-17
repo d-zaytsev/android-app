@@ -14,9 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,6 +39,14 @@ import com.musiclib.notes.Pause
 import com.musiclib.notes.note_metadata.NoteDuration
 import com.musiclib.notes.interfaces.MusicPause
 import kotlin.math.abs
+
+/**
+ * Имена скринов, используемых в задании
+ */
+object ScreenNames {
+    const val TASK_SCREEN = "task_screen"
+    const val RESULTS_SCREEN = "results"
+}
 
 /**
  * Выполняет настройку задания и проводит его
@@ -77,17 +84,20 @@ fun CompareTaskManager(
             rememberNavController()         // С помощью него переключаемся между экранами
 
         val hasInit =
-            remember { Array(taskCount) { false } } // Нужно чтобы не провалиться в зацикливание
+            remember { Array(taskCount + 1) { false } } // Нужно чтобы не провалиться в зацикливание
 
-        Log.d("AMOGUS", "Prepare screens")
+        // Список с названиями всех экранов с заданиями
+        val screens = Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" }
+
+        Log.d("AMOGUS", "RECOMPOSING!")
 
         NavHost( // Содержит все экраны
             navController = navController,
-            startDestination = "task0"
+            startDestination = screens[0]
         ) {
 
             // Экран с результатами
-            composable("results") {
+            composable(ScreenNames.RESULTS_SCREEN) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
@@ -114,43 +124,46 @@ fun CompareTaskManager(
 
             }
 
-            // Экраны с заданиями
-            for (i in 0..taskCount) {
+            screens.forEachIndexed { i, screenName ->
                 // Если экран ещё не был проинициализирован
-                composable("task$i") {
-                    if (!hasInit[i]) {
-                        // Получаем данные для отрисовки страницы
-                        val pairs = pairsByIntervals(
-                            chooseVariants,
-                            fixFirstNote,
-                            noteList,
-                            possibleIntervals
-                        )
-                        val melodies = getMelodies(pairs, fixDirection)
-                        val pianos = getKeyboards(context, pairs)
+                composable(screenName) {
+                    Log.d("AMOGUS", "Composing $screenName...")
 
-                        CompareTaskPage(
-                            context = context,
-                            melodyToPlay = melodies,
-                            playInstrument = VirtualPiano(),
-                            onEnd = { success ->
-                                if (success)
-                                    succeedPoints++
-                                points++
-                                hasInit[i] = true
-                                if (i < taskCount - 1)
-                                    navController.navigate("task${i + 1}")
-                                else
-                                    navController.navigate("results")
-                            },
-                            keyboards = pianos
-                        )
-                        Log.d("AMOGUS", "Task$i was created")
-                    }
+                    // Получаем данные для отрисовки страницы
+                    val pairs = pairsByIntervals(
+                        chooseVariants,
+                        fixFirstNote,
+                        noteList,
+                        possibleIntervals
+                    )
+                    val melodies = getMelodies(pairs, fixDirection)
+                    val pianos = getKeyboards(context, pairs)
+
+                    CompareTaskPage(
+                        context = context,
+                        melodyToPlay = melodies,
+                        playInstrument = VirtualPiano(),
+                        onEnd = { success ->
+                            Log.d("AMOGUS", "$screenName: User choose something")
+
+                            if (success)
+                                succeedPoints++
+                            points++
+                            if (i < taskCount - 1) {
+                                navController.navigate(screens[i + 1])
+                                Log.d("AMOGUS", "$screenName -> ${screens[i + 1]}")
+
+                            } else
+                                navController.navigate(ScreenNames.RESULTS_SCREEN)
+                        },
+                        keyboards = pianos
+                    )
+                    Log.d("AMOGUS", "Task$i was created")
                 }
             }
 
         }
+
     }
 }
 
@@ -241,6 +254,7 @@ private fun getKeyboards(
     fun Note.toWholeRight(): Note {
         if (isWhole()) (return this) else (if (isExt()) (return nextSemitone()) else (return previousSemitone()))
     }
+
     // Округляет влево
     fun Note.toWholeLeft(): Note {
         if (isWhole()) (return this) else (if (isExt()) (return previousSemitone()) else (return nextSemitone()))
@@ -254,7 +268,6 @@ private fun getKeyboards(
             val second =
                 if (notes.first > notes.second) notes.first.toWholeRight() else notes.second.toWholeRight()
             // Создаём noteRange для фортепиано (по бокам только белые клавиши)
-            Log.d("AMOGUS", "$first $second | ${notes.first} ${notes.second}")
             val range = NoteRange(first, second)
             // Стандартные размеры для фортепианы
             // TODO возможно нужны будут исправления тут
