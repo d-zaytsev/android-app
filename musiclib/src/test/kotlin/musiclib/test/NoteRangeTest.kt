@@ -78,6 +78,7 @@ class NoteRangeTest {
             val act =
                 NoteRange(Note(NoteName.Do), Note(NoteName.Mi, sign = Alteration.FlatSign)).toList()
             val exp = listOf(
+                Note(NoteName.Do),
                 Note(NoteName.Do, sign = Alteration.SharpSign),
                 Note(NoteName.Re),
                 Note(NoteName.Re, sign = Alteration.SharpSign),
@@ -92,8 +93,8 @@ class NoteRangeTest {
             val exp = listOf(
                 Note(NoteName.Si, sign = Alteration.FlatSign),
                 Note(NoteName.Si),
-                Note(NoteName.Do),
-                Note(NoteName.Do, sign = Alteration.SharpSign),
+                Note(NoteName.Do, octave = 1),
+                Note(NoteName.Do, octave = 1 , sign = Alteration.SharpSign),
             )
 
             assertEquals(exp, act)
