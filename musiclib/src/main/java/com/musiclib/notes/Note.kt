@@ -36,7 +36,7 @@ class Note(
     }
 
     /** @return Следующую целую ноту относительно этой (это не сдвиг на тон) */
-    fun nextWhole(solveAmbiguousNotes: Boolean = true): Note {
+    fun nextWhole(): Note {
         return if (name == NoteName.Si)
             Note(NoteName.Do, octave + 1, sign)
         else
@@ -45,7 +45,7 @@ class Note(
 
     /** @return Предыдущую целую ноту относительно этой (это не сдвиг на тон) */
 
-    fun previousWhole(solveAmbiguousNotes: Boolean = true): Note {
+    fun previousWhole(): Note {
         return if (name == NoteName.Do)
             Note(NoteName.Si, octave - 1, sign)
         else
@@ -82,7 +82,7 @@ class Note(
     }
 
     fun isWhole(): Boolean = sign == Alteration.None
-    fun isExt(): Boolean = sign == Alteration.FlatSign
+    fun isExt(): Boolean = sign == Alteration.SharpSign
     fun isLow(): Boolean = sign == Alteration.FlatSign
 
     val pitch = octave * 6 + sign.value + name.value
