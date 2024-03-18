@@ -20,6 +20,12 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: Change permissions
+        run: chmod +x ./gradlew
+
+      - name: Run jacoco
+        run: ./gradlew jacocoTestReport
+
       # generates coverage-report.md and publishes as checkrun
       - name: Coverage Report
         id: jacoco_reporter
