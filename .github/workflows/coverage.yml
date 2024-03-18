@@ -2,8 +2,6 @@ name: Coverage report
 
 on:
   pull_request:
-    branches:
-      - 'master'
 
 jobs:
   build:
