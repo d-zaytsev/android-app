@@ -25,7 +25,7 @@ jobs:
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v5.0
         with:
-          coverage_results_path: ${{ github.workspace }}/android-app/musiclib/build/coverage/index.html
+          coverage_results_path: ${{ github.workspace }}/musiclib/build/coverage/index.html
           coverage_report_name: Coverage
           coverage_report_title: Jacoco tests coverage
           github_token: ${{ secrets.GITHUB_TOKEN }}
