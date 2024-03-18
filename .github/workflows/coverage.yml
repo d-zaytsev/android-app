@@ -2,14 +2,13 @@ name: Coverage report
 
 on:
   pull_request:
-    branches:
-      - 'master'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     permissions:
+      checks: write
       pull-requests: write
 
     steps:
@@ -22,18 +21,18 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
-      - name: Run Jacoco
-        run: |
-          chmod +x gradlew
-          ./gradlew jacocoTestReport
+      - name: Change permissions
+        run: chmod +x ./gradlew
+
+      - name: Run jacoco
+        run: ./gradlew jacocoTestReport
 
       - name: Add coverage to PR
         id: jacoco
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
-            ${{ github.workspace }}/**/musiclib/build/coverage/index.html ,
-            ${{ github.workspace }}/**/musiclib/build/reports/tests.index.html
+            ${{ github.workspace }}/musiclib/build/coverage/result.xml,
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 40
-          min-coverage-changed-files: 50
+          min-coverage-changed-files: 60
