@@ -73,7 +73,6 @@ fun CompareTaskPage(
         }
 
         var success by remember { mutableStateOf(true) } // Текущий верный индекс
-        var isNextVisible by remember { mutableStateOf(false) }
 
         Spacer(
             modifier = Modifier
