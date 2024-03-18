@@ -15,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,10 +30,9 @@ import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
-import com.musiclib.NoteRange
-import com.musiclib.notes.data.Alteration
-import kotlin.math.sign
+import com.musiclib.notes.note_metadata.NoteName
+import com.musiclib.notes.range.NoteRange
+import com.musiclib.notes.note_metadata.Alteration
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
@@ -47,15 +45,12 @@ class PianoKeyboard(
     private val noteRange: NoteRange,
     private val player: MelodyPlayer? = null
 ) {
-
     // Кол-во целых нот в диапазоне
     private val wholeNotesCount = noteRange.wholeNotesCount
 
-    // Piano key size
+    // Размеры клавиш
     private val whiteKeySize = DpSize((size.width) / wholeNotesCount, size.height)
     private val darkKeySize = DpSize((whiteKeySize.width / 3), whiteKeySize.height / 2)
-
-    // Additional key size info
     private val darkKeySide = darkKeySize.width.value / 2
     private val whiteKeyWidth = whiteKeySize.width.value
 
@@ -67,7 +62,8 @@ class PianoKeyboard(
     private val pressedBlackButtonColor: Color = AppColor.HonoluluBlue
 
     // Maps
-    private lateinit var colorMap: MutableMap<Note, Color>
+    private var colorMap: MutableMap<Note, Color>
+
     private val nameMap: Map<NoteName, String> = mapOf(
         NoteName.Do to context.getString(R.string.note_name_do),
         NoteName.Re to context.getString(R.string.note_name_re),
@@ -78,20 +74,17 @@ class PianoKeyboard(
         NoteName.Si to context.getString(R.string.note_name_si)
     )
 
-    // мы не можем mark пока элемент не отрисован, поэтому добавляем всё сюда и ждём вызова Draw()
-    private val toMarkMap: MutableMap<Note, Color> = mutableMapOf()
-
     init {
-        if (!noteRange.fromNote.isWhole() || !noteRange.endNote.isWhole())
-            throw IllegalArgumentException("Can't draw piano keyboard with non whole notes")
+        require(noteRange.start.isWhole()) { "Can't draw piano keyboard with dark keys ob left border" }
+        require(noteRange.endInclusive.isWhole()) { "Can't draw piano keyboard with dark keys ob right border" }
+
+        colorMap = mutableStateMapOf()
     }
 
     @Composable
     fun Draw() {
-
-        colorMap = remember {
-            mutableStateMapOf()
-        }
+        val keys = remember { noteRange.toList() }
+        val whiteKeys = remember { keys.filter { it.isWhole() } }
 
         Box(
             modifier = Modifier
@@ -99,22 +92,14 @@ class PianoKeyboard(
         ) {
             // --- Белые клавиши
             Row(modifier = Modifier.fillMaxSize()) {
-
-                var curNote = noteRange.fromNote
-                repeat(wholeNotesCount) {
-                    // Для изменения цвета в mark
-                    if (colorMap[curNote] == null)
-                        colorMap[curNote] = toMarkMap[curNote] ?: Color.White
-
+                for (whiteNote in whiteKeys) {
                     PianoKey(
-                        note = curNote, size = whiteKeySize,
-                        padding = 0.5.dp,
+                        note = whiteNote, size = whiteKeySize,
+                        padding = 0.5.dp, // Расстояние между клавишами
                         shapeRadius = 15f,
-                        color = colorMap[curNote]
-                            ?: throw NullPointerException("Can't color key $curNote"),
+                        color = colorMap[whiteNote] ?: Color.White,
                         canPress = player != null
                     )
-                    curNote = curNote.next()
                 }
             }
             // --- Чёрные клавиши
@@ -123,40 +108,30 @@ class PianoKeyboard(
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Start
             ) {
-                var curWhiteNote = noteRange.fromNote;
-                repeat(wholeNotesCount) {
-                    // Расстояние от правого края прошлой чёрной ноты до левого края этой
-                    val spaceSize =
-                        if (noteRange.fromNote == curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth
-                        else if (noteRange.fromNote != curWhiteNote && !hasDarkKey(curWhiteNote)) whiteKeyWidth - darkKeySide
-                        else if (!hasDarkKey(curWhiteNote.previous())) whiteKeyWidth - darkKeySide
-                        else if (noteRange.fromNote == curWhiteNote) whiteKeyWidth - darkKeySide
-                        else whiteKeyWidth - darkKeySide * 2
+                for (key in keys) {
+                    // Вычисляем отступ от прошлой клавиши
+                    val space =
+                        if (!key.isWhole()) 0f
+                        else if (key.name == NoteName.Si || key.name == NoteName.Mi || key == noteRange.endInclusive)
+                            whiteKeyWidth
+                        else if (key.name == NoteName.Do || key.name == NoteName.Fa || key == noteRange.start)
+                            whiteKeyWidth - darkKeySide
+                        else
+                            whiteKeyWidth - darkKeySide * 2
 
-                    Spacer(modifier = Modifier.width(spaceSize.dp))
+                    Spacer(modifier = Modifier.width(space.dp))
 
-                    val curNote = Note(
-                        curWhiteNote.name,
-                        octave = curWhiteNote.octave,
-                        sign = Alteration.SharpSign
-                    )
-
-                    if (hasDarkKey(curNote) && curWhiteNote != noteRange.endNote) {
-                        // Условие чтобы не рисовать последнюю чёрную клавишу
-                        if (colorMap[curNote] == null)
-                            colorMap[curNote] = toMarkMap[curNote] ?: Color.Black
+                    // Рисуем чёрную
+                    if (!key.isWhole() && key != noteRange.endInclusive) {
                         PianoKey(
-                            curNote,
+                            key,
                             darkKeySize,
                             0.dp,
                             5f,
-                            color = colorMap[curNote]
-                                ?: throw NullPointerException("Can't color key $curNote"),
+                            color = colorMap[key] ?: Color.Black,
                             player != null
                         )
                     }
-
-                    curWhiteNote = curWhiteNote.next()
                 }
             }
             // --- Подписи
@@ -164,14 +139,12 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.Top
             ) {
-                var curNote = noteRange.fromNote
-                repeat(wholeNotesCount) {
+                for (whiteKey in whiteKeys){
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
                     ) {
-                        PianoKeyName(curNote)
-                        curNote = curNote.next()
+                        PianoKeyName(whiteKey)
                     }
                 }
             }
@@ -183,16 +156,12 @@ class PianoKeyboard(
      * @throws IllegalArgumentException
      */
     fun mark(note: Note, markColor: Color? = null) {
-        if (!noteRange.inRange(note))
-            throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
+        require(noteRange.inRange(note)) { "Can't mark such note, it doesn't exist in piano" }
 
         val color =
             markColor ?: if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor
 
-        toMarkMap[note] = color
-
-        if (::colorMap.isInitialized)
-            colorMap[note] = color // Если не будет работать добавь LaunchedEffect 🤑
+        colorMap[note] = color // Если не будет работать добавь LaunchedEffect 🤑
     }
 
     /**
@@ -200,13 +169,9 @@ class PianoKeyboard(
      * @throws IllegalArgumentException
      */
     fun unmark(note: Note) {
-        if (!noteRange.inRange(note))
-            throw IllegalArgumentException("Can't mark such note, it doesn't exist in piano")
+        require(noteRange.inRange(note)) { "Can't mark such note, it doesn't exist in piano" }
 
-        toMarkMap.remove(note)
-        if (::colorMap.isInitialized)
-            colorMap[note] = if (note.isWhole()) Color.White else Color.Black
-
+        colorMap[note] = if (note.isWhole()) Color.White else Color.Black
     }
 
     /**
@@ -222,6 +187,7 @@ class PianoKeyboard(
         canPress: Boolean = true
     ) {
 
+        // Применяем тему эффекта нажатия (зависит от изначального типа клавиши)
         CompositionLocalProvider(LocalRippleTheme provides PianoRippleTheme(if (note.isWhole()) pressedWhiteButtonColor else pressedBlackButtonColor)) {
             Button(
                 enabled = canPress,

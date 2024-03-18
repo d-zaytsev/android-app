@@ -1,7 +1,8 @@
 package com.musiclib.intervals
 
 /** Задаёт дополнительное свойство для интервалов. Не определяет увеличенные и уменьшенные
- * @param tone Позволяет посчитать изменение тона*/
+ * @param tone Позволяет посчитать изменение тона
+ */
 enum class IntervalType(val tone: Float) {
     Large(0.5f),      // Большой
     Small(0f),      // Малый

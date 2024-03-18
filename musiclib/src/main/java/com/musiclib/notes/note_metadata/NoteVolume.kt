@@ -1,4 +1,4 @@
-package com.musiclib.notes.data
+package com.musiclib.notes.note_metadata
 
 /**
  * Перечисление возможных оттенков громкости звучания ноты

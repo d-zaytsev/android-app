@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,9 +49,7 @@ fun PianoCheckbox(
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
     vararg keyboards: PianoKeyboard,
 ) {
-
-    if (keyboards.isEmpty())
-        throw IllegalArgumentException("Can't draw zero keyboards")
+    require(keyboards.isNotEmpty()) {"Can't draw zero keyboards"}
 
     Column(
         modifier = Modifier
@@ -77,8 +76,7 @@ fun PianoCheckbox(
                 horizontalSpacer = keyboards[0].size.height / 5,
                 verticalSpacer = keyboards[0].size.width / 5
             ) {
-
-                var clicksCount by remember { mutableStateOf(0) }
+                var clicksCount by remember { mutableIntStateOf(0) }
                 // Чтобы элемент переставал работать после всех выборов
                 var canClick by remember { mutableStateOf(true) }
 

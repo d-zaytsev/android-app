@@ -1,10 +1,10 @@
 package com.app.music_app.note_player.instruments
 
 import com.app.music_app.note_player.interfaces.AbstractInstrument
-import com.musiclib.notes.data.Alteration
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.Note
-import com.musiclib.notes.data.NoteName
-import com.musiclib.NoteRange
+import com.musiclib.notes.note_metadata.NoteName
+import com.musiclib.notes.range.NoteRange
 
 
 // Piano notes: https://github.com/fuhton/piano-mp3
@@ -14,10 +14,7 @@ class VirtualPiano() : AbstractInstrument() {
     override val instrumentRange =
         NoteRange(Note(NoteName.La, octave = -4), Note(NoteName.Do, octave = 4))
 
-    override fun soundPath(note: Note): String {
-        if (!instrumentRange.inRange(note))
-            throw IllegalArgumentException("Note is outside the permissible musical range of the ${this.javaClass}")
-
+    private companion object {
         val map = mapOf(
             NoteName.Do to "c",
             NoteName.Re to "d",
@@ -27,12 +24,16 @@ class VirtualPiano() : AbstractInstrument() {
             NoteName.La to "a",
             NoteName.Si to "b"
         )
+    }
+
+    override fun soundPath(note: Note): String {
+        require(instrumentRange.inRange(note)) { "Note is outside the permissible musical range of the ${this.javaClass}" }
 
         val oct = note.octave + 4 // Главная октава - 4я по счёту в файлах
 
-        // бемоль = диез, в файлах только бемоли
+        // бемоль -> диез, в файлах только бемоли
         return when (note.sign) {
-            Alteration.SharpSign -> map[note.next().name] + "b" + oct.toString()
+            Alteration.SharpSign -> map[note.nextWhole().name] + "b" + oct.toString()
             Alteration.FlatSign -> map[note.name] + "b" + oct.toString()
             else -> map[note.name] + oct.toString()
         }
