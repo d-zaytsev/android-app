@@ -1,7 +1,6 @@
-package com.app.music_app.study_manager.task_managers
+package com.app.music_app.tasks.logic
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.note_player.instruments.VirtualPiano
-import com.app.music_app.study_manager.pages.CompareTaskPage
+import com.app.music_app.tasks.pages.CompareTaskPage
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.task_progress_indicator.TaskProgressBar
