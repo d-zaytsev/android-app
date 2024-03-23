@@ -3,13 +3,10 @@ package com.app.music_app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalContext
-import com.app.music_app.tasks.logic.CompareTaskManager
-import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.NoteName
-import com.musiclib.notes.range.NoteRange
-import com.musiclib.intervals.Interval
-import com.musiclib.notes.note_metadata.Alteration
+import be.tarsos.dsp.AudioProcessor
+import be.tarsos.dsp.io.android.AudioDispatcherFactory
+import be.tarsos.dsp.pitch.PitchDetectionHandler
+import be.tarsos.dsp.pitch.PitchProcessor
 
 
 class MainActivity : ComponentActivity() {
@@ -18,16 +15,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Root element
         setContent {
-            CompareTaskManager(
-                context = LocalContext.current,
-                range = NoteRange(Note(NoteName.Do), Note(NoteName.Mi)),
-                chooseVariants = 2..2,
-                taskCount = 5,
-                fixFirstNote = true,
-                fixDirection = true,
-                Interval(Note(NoteName.Do), Note(NoteName.Re)),
-                Interval(Note(NoteName.Do), Note(NoteName.Do, sign = Alteration.SharpSign))
-            )
+            val dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
+
+            val pdh = PitchDetectionHandler { result, _ ->
+                val pitchInHz = result.pitch
+            }
+            val p: AudioProcessor =
+                PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050f, 1024, pdh)
+            dispatcher.addAudioProcessor(p)
+            Thread(dispatcher, "Audio Dispatcher").start()
         }
     }
+
+//    CompareTaskManager(
+//    context = LocalContext.current,
+//    range = NoteRange(Note(NoteName.Do), Note(NoteName.Mi)),
+//    chooseVariants = 2..2,
+//    taskCount = 5,
+//    fixFirstNote = true,
+//    fixDirection = true,
+//    Interval(Note(NoteName.Do), Note(NoteName.Re)),
+//    Interval(Note(NoteName.Do), Note(NoteName.Do, sign = Alteration.SharpSign))
+//    )
 }
