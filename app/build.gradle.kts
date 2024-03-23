@@ -65,6 +65,10 @@ dependencies {
 
     // ---
 
+    // TarsosDSP (audio processing) https://github.com/JorenSix/TarsosDSP
+    implementation ("be.tarsos.dsp:core:2.5")
+    implementation ("be.tarsos.dsp:jvm:2.5")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
