@@ -30,7 +30,6 @@ class NoteRangeTest {
 
         @Test
         fun `Check`() {
-            val range = NoteRange(0)
             assertEquals(
                 2,
                 NoteRange(

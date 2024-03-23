@@ -81,9 +81,6 @@ fun CompareTaskManager(
         val navController =
             rememberNavController()         // С помощью него переключаемся между экранами
 
-        val hasInit =
-            remember { Array(taskCount + 1) { false } } // Нужно чтобы не провалиться в зацикливание
-
         // Список с названиями всех экранов с заданиями
         val screens = Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" }
 
