@@ -27,6 +27,7 @@ import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
+import com.app.music_app.pitch_analyzer.NoteDetector
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -70,43 +71,9 @@ class MainActivity : ComponentActivity() {
 
                 Text(text, modifier = Modifier.fillMaxSize(), color = Color.White, fontSize = 50.sp)
 
-                // Creates AudioDispatcher from configured default microphone,
-                // AudioDispatcher - breaks sounds into float arrays. Needs for pitch detectors, audio players, ...
-                val dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050, 1024, 0)
-
-                // PitchDetectionHandler - An interface to handle detected pitch
-                // https://kotlinlang.org/docs/fun-interfaces.html
-                val pdh = PitchDetectionHandler { result, _ ->
-                    // PitchDetectionResult - A class with information about the result of a pitch detection on a block of audio,
-                    // Contains:
-                    // 1) pitch in Hz
-                    // 2) Probability of this pitch
-                    // 3) A boolean that indicates if the algorithm thinks the signal is pitched or not
-                    text = result.pitch.toString()
-                }
-
-                // AudioProcessor: Digital signal processing, a process method that works on an AudioEvent object
-                // PitchProcessor: Is responsible to call a pitch estimation algorithm
-                val p: AudioProcessor =
-                    PitchProcessor(
-                        PitchProcessor.PitchEstimationAlgorithm.FFT_YIN,
-                        22050f,
-                        1024,
-                        pdh
-                    )
-                // AudioDispatcher (use micro to get sound and work with AudioProcessor)
-                // ^ AudioProcessor (More common than PitchProcessor)
-                // ^ PitchProcessor (Call pitch estimation alg + use pdh to react)
-                // ^ PitchDetectionHandler (Define how to react on pitch)
-                dispatcher.addAudioProcessor(p)
-//                val thread = thread() { dispatcher.run() }
-
-                runBlocking {
-                    // Job - аналогия thread
-                    // Dispatcher позволяет выбрать поток где запускать корутину
-                    launch(Dispatchers.IO) {
-                        dispatcher.run()
-                    }.start()
+                NoteDetector().start { note ->
+                    if (note != null)
+                        text = note.toString()
                 }
             }
         }
