@@ -25,17 +25,23 @@ class NoteDetector(
     private val pitchEstimationAlgorithm: PitchEstimationAlgorithm = PitchEstimationAlgorithm.FFT_YIN
 ) {
 
+    // ВАЖНО!!! Тут выставлены специальные ограничения на распознаваемые частоты,
+    // сделано это с целью повысить распознаваемость уже имеющихся нот!
+
+    // Можно убрать эти границы, но => баги, т.к. звук распадается на другие частоты.
+    // Это можно поправить, но ценой времени и производительности.
+
     // Поток, в котором мы слушаем микрофон и распознаём высоты
     private lateinit var recognizingThread: Thread
 
     private companion object {
         const val PROBABILITY_LIMIT: Float = 0.9f
 
-        const val MAIN_HZ: Double = 130.81  // Нота от которой мы считаем
-        const val MAIN_OCTAVE_SHIFT = -1    // Насколько далеко смещена наша главная нота от До главной октавы
+        const val MAIN_HZ: Double = 130.81   // Нота, от которой мы считаем
+        const val MAIN_OCTAVE_SHIFT = -1    // На сколько октав смещена наша нота До
 
-        const val MIN_HZ: Double = 123.47   // Минимальная распознаваемая нота
-        const val MAX_HZ: Double = 1046.5   // Максимальная распознаваемая нота
+        const val MIN_HZ: Double = 130.81   // Минимальная распознаваемая нота
+        const val MAX_HZ: Double = 987.77   // Максимальная распознаваемая нота
         const val OCTAVE_NOTES: Double = 12.0
     }
 
@@ -75,7 +81,8 @@ class NoteDetector(
                     // На какое кол-во октав смещение
                     val relativeOctave = (relativeSemitones / OCTAVE_NOTES).toInt()
                     // Смещение внутри октавы
-                    val shiftInOctave = ((relativeSemitones - (relativeOctave * OCTAVE_NOTES)) / 2).round(1)
+                    val shiftInOctave =
+                        ((relativeSemitones - (relativeOctave * OCTAVE_NOTES)) / 2).round(1)
 
                     Log.d("AMOGUS", "$pitch $relativeSemitones $relativeOctave $shiftInOctave")
 
