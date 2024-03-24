@@ -27,6 +27,12 @@ import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlin.concurrent.thread
 
 
 class MainActivity : ComponentActivity() {
@@ -50,6 +56,7 @@ class MainActivity : ComponentActivity() {
         return true
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Root element
@@ -92,7 +99,15 @@ class MainActivity : ComponentActivity() {
                 // ^ PitchProcessor (Call pitch estimation alg + use pdh to react)
                 // ^ PitchDetectionHandler (Define how to react on pitch)
                 dispatcher.addAudioProcessor(p)
-                Thread(dispatcher, "Audio Dispatcher").start()
+//                val thread = thread() { dispatcher.run() }
+
+                runBlocking {
+                    // Job - аналогия thread
+                    // Dispatcher позволяет выбрать поток где запускать корутину
+                    launch(Dispatchers.IO) {
+                        dispatcher.run()
+                    }.start()
+                }
             }
         }
     }
