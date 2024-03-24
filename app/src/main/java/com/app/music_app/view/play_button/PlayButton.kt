@@ -3,13 +3,7 @@ package com.app.music_app.view.play_button
 import android.content.Context
 import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.QueueMusic
@@ -30,11 +24,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.note_player.MelodyPlayer
-import com.app.music_app.note_player.interfaces.AbstractInstrument
+import com.app.music_app.music_player.MelodyPlayer
+import com.app.music_app.music_player.interfaces.AbstractInstrument
 import com.app.music_app.view.colors.AppColor
 import com.example.android_app.R
 import kotlinx.coroutines.CoroutineScope

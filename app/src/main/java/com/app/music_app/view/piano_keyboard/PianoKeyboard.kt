@@ -25,14 +25,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.note_player.MelodyPlayer
+import com.app.music_app.music_player.MelodyPlayer
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
-import com.musiclib.notes.note_metadata.Alteration
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой

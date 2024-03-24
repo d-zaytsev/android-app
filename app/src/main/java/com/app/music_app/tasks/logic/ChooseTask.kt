@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.note_player.instruments.VirtualPiano
+import com.app.music_app.music_player.instruments.VirtualPiano
 import com.app.music_app.tasks.pages.CompareTaskPage
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard

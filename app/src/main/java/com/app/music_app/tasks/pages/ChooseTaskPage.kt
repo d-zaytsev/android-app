@@ -22,7 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.app.music_app.note_player.interfaces.AbstractInstrument
+import com.app.music_app.music_player.interfaces.AbstractInstrument
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.paino_box.PianoCheckbox
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
