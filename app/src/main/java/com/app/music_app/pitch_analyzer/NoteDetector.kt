@@ -7,16 +7,8 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm
 import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.concurrent.thread
-import kotlin.math.abs
-import kotlin.math.ln
 import kotlin.math.log
 import kotlin.math.round
 
@@ -35,11 +27,15 @@ class NoteDetector(
 
     // Поток, в котором мы слушаем микрофон и распознаём высоты
     private lateinit var recognizingThread: Thread
+
     private companion object {
         const val PROBABILITY_LIMIT: Float = 0.9f
-        const val C4HZ: Double = 261.63 // Нота До главной октавы в Гц
-        const val MIN_HZ: Double = 123.47 // Минимальная распознаваемая нота
-        const val MAX_HZ: Double = 1046.5 // Максимальная распознаваемая нота
+
+        const val MAIN_HZ: Double = 130.81  // Нота от которой мы считаем
+        const val MAIN_OCTAVE_SHIFT = -1    // Насколько далеко смещена наша главная нота от До главной октавы
+
+        const val MIN_HZ: Double = 123.47   // Минимальная распознаваемая нота
+        const val MAX_HZ: Double = 1046.5   // Максимальная распознаваемая нота
         const val OCTAVE_NOTES: Double = 12.0
     }
 
@@ -74,30 +70,25 @@ class NoteDetector(
                 if (pitch in MIN_HZ..MAX_HZ && result.probability >= PROBABILITY_LIMIT && result.isPitched) {
                     // https://producelikeapro.com/blog/note-frequency-chart/
 
-                    // Кол-во полутонов, на которое сдвинута нота от До главной октавы
-                    val semitones = round(log(pitch / C4HZ, 2.0) * OCTAVE_NOTES).toInt()
-                    // Смещение вправо или влево
-                    val right = semitones >= 0
+                    // Кол-во полутонов, на которое сдвинута нота от MAIN_HZ
+                    val relativeSemitones = round(log(pitch / MAIN_HZ, 2.0) * OCTAVE_NOTES)
                     // На какое кол-во октав смещение
-                    val octaves =
-                        (if (right) (semitones / OCTAVE_NOTES).toInt() else (semitones / OCTAVE_NOTES).toInt()).toInt()
+                    val relativeOctave = (relativeSemitones / OCTAVE_NOTES).toInt()
                     // Смещение внутри октавы
-                    val octaveShift =
-                        (if (right) (semitones - (octaves * OCTAVE_NOTES)) / 2 else
-                            (OCTAVE_NOTES - (abs(semitones) - ((abs(octaves)) * OCTAVE_NOTES))) / 2)
-                            .round(2)
+                    val shiftInOctave = ((relativeSemitones - (relativeOctave * OCTAVE_NOTES)) / 2).round(1)
 
-                    Log.d("AMOGUS", "$pitch $semitones $octaves $octaveShift")
+                    Log.d("AMOGUS", "$pitch $relativeSemitones $relativeOctave $shiftInOctave")
 
                     // Находим в октаве первую подходящую ноту
                     val noteName =
-                        NoteName.entries.firstOrNull { it.value.toDouble() >= octaveShift }
+                        NoteName.entries.firstOrNull { it.value.toDouble() >= shiftInOctave }
                             ?: NoteName.Do
 
-                    val note = if (noteName.value > octaveShift) Note(
-                        noteName,
-                        octaves
-                    ).previousSemitone() else Note(noteName, octaves)
+                    val note = if (noteName.value > shiftInOctave)
+                        Note(
+                            noteName,
+                            relativeOctave + MAIN_OCTAVE_SHIFT
+                        ).previousSemitone() else Note(noteName, relativeOctave + MAIN_OCTAVE_SHIFT)
 
                     onDetection(note)
                 } else {
@@ -129,6 +120,7 @@ class NoteDetector(
         repeat(decimals) { multiplier *= 10 }
         return round(this * multiplier) / multiplier
     }
+
     private fun Float.round(decimals: Int): Double {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }
