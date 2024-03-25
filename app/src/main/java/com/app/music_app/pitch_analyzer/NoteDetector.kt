@@ -1,12 +1,12 @@
 package com.app.music_app.pitch_analyzer
 
-import android.util.Log
 import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm
 import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 import kotlin.math.log
 import kotlin.math.round
@@ -41,15 +41,15 @@ class NoteDetector(
     )
 
     private companion object {
-        const val PROBABILITY_LIMIT: Float = 0.9f
+        const val PROBABILITY_LIMIT: Float = 0.95f
 
-        const val START_NOTE_HZ: Double = 130.81   // Нота, от которой мы считаем
-        const val OCTAVE_SHIFT = -1                // На сколько октав смещена наша нота До
+        const val START_NOTE_HZ: Double = 130.81    // Нота, от которой мы считаем
+        const val OCTAVE_SHIFT = -1                 // На сколько октав смещена наша нота До
 
         const val MIN_HZ: Double = 130.81           // Минимальная распознаваемая нота
         const val MAX_HZ: Double = 987.77           // Максимальная распознаваемая нота
 
-        const val OCTAVE_SEMITONES: Double = 12.0   // Кол-во полутонов в октаве
+        const val OCTAVE_SEMITONES: Int = 12        // Кол-во полутонов в октаве
     }
 
     /**
@@ -57,7 +57,6 @@ class NoteDetector(
      * @param onDetection Действия, которые следует выполнять при распознавании очередной ноты
      */
     suspend fun run(onDetection: (Note?) -> Unit) {
-
         // PitchDetectionHandler - An interface to handle detected pitch
         val pdh = PitchDetectionHandler { result, _ ->
             // PitchDetectionResult - A class with information about the result of a pitch detection on a block of audio,
@@ -71,26 +70,27 @@ class NoteDetector(
             if (pitch in MIN_HZ..MAX_HZ && result.probability >= PROBABILITY_LIMIT && result.isPitched) {
                 // https://producelikeapro.com/blog/note-frequency-chart/ <-- табличка с частотами удобная
 
-                // Кол-во полутонов, на которое сдвинута нота от MAIN_HZ
-                val relativeSemitones = round(log(pitch / START_NOTE_HZ, 2.0) * OCTAVE_SEMITONES)
-                // На какое кол-во октав смещение
-                val relativeOctave = (relativeSemitones / OCTAVE_SEMITONES).toInt()
-                // Смещение внутри октавы
-                val shiftInOctave =
-                    ((relativeSemitones - (relativeOctave * OCTAVE_SEMITONES)) / 2).round(1)
+                // Кол-во полутонов, на которое сдвинута нота
+                val relativeSemitones = pitch.semitoneShift()
 
-                Log.d("AMOGUS", "$pitch $relativeSemitones $relativeOctave $shiftInOctave")
+                // На какое кол-во октав смещение
+                val relativeOctave = relativeSemitones / OCTAVE_SEMITONES
+
+                // Смещение внутри октавы ( 1 = тон, 0.5 = полутон )
+                // Логика из NoteName
+                val shiftInOctave =
+                    ((relativeSemitones % OCTAVE_SEMITONES) / 2.0f).format()
 
                 // Находим в октаве первую подходящую ноту
                 val noteName =
-                    NoteName.entries.firstOrNull { it.value.toDouble() >= shiftInOctave }
-                        ?: NoteName.Do
+                    NoteName.entries.firstOrNull { it.value >= shiftInOctave }
+                        ?: throw IllegalStateException("Can't recognize pitch")
 
-                val note = if (noteName.value > shiftInOctave)
-                    Note(
-                        noteName,
-                        relativeOctave + OCTAVE_SHIFT
-                    ).previousSemitone() else Note(noteName, relativeOctave + OCTAVE_SHIFT)
+                val note =
+                    if (noteName.value > shiftInOctave)
+                        Note(noteName, relativeOctave + OCTAVE_SHIFT).previousSemitone()
+                    else
+                        Note(noteName, relativeOctave + OCTAVE_SHIFT)
 
                 onDetection(note)
             } else {
@@ -115,12 +115,24 @@ class NoteDetector(
         dispatcher.run()
     }
 
-    private fun Double.round(decimals: Int): Double {
-        var multiplier = 1.0
-        repeat(decimals) { multiplier *= 10 }
-        return round(this * multiplier) / multiplier
+    /**
+     * Конвертирует высоту звука в кол-во полутонов, на которые он сдвинут от START_NOTE_HZ
+     */
+    private fun Double.semitoneShift(): Int {
+        val semitones = round(log(this / START_NOTE_HZ, 2.0) * OCTAVE_SEMITONES)
+        if (semitones < 0)
+            throw IllegalStateException("Pitch lower than the note from which the countdown is based")
+        return semitones.toInt()
     }
 
+    /**
+     * Переводит кол-во полутонов в Float ( 1 = тон, 0.5 = полутон )
+     */
+    private fun Float.format(): Float = if (this > this.toInt()) this.toInt() + 0.5f else this
+
+    /**
+     * Обычное округление
+     */
     private fun Float.round(decimals: Int): Double {
         var multiplier = 1.0
         repeat(decimals) { multiplier *= 10 }
