@@ -42,7 +42,7 @@ class NoteDetector(
     /**
      * Запоминаем часто нажимаемые ноты
      * */
-    private val cache = mutableMapOf<Int,Note> ()
+    private val cache = mutableMapOf<Int, Note>()
 
     private companion object {
         const val PROBABILITY_LIMIT: Float = 0.95f
@@ -80,8 +80,10 @@ class NoteDetector(
                 val relativeSemitones = pitch.semitoneShift()
                 val cacheResult = cache[relativeSemitones]
 
-                // Если в кэше такой интервал ещё сохранён не был
+                // Если в кэше такая нота ещё сохранена не была
                 if (cacheResult == null) {
+                    // --- Начинаем считать результат
+
                     // На какое кол-во октав смещение
                     val relativeOctave = relativeSemitones / OCTAVE_SEMITONES
 
