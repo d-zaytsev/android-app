@@ -6,7 +6,6 @@ import be.tarsos.dsp.pitch.PitchDetectionHandler
 import be.tarsos.dsp.pitch.PitchProcessor
 import be.tarsos.dsp.pitch.PitchProcessor.PitchEstimationAlgorithm
 import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 import kotlin.math.log
 import kotlin.math.round
@@ -40,6 +39,11 @@ class NoteDetector(
         bufferOverlap
     )
 
+    /**
+     * Запоминаем часто нажимаемые ноты
+     * */
+    private val cache = mutableMapOf<Int,Note> ()
+
     private companion object {
         const val PROBABILITY_LIMIT: Float = 0.95f
 
@@ -50,6 +54,8 @@ class NoteDetector(
         const val MAX_HZ: Double = 987.77           // Максимальная распознаваемая нота
 
         const val OCTAVE_SEMITONES: Int = 12        // Кол-во полутонов в октаве
+
+        const val CACHE_LIMIT: Int = 12             // Лимит на размер кэша
     }
 
     /**
@@ -72,27 +78,39 @@ class NoteDetector(
 
                 // Кол-во полутонов, на которое сдвинута нота
                 val relativeSemitones = pitch.semitoneShift()
+                val cacheResult = cache[relativeSemitones]
 
-                // На какое кол-во октав смещение
-                val relativeOctave = relativeSemitones / OCTAVE_SEMITONES
+                // Если в кэше такой интервал ещё сохранён не был
+                if (cacheResult == null) {
+                    // На какое кол-во октав смещение
+                    val relativeOctave = relativeSemitones / OCTAVE_SEMITONES
 
-                // Смещение внутри октавы ( 1 = тон, 0.5 = полутон )
-                // Логика из NoteName
-                val shiftInOctave =
-                    ((relativeSemitones % OCTAVE_SEMITONES) / 2.0f).format()
+                    // Смещение внутри октавы ( 1 = тон, 0.5 = полутон )
+                    // Логика из NoteName
+                    val shiftInOctave =
+                        ((relativeSemitones % OCTAVE_SEMITONES) / 2.0f).format()
 
-                // Находим в октаве первую подходящую ноту
-                val noteName =
-                    NoteName.entries.firstOrNull { it.value >= shiftInOctave }
-                        ?: throw IllegalStateException("Can't recognize pitch")
+                    // Находим в октаве первую подходящую ноту
+                    val noteName =
+                        NoteName.entries.firstOrNull { it.value >= shiftInOctave }
+                            ?: throw IllegalStateException("Can't recognize pitch")
 
-                val note =
-                    if (noteName.value > shiftInOctave)
-                        Note(noteName, relativeOctave + OCTAVE_SHIFT).previousSemitone()
-                    else
-                        Note(noteName, relativeOctave + OCTAVE_SHIFT)
+                    // Находим связанную ноту
+                    val note =
+                        if (noteName.value > shiftInOctave)
+                            Note(noteName, relativeOctave + OCTAVE_SHIFT).previousSemitone()
+                        else
+                            Note(noteName, relativeOctave + OCTAVE_SHIFT)
 
-                onDetection(note)
+                    // Следим чтобы не выходить за рамки
+                    if (cache.size == CACHE_LIMIT)
+                        cache.remove((0 until cache.size).random())
+
+                    cache[relativeSemitones] = note
+                    onDetection(note)
+                } else {
+                    onDetection(cacheResult)
+                }
             } else {
                 onDetection(null)
             }
