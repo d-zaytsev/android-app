@@ -23,7 +23,7 @@ import com.app.music_app.view.piano_keyboard.PianoKeyboard
 fun PianoBox(
     keyboard: PianoKeyboard,
     backgroundColor: Color = AppColor.NonPhotoBlue,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
