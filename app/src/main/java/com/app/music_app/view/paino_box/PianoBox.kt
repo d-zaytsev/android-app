@@ -17,7 +17,7 @@ import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 
 /**
- * Рамка воокруг фортепиано
+ * Рисует фортепиано и рамку вокруг него
  */
 @Composable
 fun PianoBox(
