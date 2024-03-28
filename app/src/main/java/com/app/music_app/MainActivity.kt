@@ -22,63 +22,29 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.app.music_app.music_player.instruments.VirtualPiano
 import com.app.music_app.pitch_analyzer.NoteDetector
+import com.app.music_app.tasks.pages.CountTaskPage
+import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.NoteName
+import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
 
-    private fun checkAudio(context: Context, activity: Activity): Boolean {
-        // Context - bridge between our app and the Android System,
-        // контекст текущего состояния приложения или объекта. Пзволяет получать инф-ию об окружении,
-        // Activity наследуется от контекста. .getContext()
-        if (ContextCompat.checkSelfPermission(
-                context,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                activity,
-                arrayOf(Manifest.permission.RECORD_AUDIO),
-                1234
-            )
-        }
-
-        return true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Root element
         setContent {
-            Column(modifier = Modifier.fillMaxSize()) {
-                checkAudio(LocalContext.current, this@MainActivity)
-
-                var text by remember {
-                    mutableStateOf("0f")
-                }
-
-                Text(
-                    text,
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.White,
-                    fontSize = 50.sp
-                )
-
-                val composableScope = rememberCoroutineScope()
-
-                // LaunchedEffect - создаёт CoroutineScope,
-                // вместо Unit поставить какой-нибудь счётчик экранов
-                LaunchedEffect(Unit) {
-                    composableScope.launch(Dispatchers.IO) {
-                        NoteDetector().run { note ->
-                            if (note != null)
-                                text = note.toString()
-                        }
-                    }
-                }
-
+            CountTaskPage(
+                LocalContext.current,
+                NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
+                VirtualPiano()
+            )
+            { note ->
+                return@CountTaskPage note == Note(NoteName.La)
             }
         }
     }
