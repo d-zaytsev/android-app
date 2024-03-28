@@ -43,7 +43,6 @@ fun ChooseTaskPage(
     onEnd: (isSuccess: Boolean) -> Unit,
     vararg keyboards: PianoKeyboard
 ) {
-
     //TODO перенести логику определения верного нажатия отсюда в логику
     require(keyboards.size >= 2) { "Can't draw less than 2 intervals" }
 
@@ -60,6 +59,7 @@ fun ChooseTaskPage(
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
         )
+        // TODO заменить на относительные размеры
         Box(
             modifier = Modifier
                 .height(50.dp)
