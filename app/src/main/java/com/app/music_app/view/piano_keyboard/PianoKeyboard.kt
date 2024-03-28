@@ -111,6 +111,8 @@ class PianoKeyboard(
                     // Вычисляем отступ от прошлой клавиши
                     val space =
                         if (!key.isWhole()) 0f
+                        else if ((key.name == NoteName.Si || key.name == NoteName.Mi) && key != noteRange.start)
+                            whiteKeyWidth - darkKeySide
                         else if (key.name == NoteName.Si || key.name == NoteName.Mi || key == noteRange.endInclusive)
                             whiteKeyWidth
                         else if (key.name == NoteName.Do || key.name == NoteName.Fa || key == noteRange.start)
