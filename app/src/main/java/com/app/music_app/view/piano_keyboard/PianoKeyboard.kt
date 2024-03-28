@@ -61,7 +61,7 @@ class PianoKeyboard(
     private val pressedBlackButtonColor: Color = AppColor.HonoluluBlue
 
     // Maps
-    private var colorMap: MutableMap<Note, Color>
+    private var colorMap: MutableMap<Note, Color> = mutableStateMapOf()
 
     private val nameMap: Map<NoteName, String> = mapOf(
         NoteName.Do to context.getString(R.string.note_name_do),
@@ -76,8 +76,6 @@ class PianoKeyboard(
     init {
         require(noteRange.start.isWhole()) { "Can't draw piano keyboard with dark keys ob left border" }
         require(noteRange.endInclusive.isWhole()) { "Can't draw piano keyboard with dark keys ob right border" }
-
-        colorMap = mutableStateMapOf()
     }
 
     @Composable
@@ -175,6 +173,14 @@ class PianoKeyboard(
         colorMap[note] = if (note.isWhole()) Color.White else Color.Black
     }
 
+    /**
+     * Возвращает всем клавишам их обычный цает
+     * @throws IllegalArgumentException
+     */
+    fun unmark() {
+        for (note in colorMap.keys)
+        colorMap[note] = if (note.isWhole()) Color.White else Color.Black
+    }
     /**
      * Рисует клавишу с указанными свойствами
      * */
