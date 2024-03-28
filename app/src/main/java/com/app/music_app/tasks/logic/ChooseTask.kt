@@ -24,7 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.music_player.instruments.VirtualPiano
-import com.app.music_app.tasks.pages.CompareTaskPage
+import com.app.music_app.tasks.pages.ChooseTaskPage
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.task_progress_indicator.TaskProgressBar
@@ -130,7 +130,7 @@ fun CompareTaskManager(
                     val melodies = remember { getMelodies(pairs, fixDirection) }
                     val pianos = remember { getKeyboards(context, pairs) }
 
-                    CompareTaskPage(
+                    ChooseTaskPage(
                         context = context,
                         melodyToPlay = melodies,
                         playInstrument = VirtualPiano(),

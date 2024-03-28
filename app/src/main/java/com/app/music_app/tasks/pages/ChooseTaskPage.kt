@@ -32,12 +32,11 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
- * Страница с упражнением
- * @param keyboards Клавиатуры в верном порядке
+ * Страница с упражнением (выбор интервалов в порядке их звучания)
  * @param keyboards Клавиатуры для отрисовки (в правильном порядке)
  */
 @Composable
-fun CompareTaskPage(
+fun ChooseTaskPage(
     context: Context,
     melodyToPlay: Melody,
     playInstrument: AbstractInstrument,
@@ -45,6 +44,7 @@ fun CompareTaskPage(
     vararg keyboards: PianoKeyboard
 ) {
 
+    //TODO перенести логику определения верного нажатия отсюда в логику
     require(keyboards.size >= 2) { "Can't draw less than 2 intervals" }
 
     Column(
