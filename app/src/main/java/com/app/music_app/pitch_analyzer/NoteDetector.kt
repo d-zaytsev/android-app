@@ -1,5 +1,6 @@
 package com.app.music_app.pitch_analyzer
 
+import android.util.Log
 import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
@@ -39,23 +40,21 @@ class NoteDetector(
         bufferOverlap
     )
 
-    /**
-     * Запоминаем часто нажимаемые ноты
-     * */
-    private val cache = mutableMapOf<Int, Note>()
+    // Используется для того, чтобы не распознавать одну и ту же частоту заново
+    private lateinit var lastResult: Pair<ClosedRange<Double>, Note>
 
     private companion object {
-        const val PROBABILITY_LIMIT: Float = 0.95f
+        const val PROBABILITY_LIMIT: Float = 0.9f
 
-        const val START_NOTE_HZ: Double = 130.81    // Нота, от которой мы считаем
+        const val START_NOTE_HZ: Float = 130.81f    // Нота, от которой мы считаем
         const val OCTAVE_SHIFT = -1                 // На сколько октав смещена наша нота До
 
-        const val MIN_HZ: Double = 130.81           // Минимальная распознаваемая нота
-        const val MAX_HZ: Double = 987.77           // Максимальная распознаваемая нота
+        const val MIN_HZ: Float = 125f           // Минимальная распознаваемая нота
+        const val MAX_HZ: Float = 1000f           // Максимальная распознаваемая нота
 
         const val OCTAVE_SEMITONES: Int = 12        // Кол-во полутонов в октаве
-
-        const val CACHE_LIMIT: Int = 12             // Лимит на размер кэша
+        const val PITCH_DEVIATION: Float =
+            7.7f    // Максимальное отклонение высоты от последней ноты
     }
 
     /**
@@ -76,16 +75,17 @@ class NoteDetector(
             if (pitch in MIN_HZ..MAX_HZ && result.probability >= PROBABILITY_LIMIT && result.isPitched) {
                 // https://producelikeapro.com/blog/note-frequency-chart/ <-- табличка с частотами удобная
 
-                // Кол-во полутонов, на которое сдвинута нота
-                val relativeSemitones = pitch.semitoneShift()
-                val cacheResult = cache[relativeSemitones]
+                // Если мы всё ещё слышим примерно ту же частоту
+                if (::lastResult.isInitialized && pitch in lastResult.first) {
+                    onDetection(lastResult.second)
+                } else {
+                    // Начинаем распознавать новую ноту
 
-                // Если в кэше такая нота ещё сохранена не была
-                if (cacheResult == null) {
-                    // --- Начинаем считать результат
+                    // Кол-во полутонов, на которое сдвинута нота
+                    val relativeSemitones = pitch.semitoneShift()
 
                     // На какое кол-во октав смещение
-                    val relativeOctave = relativeSemitones / OCTAVE_SEMITONES
+                    val relativeOctave = (relativeSemitones / OCTAVE_SEMITONES).toInt()
 
                     // Смещение внутри октавы ( 1 = тон, 0.5 = полутон )
                     // Логика из NoteName
@@ -104,14 +104,9 @@ class NoteDetector(
                         else
                             Note(noteName, relativeOctave + OCTAVE_SHIFT)
 
-                    // Следим чтобы не выходить за рамки
-                    if (cache.size == CACHE_LIMIT)
-                        cache.remove((0 until cache.size).random())
-
-                    cache[relativeSemitones] = note
+                    // Обновляем последний результат
+                    lastResult = Pair(pitch - PITCH_DEVIATION..pitch + PITCH_DEVIATION, note)
                     onDetection(note)
-                } else {
-                    onDetection(cacheResult)
                 }
             } else {
                 onDetection(null)
@@ -138,17 +133,17 @@ class NoteDetector(
     /**
      * Конвертирует высоту звука в кол-во полутонов, на которые он сдвинут от START_NOTE_HZ
      */
-    private fun Double.semitoneShift(): Int {
+    private fun Double.semitoneShift(): Double {
         val semitones = round(log(this / START_NOTE_HZ, 2.0) * OCTAVE_SEMITONES)
         if (semitones < 0)
             throw IllegalStateException("Pitch lower than the note from which the countdown is based")
-        return semitones.toInt()
+        return semitones
     }
 
     /**
      * Переводит кол-во полутонов в Float ( 1 = тон, 0.5 = полутон )
      */
-    private fun Float.format(): Float = if (this > this.toInt()) this.toInt() + 0.5f else this
+    private fun Double.format(): Double = if (this > this.toInt()) this.toInt() + 0.5 else this
 
     /**
      * Обычное округление
