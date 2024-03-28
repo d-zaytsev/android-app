@@ -49,8 +49,8 @@ class NoteDetector(
         const val START_NOTE_HZ: Float = 130.81f    // Нота, от которой мы считаем
         const val OCTAVE_SHIFT = -1                 // На сколько октав смещена наша нота До
 
-        const val MIN_HZ: Float = 125f           // Минимальная распознаваемая нота
-        const val MAX_HZ: Float = 1000f           // Максимальная распознаваемая нота
+        const val MIN_HZ: Float = 130.81f           // Минимальная распознаваемая нота
+        const val MAX_HZ: Float = 1000f             // Максимальная распознаваемая нота
 
         const val OCTAVE_SEMITONES: Int = 12        // Кол-во полутонов в октаве
         const val PITCH_DEVIATION: Float =
