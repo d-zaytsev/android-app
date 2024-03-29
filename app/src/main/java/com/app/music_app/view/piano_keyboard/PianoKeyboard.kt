@@ -1,5 +1,6 @@
 package com.app.music_app.view.piano_keyboard
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -138,7 +139,7 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.Top
             ) {
-                for (whiteKey in whiteKeys){
+                for (whiteKey in whiteKeys) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
@@ -177,10 +178,12 @@ class PianoKeyboard(
      * Возвращает всем клавишам их обычный цает
      * @throws IllegalArgumentException
      */
+    @SuppressLint("SuspiciousIndentation")
     fun unmark() {
         for (note in colorMap.keys)
-        colorMap[note] = if (note.isWhole()) Color.White else Color.Black
+            colorMap[note] = if (note.isWhole()) Color.White else Color.Black
     }
+
     /**
      * Рисует клавишу с указанными свойствами
      * */
