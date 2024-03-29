@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.QueueMusic
 import androidx.compose.material.icons.rounded.QueueMusic
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -92,7 +93,7 @@ fun PlayButton(
         Icon(
             modifier = Modifier
                 .scale(1.5f),
-            imageVector = Icons.Rounded.QueueMusic,
+            imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
             contentDescription = "Refresh button",
             tint = Color.White
         )
