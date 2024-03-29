@@ -27,7 +27,7 @@ import com.app.music_app.music_player.instruments.VirtualPiano
 import com.app.music_app.tasks.pages.ChooseTaskPage
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
-import com.app.music_app.view.task_progress_indicator.TaskProgressBar
+import com.app.music_app.view.progress_bar.TaskProgressBar
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Melody
@@ -76,7 +76,11 @@ fun CompareTaskManager(
     Column {
         var succeedPoints by remember { mutableIntStateOf(0) } // Кол-во верно сделанных заданий
         var points by remember { mutableIntStateOf(0) }        // Кол-во пройденных заданий
-        TaskProgressBar(points, taskCount)                 // Прогресс пользователя
+        TaskProgressBar(
+            succeedPoints.toFloat(),
+            points.toFloat(),
+            taskCount.toFloat()
+        )   // Прогресс пользователя
 
         val navController =
             rememberNavController()         // С помощью него переключаемся между экранами
