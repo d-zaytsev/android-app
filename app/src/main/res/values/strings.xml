@@ -24,4 +24,16 @@
     <string name="small_septima">minor seventh</string>
     <string name="large_septima">major seventh</string>
     <string name="pure_octava">perfect octave</string>
+    <string name="pure_prima_short">P1</string>
+    <string name="small_secunda_short">m2</string>
+    <string name="large_secunda_short">M2</string>
+    <string name="small_tertia_short">m3</string>
+    <string name="large_tertia_short">M3</string>
+    <string name="pure_quarta_short">P4</string>
+    <string name="pure_quinta_short">P5</string>
+    <string name="small_sexta_short">m6</string>
+    <string name="large_sexta_short">M6</string>
+    <string name="small_septima_short">m7</string>
+    <string name="large_septima_short">M7</string>
+    <string name="pure_octave_short">P8</string>
 </resources>
