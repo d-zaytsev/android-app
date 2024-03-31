@@ -9,4 +9,21 @@
     <string name="note_name_si">си</string>
     <string name="repeat">Ещё раз</string>
     <string name="piano_box_text">Выбери элементы в порядке их звучания</string>
+    <string name="note_delaying_from">Отложи и сыграй %1$s от %2$s</string>
+    <string name="note_delaying_to">Отложи и сыграй %1$s, заканчивая %2$s</string>
+    <string name="pure_prima">чистая прима</string>
+    <string name="small_secunda">малая секунда</string>
+    <string name="large_secunda">большая секунда</string>
+    <string name="small_tertia">малая терция</string>
+    <string name="large_tertia">большая терция</string>
+    <string name="pure_quarta">чиста кварта</string>
+    <string name="extended_quarta">увеличенная кварта</string>
+    <string name="pure_quinta">чистая квинта</string>
+    <string name="small_sexta">малая секста</string>
+    <string name="large_sexta">большая секста</string>
+    <string name="small_septima">малая септима</string>
+    <string name="large_septima">большая септима</string>
+    <string name="pure_octava">чистая октава</string>
+    <string name="flat_sign">бемоль</string>
+    <string name="sharp_sign">диез</string>
 </resources>
