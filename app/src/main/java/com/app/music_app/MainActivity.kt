@@ -1,35 +1,31 @@
 package com.app.music_app
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.app.music_app.music_player.instruments.VirtualPiano
-import com.app.music_app.pitch_analyzer.NoteDetector
+import androidx.compose.ui.tooling.preview.Preview
+import com.app.music_app.tasks.logic.CountTask
 import com.app.music_app.tasks.pages.CountTaskPage
+import com.app.music_app.view.progress_bar.TaskProgressBar
+import com.musiclib.intervals.Interval
+import com.musiclib.intervals.IntervalName
+import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
@@ -38,13 +34,36 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Root element
         setContent {
-            CountTaskPage(
+            CountTask(
                 LocalContext.current,
+                this@MainActivity,
                 NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
-                VirtualPiano()
+                2,
+                10,
+                Interval(IntervalName.Secunda, IntervalType.Small)
             )
-            { note ->
-                return@CountTaskPage note == Note(NoteName.La)
+        }
+    }
+
+    @Preview
+    @Composable
+    private fun TaskPreview() {
+        Column(modifier = Modifier.fillMaxSize()) {
+
+            var points by remember { mutableFloatStateOf(0f) }
+            var progress by remember { mutableFloatStateOf(0f) }
+            val maxPoints = 100f
+
+            TaskProgressBar(points = points, progress = progress, maxProgress = maxPoints)
+            Button(onClick = {
+                progress += 10f
+            }) {
+                Text("Add progress")
+            }
+            Button(onClick = {
+                points += 10f
+            }) {
+                Text("Add points")
             }
         }
     }
