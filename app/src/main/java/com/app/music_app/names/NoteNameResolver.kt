@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 
 class NoteNameResolver {
@@ -19,6 +20,19 @@ class NoteNameResolver {
                 NoteName.Si -> context.getString(R.string.note_name_si)
 
                 else -> throw IllegalStateException("Can't recognize note $note")
+            }
+
+        }
+
+        fun nameOf(context: Context, sign: Alteration): String {
+            return when (sign) {
+
+                Alteration.None -> ""
+                Alteration.FlatSign -> "♭"
+                Alteration.SharpSign -> "♯"
+                Alteration.NaturalSign -> ""
+
+                else -> throw IllegalStateException("Can't recognize sign $sign")
             }
 
         }

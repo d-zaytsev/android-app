@@ -36,4 +36,6 @@
     <string name="small_septima_short">m7</string>
     <string name="large_septima_short">M7</string>
     <string name="pure_octave_short">P8</string>
+    <string name="flat_sign">flat</string>
+    <string name="sharp_sign">sharp</string>
 </resources>
