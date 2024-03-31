@@ -9,4 +9,19 @@
     <string name="note_name_si">B</string>
     <string name="repeat">Repeat</string>
     <string name="piano_box_text">Choose the elements in the order they sounded</string>
+    <string name="note_delaying_from">Отложи %1$s от ноты %2$s</string>
+    <string name="note_delaying_to">Отложи %1$s, заканчивая нотой %2$s</string>
+    <string name="pure_prima">perfect unison</string>
+    <string name="small_secunda">minor second</string>
+    <string name="large_secunda">major second</string>
+    <string name="small_tertia">minor third</string>
+    <string name="large_tertia">major third</string>
+    <string name="pure_quarta">perfect fourth</string>
+    <string name="extended_quarta">augmented fourth</string>
+    <string name="pure_quinta">perfect fifth</string>
+    <string name="small_sexta">minor sixth</string>
+    <string name="large_sexta">major sixth</string>
+    <string name="small_septima">minor seventh</string>
+    <string name="large_septima">major seventh</string>
+    <string name="pure_octava">perfect octave</string>
 </resources>

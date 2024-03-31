@@ -18,10 +18,14 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.app.music_app.names.IntervalNameResolver
 import com.app.music_app.tasks.pages.CountTaskPage
 import com.app.music_app.tasks.pages.ResultsPage
 import com.app.music_app.view.progress_bar.TaskProgressBar
+import com.example.android_app.R
 import com.musiclib.intervals.Interval
+import com.musiclib.intervals.IntervalName
+import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
@@ -87,7 +91,7 @@ fun CountTask(
                     val pair = remember { getPair(notesList, interval) }
                     val moveFrom =
                         remember { Random.nextBoolean() } // true - откладываем от первой ноты
-                    val text = remember { getText(pair, interval, moveFrom) }
+                    val text = remember { getText(context, pair, interval, moveFrom) }
 
                     var first = remember { false }
                     var second = remember { false }
@@ -147,11 +151,24 @@ fun CountTask(
     }
 }
 
-private fun getText(pair: Pair<Note, Note>, interval: Interval, from: Boolean): String {
+private fun getText(
+    context: Context,
+    pair: Pair<Note, Note>,
+    interval: Interval,
+    from: Boolean
+): String {
     return if (from)
-        "Отложи $interval от ноты ${pair.first}"
+        context.getString(
+            R.string.note_delaying_from,
+            IntervalNameResolver.nameOf(context, interval),
+            pair.first
+        )
     else
-        "Отложи $interval, заканчивая нотой ${pair.second}"
+        context.getString(
+            R.string.note_delaying_to,
+            IntervalNameResolver.nameOf(context, interval),
+            pair.second
+        )
 }
 
 private fun getPair(notes: List<Note>, interval: Interval): Pair<Note, Note> {
