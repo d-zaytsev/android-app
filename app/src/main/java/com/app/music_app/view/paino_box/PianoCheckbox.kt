@@ -85,7 +85,7 @@ fun PianoCheckbox(
                     // Цвет каждого квадрата (меняется при нажатии)
                     var color by remember { mutableStateOf(pianoBoxDefaultColor) }
 
-                    PianoBox(keyboard = keyboards[it], backgroundColor = color ,modifier = Modifier.pointerInput(Unit) {
+                    PianoBox(keyboard = keyboards[it], widthMultiplier = 1.2f ,backgroundColor = color ,modifier = Modifier.pointerInput(Unit) {
                         if (canClick) {
                             color = pianoBoxPressedColor
                             clicksCount++
