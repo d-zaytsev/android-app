@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.music_player.MelodyPlayer
+import com.app.music_app.names.NoteNameResolver
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
@@ -63,16 +64,6 @@ class PianoKeyboard(
 
     // Maps
     private var colorMap: MutableMap<Note, Color> = mutableStateMapOf()
-
-    private val nameMap: Map<NoteName, String> = mapOf(
-        NoteName.Do to context.getString(R.string.note_name_do),
-        NoteName.Re to context.getString(R.string.note_name_re),
-        NoteName.Mi to context.getString(R.string.note_name_mi),
-        NoteName.Fa to context.getString(R.string.note_name_fa),
-        NoteName.Sol to context.getString(R.string.note_name_sol),
-        NoteName.La to context.getString(R.string.note_name_la),
-        NoteName.Si to context.getString(R.string.note_name_si)
-    )
 
     init {
         require(noteRange.start.isWhole()) { "Can't draw piano keyboard with dark keys ob left border" }
@@ -144,7 +135,7 @@ class PianoKeyboard(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
                     ) {
-                        PianoKeyName(whiteKey)
+                        PianoKeyName(context, whiteKey)
                     }
                 }
             }
@@ -220,9 +211,8 @@ class PianoKeyboard(
      * Отрисовывает названия для клавиш
      * */
     @Composable
-    private fun PianoKeyName(note: Note) {
-        val text =
-            nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
+    private fun PianoKeyName(context: Context, note: Note) {
+        val text = NoteNameResolver.nameOf(context, note.name)
 
         val pad = if (text.length == 1)
             (whiteKeyWidth / 3).dp
