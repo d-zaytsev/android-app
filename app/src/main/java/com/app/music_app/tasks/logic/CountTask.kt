@@ -26,6 +26,7 @@ import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.math.abs
@@ -65,6 +66,9 @@ fun CountTask(
 
     val notesList = remember { range.toList() }
 
+    // Эта штука нужна чтобы не спамить ошибками
+    var lastNote = remember { range.start.previousWhole() }
+
     // Интерфейс
     Column(modifier = Modifier.fillMaxSize()) {
         TaskProgressBar(points = succeedPoints, progress = points, maxProgress = maxProgress)
@@ -88,8 +92,6 @@ fun CountTask(
                     var first = remember { false }
                     var second = remember { false }
 
-                    var lastNote = remember { range.start.previousWhole() }
-
                     CountTaskPage(
                         context,
                         range,
@@ -106,6 +108,7 @@ fun CountTask(
                             points += maxAttemptsCount
                             succeedPoints += maxAttemptsCount - errorAttempts
                             errorAttempts = 0f
+                            lastNote = note
 
                             // Переход на следующее задание
                             if (i < taskCount - 1) {
