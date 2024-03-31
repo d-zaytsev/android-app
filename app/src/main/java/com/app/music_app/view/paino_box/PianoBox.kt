@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,11 +25,13 @@ import com.app.music_app.view.piano_keyboard.PianoKeyboard
 fun PianoBox(
     keyboard: PianoKeyboard,
     backgroundColor: Color = AppColor.NonPhotoBlue,
+    widthMultiplier: Float = 1.1f,
     modifier: Modifier = Modifier
 ) {
+
     Box(
         modifier = modifier
-            .size(DpSize(keyboard.size.width.times(1.1f), keyboard.size.height.times(1.2f)))
+            .size(DpSize(keyboard.size.width.times(widthMultiplier), keyboard.size.height.times(1.2f)))
             .border(
                 BorderStroke(1.dp, color = backgroundColor),
                 shape = RoundedCornerShape(15.dp)
