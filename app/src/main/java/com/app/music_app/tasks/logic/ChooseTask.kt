@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.music_player.instruments.VirtualPiano
 import com.app.music_app.tasks.pages.ChooseTaskPage
+import com.app.music_app.tasks.pages.ResultsPage
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.progress_bar.TaskProgressBar
@@ -65,6 +66,7 @@ fun CompareTaskManager(
     fixDirection: Boolean = true,
     vararg possibleIntervals: Interval
 ) {
+    // TODO сделать что-то с количеством аргументов и убрать require из этой функции
     require(possibleIntervals.size >= 2) { "Can't use less than 2 intervals" }
     require(range.wholeNotesCount >= 3) { "Can't such small note range" }
     require(taskCount > 0) { "Can't be less than 1 task" }
@@ -76,6 +78,7 @@ fun CompareTaskManager(
     Column {
         var succeedPoints by remember { mutableIntStateOf(0) } // Кол-во верно сделанных заданий
         var points by remember { mutableIntStateOf(0) }        // Кол-во пройденных заданий
+
         TaskProgressBar(
             succeedPoints.toFloat(),
             points.toFloat(),
@@ -86,7 +89,7 @@ fun CompareTaskManager(
             rememberNavController()         // С помощью него переключаемся между экранами
 
         // Список с названиями всех экранов с заданиями
-        val screens = Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" }
+        val screens = remember { Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" } }
 
         NavHost( // Содержит все экраны
             navController = navController,
@@ -95,28 +98,7 @@ fun CompareTaskManager(
 
             // Экран с результатами
             composable(ScreenNames.RESULTS_SCREEN) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier
-                        .background(AppColor.WhiteSmoke)
-                        .fillMaxSize()
-                ) {
-                    Spacer(modifier = Modifier.fillMaxHeight(0.3f))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxHeight(0.1f)
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            "$succeedPoints / $taskCount",
-                            fontSize = 30.sp,
-                            color = AppColor.PacificCyan
-                        )
-                    }
-                    Spacer(modifier = Modifier.fillMaxHeight(0.5f))
-
-                }
+                ResultsPage(succeedPoints, taskCount)
             }
 
             for (i in 0 until taskCount) {
