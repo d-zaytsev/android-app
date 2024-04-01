@@ -9,8 +9,8 @@
     <string name="note_name_si">B</string>
     <string name="repeat">Repeat</string>
     <string name="piano_box_text">Choose the elements in the order they sounded</string>
-    <string name="note_delaying_from">Play a %1$s from the %2$s</string>
-    <string name="note_delaying_to">Play %1$s ending on %2$s</string>
+    <string name="note_delaying_from">Play a % from the %</string>
+    <string name="note_delaying_to">Play % ending on %</string>
     <string name="pure_prima">perfect unison</string>
     <string name="small_secunda">minor second</string>
     <string name="large_secunda">major second</string>

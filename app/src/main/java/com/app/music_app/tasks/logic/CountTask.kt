@@ -13,6 +13,13 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
@@ -94,6 +101,8 @@ fun CountTask(
                         remember { Random.nextBoolean() } // true - откладываем от первой ноты
                     val text = remember { getText(context, pair, interval, moveFrom) }
 
+                    Log.d("AMOGUS", pair.toString())
+
                     var first = remember { false }
                     var second = remember { false }
 
@@ -157,19 +166,47 @@ private fun getText(
     pair: Pair<Note, Note>,
     interval: Interval,
     from: Boolean
-): String {
-    return if (from)
-        context.getString(
-            R.string.note_delaying_from,
-            IntervalNameResolver.nameOf(context, interval),
-            "${NoteNameResolver.nameOf(context, pair.first.name)}${NoteNameResolver.nameOf(context, pair.second.sign)}"
-        )
-    else
-        context.getString(
-            R.string.note_delaying_to,
-            IntervalNameResolver.nameOf(context, interval),
-            "${NoteNameResolver.nameOf(context, pair.second.name)}${NoteNameResolver.nameOf(context, pair.second.sign)}"
-        )
+): AnnotatedString {
+    return buildAnnotatedString {
+        // Вообще весь текст
+        withStyle(SpanStyle(fontSize = 30.sp)) {
+            val intervalName = IntervalNameResolver.nameOf(context, interval)
+
+            val noteName = if (from)
+                "${NoteNameResolver.nameOf(context, pair.first.name)}${
+                    NoteNameResolver.nameOf(
+                        context,
+                        pair.first.sign
+                    )
+                }"
+            else
+                "${NoteNameResolver.nameOf(context, pair.second.name)}${
+                    NoteNameResolver.nameOf(
+                        context,
+                        pair.second.sign
+                    )
+                }"
+
+            val textParts =
+                (if (from) context.getString(R.string.note_delaying_from) else context.getString(R.string.note_delaying_to))
+                    .split("%")
+
+            // Выделяем некоторые части жирным
+            textParts.forEachIndexed { i, s ->
+                append(s)
+                if (i == 0) {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                        append(intervalName)
+                    }
+                } else if (i == 1) {
+                    withStyle(style = SpanStyle(fontWeight = FontWeight.ExtraBold)) {
+                        append(noteName)
+                    }
+                }
+            }
+
+        }
+    }
 }
 
 private fun getPair(notes: List<Note>, interval: Interval): Pair<Note, Note> {

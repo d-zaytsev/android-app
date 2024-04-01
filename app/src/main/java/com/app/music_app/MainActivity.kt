@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.app.music_app.tasks.logic.CompareTaskManager
 import com.app.music_app.tasks.logic.CountTask
 import com.app.music_app.tasks.pages.CountTaskPage
 import com.app.music_app.view.progress_bar.TaskProgressBar
@@ -24,6 +25,7 @@ import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 
@@ -38,9 +40,10 @@ class MainActivity : ComponentActivity() {
                 LocalContext.current,
                 this@MainActivity,
                 NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
-                2,
+                3,
                 10,
-                Interval(IntervalName.Secunda, IntervalType.Small)
+                Interval(IntervalName.Secunda, IntervalType.Small),
+                Interval(IntervalName.Secunda, IntervalType.Large)
             )
         }
     }
@@ -67,6 +70,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+//    CountTask(
+//                LocalContext.current,
+//                this@MainActivity,
+//                NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
+//                2,
+//                10,
+//                Interval(IntervalName.Secunda, IntervalType.Small)
+//            )
 
 //    CompareTaskManager(
 //    context = LocalContext.current,

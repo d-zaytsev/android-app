@@ -20,6 +20,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -45,7 +47,7 @@ import kotlinx.coroutines.launch
 fun CountTaskPage(
     context: Context,
     pianoRange: NoteRange,
-    text: String,
+    text: AnnotatedString,
     onTouch: (note: Note) -> Boolean
 ) {
     Column(
@@ -69,12 +71,13 @@ fun CountTaskPage(
         Spacer(modifier = Modifier.fillMaxHeight(0.3f))
         Text(
             text,
-            fontSize = 30.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(10.dp)
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
+buildAnnotatedString {
 
+        }
         // Фортепиано
         PianoBox(piano)
 
