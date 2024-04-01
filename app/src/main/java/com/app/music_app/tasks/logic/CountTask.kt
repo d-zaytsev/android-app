@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.names.IntervalNameResolver
+import com.app.music_app.names.NoteNameResolver
 import com.app.music_app.tasks.pages.CountTaskPage
 import com.app.music_app.tasks.pages.ResultsPage
 import com.app.music_app.view.progress_bar.TaskProgressBar
@@ -161,13 +162,13 @@ private fun getText(
         context.getString(
             R.string.note_delaying_from,
             IntervalNameResolver.nameOf(context, interval),
-            pair.first
+            "${NoteNameResolver.nameOf(context, pair.first.name)}${NoteNameResolver.nameOf(context, pair.second.sign)}"
         )
     else
         context.getString(
             R.string.note_delaying_to,
             IntervalNameResolver.nameOf(context, interval),
-            pair.second
+            "${NoteNameResolver.nameOf(context, pair.second.name)}${NoteNameResolver.nameOf(context, pair.second.sign)}"
         )
 }
 
