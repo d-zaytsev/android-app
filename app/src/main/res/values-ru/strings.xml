@@ -9,8 +9,8 @@
     <string name="note_name_si">си</string>
     <string name="repeat">Ещё раз</string>
     <string name="piano_box_text">Выбери элементы в порядке их звучания</string>
-    <string name="note_delaying_from">Отложи и сыграй %1$s от %2$s</string>
-    <string name="note_delaying_to">Отложи и сыграй %1$s, заканчивая %2$s</string>
+    <string name="note_delaying_from">Сыграй интервал %1$s от %2$s</string>
+    <string name="note_delaying_to">Сыграй интервал %1$s, заканчивая %2$s</string>
     <string name="pure_prima">чистая прима</string>
     <string name="small_secunda">малая секунда</string>
     <string name="large_secunda">большая секунда</string>
