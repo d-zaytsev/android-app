@@ -1,4 +1,4 @@
-package com.app.music_app.tasks.logic
+package com.app.music_app.exercises.logic
 
 import android.Manifest
 import android.app.Activity
@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
@@ -27,18 +26,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.names.IntervalNameResolver
 import com.app.music_app.names.NoteNameResolver
-import com.app.music_app.tasks.pages.CountTaskPage
-import com.app.music_app.tasks.pages.ResultsPage
+import com.app.music_app.exercises.pages.CountTaskPage
+import com.app.music_app.exercises.pages.ResultsPage
 import com.app.music_app.view.progress_bar.TaskProgressBar
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
-import com.musiclib.intervals.IntervalName
-import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlin.math.abs

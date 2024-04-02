@@ -10,22 +10,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.tasks.logic.CompareTaskManager
-import com.app.music_app.tasks.logic.CountTask
-import com.app.music_app.tasks.pages.CountTaskPage
+import com.app.music_app.exercises.logic.CountTask
 import com.app.music_app.view.progress_bar.TaskProgressBar
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 

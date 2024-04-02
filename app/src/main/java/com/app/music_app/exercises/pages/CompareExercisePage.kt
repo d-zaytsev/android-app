@@ -1,4 +1,4 @@
-package com.app.music_app.tasks.pages
+package com.app.music_app.exercises.pages
 
 import android.content.Context
 import androidx.compose.foundation.background
