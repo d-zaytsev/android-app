@@ -69,7 +69,11 @@ class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = Int
     }
 
     override fun compareTo(other: MusicInterval): Int =
-        (name.stepsCount + type.tone).compareTo(other.name.stepsCount + other.type.tone)
+        (this.distance).compareTo(other.distance)
+
+    override fun equals(other: Any?): Boolean {
+        return other is Interval && this.compareTo(other) == 0
+    }
 
     override fun toString(): String = "$type $name"
 }

@@ -1,9 +1,9 @@
-package com.app.music_app.note_player
+package com.app.music_app.music_player
 
 import android.content.Context
 import android.media.MediaPlayer
-import com.app.music_app.note_player.interfaces.AbstractInstrument
-import com.app.music_app.note_player.interfaces.MelodyPlayer
+import com.app.music_app.music_player.interfaces.AbstractInstrument
+import com.app.music_app.music_player.interfaces.MelodyPlayer
 import com.musiclib.notes.MelodyNote
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteDuration

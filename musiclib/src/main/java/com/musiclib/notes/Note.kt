@@ -1,5 +1,6 @@
 package com.musiclib.notes
 
+import com.musiclib.intervals.Interval
 import com.musiclib.notes.interfaces.BasicNote
 import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
@@ -92,10 +93,7 @@ class Note(
         pitch.compareTo(other.pitch)
 
     override fun equals(other: Any?): Boolean {
-        return if (other is Note)
-            compareTo(other) == 0
-        else
-            false
+        return other is Note && this.compareTo(other) == 0
     }
 
     override fun hashCode(): Int {

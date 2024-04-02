@@ -9,4 +9,33 @@
     <string name="note_name_si">B</string>
     <string name="repeat">Repeat</string>
     <string name="piano_box_text">Choose the elements in the order they sounded</string>
+    <string name="note_delaying_from">Play a % from the %</string>
+    <string name="note_delaying_to">Play % ending on %</string>
+    <string name="pure_prima">perfect unison</string>
+    <string name="small_secunda">minor second</string>
+    <string name="large_secunda">major second</string>
+    <string name="small_tertia">minor third</string>
+    <string name="large_tertia">major third</string>
+    <string name="pure_quarta">perfect fourth</string>
+    <string name="extended_quarta">augmented fourth</string>
+    <string name="pure_quinta">perfect fifth</string>
+    <string name="small_sexta">minor sixth</string>
+    <string name="large_sexta">major sixth</string>
+    <string name="small_septima">minor seventh</string>
+    <string name="large_septima">major seventh</string>
+    <string name="pure_octava">perfect octave</string>
+    <string name="pure_prima_short" translatable="false">P1</string>
+    <string name="small_secunda_short" translatable="false">m2</string>
+    <string name="large_secunda_short" translatable="false">M2</string>
+    <string name="small_tertia_short" translatable="false">m3</string>
+    <string name="large_tertia_short" translatable="false">M3</string>
+    <string name="pure_quarta_short" translatable="false">P4</string>
+    <string name="pure_quinta_short" translatable="false">P5</string>
+    <string name="small_sexta_short" translatable="false">m6</string>
+    <string name="large_sexta_short" translatable="false">M6</string>
+    <string name="small_septima_short" translatable="false">m7</string>
+    <string name="large_septima_short" translatable="false">M7</string>
+    <string name="pure_octave_short" translatable="false">P8</string>
+    <string name="flat_sign">flat</string>
+    <string name="sharp_sign">sharp</string>
 </resources>

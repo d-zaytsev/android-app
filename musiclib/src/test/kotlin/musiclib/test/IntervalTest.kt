@@ -7,6 +7,7 @@ import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -63,6 +64,24 @@ class IntervalTest {
             {
                 Interval(IntervalName.Quarta, IntervalType.Small)
             }
+        }
+    }
+
+    @Nested
+    inner class `Interval equal check` {
+        @Test
+        fun `Equal check #1`() {
+            assertEquals(0, Interval(IntervalName.Secunda, IntervalType.Small).compareTo(Interval(IntervalName.Secunda, IntervalType.Small)))
+        }
+
+        @Test
+        fun `Equal check #2`() {
+            assertTrue(Interval(IntervalName.Secunda, IntervalType.Small) > Interval(IntervalName.Prima, IntervalType.Pure))
+        }
+
+        @Test
+        fun `Equal check #3`() {
+            assertTrue(Interval(IntervalName.Prima, IntervalType.Pure) < Interval(IntervalName.Secunda, IntervalType.Small))
         }
     }
 

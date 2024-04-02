@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.Color
 object AppColor {
 
     // https://coolors.co/palette/03045e-0077b6-00b4d8-90e0ef-caf0f8 - App Palette
+
+    val Emerald: Color
+        get() = Color(80, 200, 120)
     val LightCyan: Color
         get() = Color(202, 240, 248)
     val NonPhotoBlue: Color

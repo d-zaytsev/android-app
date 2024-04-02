@@ -1,4 +1,4 @@
-package com.app.music_app.note_player.interfaces
+package com.app.music_app.music_player.interfaces
 
 import android.content.Context
 import android.media.MediaPlayer

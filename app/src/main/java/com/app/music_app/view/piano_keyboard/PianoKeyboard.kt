@@ -1,5 +1,6 @@
 package com.app.music_app.view.piano_keyboard
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,14 +26,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.note_player.MelodyPlayer
+import com.app.music_app.music_player.MelodyPlayer
+import com.app.music_app.names.NoteNameResolver
 import com.app.music_app.view.colors.AppColor
 import com.app.music_app.view.text.AutoResizedText
 import com.example.android_app.R
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
-import com.musiclib.notes.note_metadata.Alteration
 
 /**
  * Класс для взаимодейсвтия пользователя с виртуальной клавиатурой
@@ -62,23 +63,11 @@ class PianoKeyboard(
     private val pressedBlackButtonColor: Color = AppColor.HonoluluBlue
 
     // Maps
-    private var colorMap: MutableMap<Note, Color>
-
-    private val nameMap: Map<NoteName, String> = mapOf(
-        NoteName.Do to context.getString(R.string.note_name_do),
-        NoteName.Re to context.getString(R.string.note_name_re),
-        NoteName.Mi to context.getString(R.string.note_name_mi),
-        NoteName.Fa to context.getString(R.string.note_name_fa),
-        NoteName.Sol to context.getString(R.string.note_name_sol),
-        NoteName.La to context.getString(R.string.note_name_la),
-        NoteName.Si to context.getString(R.string.note_name_si)
-    )
+    private var colorMap: MutableMap<Note, Color> = mutableStateMapOf()
 
     init {
         require(noteRange.start.isWhole()) { "Can't draw piano keyboard with dark keys ob left border" }
         require(noteRange.endInclusive.isWhole()) { "Can't draw piano keyboard with dark keys ob right border" }
-
-        colorMap = mutableStateMapOf()
     }
 
     @Composable
@@ -112,6 +101,8 @@ class PianoKeyboard(
                     // Вычисляем отступ от прошлой клавиши
                     val space =
                         if (!key.isWhole()) 0f
+                        else if ((key.name == NoteName.Si || key.name == NoteName.Mi) && key != noteRange.start)
+                            whiteKeyWidth - darkKeySide
                         else if (key.name == NoteName.Si || key.name == NoteName.Mi || key == noteRange.endInclusive)
                             whiteKeyWidth
                         else if (key.name == NoteName.Do || key.name == NoteName.Fa || key == noteRange.start)
@@ -139,12 +130,12 @@ class PianoKeyboard(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.Top
             ) {
-                for (whiteKey in whiteKeys){
+                for (whiteKey in whiteKeys) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
                         verticalArrangement = Arrangement.Bottom
                     ) {
-                        PianoKeyName(whiteKey)
+                        PianoKeyName(context, whiteKey)
                     }
                 }
             }
@@ -172,6 +163,16 @@ class PianoKeyboard(
         require(noteRange.inRange(note)) { "Can't mark such note, it doesn't exist in piano" }
 
         colorMap[note] = if (note.isWhole()) Color.White else Color.Black
+    }
+
+    /**
+     * Возвращает всем клавишам их обычный цает
+     * @throws IllegalArgumentException
+     */
+    @SuppressLint("SuspiciousIndentation")
+    fun unmark() {
+        for (note in colorMap.keys)
+            colorMap[note] = if (note.isWhole()) Color.White else Color.Black
     }
 
     /**
@@ -210,9 +211,8 @@ class PianoKeyboard(
      * Отрисовывает названия для клавиш
      * */
     @Composable
-    private fun PianoKeyName(note: Note) {
-        val text =
-            nameMap[note.name] ?: throw IllegalArgumentException("Can't draw name for such note")
+    private fun PianoKeyName(context: Context, note: Note) {
+        val text = NoteNameResolver.nameOf(context, note.name)
 
         val pad = if (text.length == 1)
             (whiteKeyWidth / 3).dp

@@ -49,7 +49,7 @@ fun PianoCheckbox(
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
     vararg keyboards: PianoKeyboard,
 ) {
-    require(keyboards.isNotEmpty()) {"Can't draw zero keyboards"}
+    require(keyboards.isNotEmpty()) { "Can't draw zero keyboards" }
 
     Column(
         modifier = Modifier
@@ -85,30 +85,16 @@ fun PianoCheckbox(
                     // Цвет каждого квадрата (меняется при нажатии)
                     var color by remember { mutableStateOf(pianoBoxDefaultColor) }
 
-                    Box(
-                        modifier = Modifier
-                            .size(keyboards[it].size.times(1.2f))
-                            .border(
-                                BorderStroke(1.dp, color = color),
-                                shape = RoundedCornerShape(15.dp)
-                            )
-                            .background(color, shape = RoundedCornerShape(15.dp))
-                            .padding(3.dp)
-                            .pointerInput(Unit) {
-                                if (canClick) {
-                                    color = pianoBoxPressedColor
-                                    clicksCount++
-                                    // Когда остаётся один вариант
-                                    if (clicksCount >= keyboards.size - 1)
-                                        canClick = false
-                                    onPianoClick(keyboards[it], !canClick)
-                                }
-                            },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        // Рисуем клавиатуру внутри каждого квадратика
-                        keyboards[it].Draw()
-                    }
+                    PianoBox(keyboard = keyboards[it], widthMultiplier = 1.2f ,backgroundColor = color ,modifier = Modifier.pointerInput(Unit) {
+                        if (canClick) {
+                            color = pianoBoxPressedColor
+                            clicksCount++
+                            // Когда остаётся один вариант
+                            if (clicksCount >= keyboards.size - 1)
+                                canClick = false
+                            onPianoClick(keyboards[it], !canClick)
+                        }
+                    })
                 }
             }
 
