@@ -1,4 +1,4 @@
-package com.app.music_app.view.paino_box
+package com.app.music_app.components.paino_box
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -8,15 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.app.music_app.view.colors.AppColor
-import com.app.music_app.view.piano_keyboard.PianoKeyboard
+import com.app.music_app.components.colors.AppColor
+import com.app.music_app.components.piano_keyboard.PianoKeyboard
 
 /**
  * Рисует фортепиано и рамку вокруг него

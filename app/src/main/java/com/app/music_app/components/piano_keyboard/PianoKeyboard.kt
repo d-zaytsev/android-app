@@ -1,4 +1,4 @@
-package com.app.music_app.view.piano_keyboard
+package com.app.music_app.components.piano_keyboard
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,11 +26,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.music_player.MelodyPlayer
-import com.app.music_app.names.NoteNameResolver
-import com.app.music_app.view.colors.AppColor
-import com.app.music_app.view.text.AutoResizedText
-import com.example.android_app.R
+import com.app.music_app.music_players.MelodyPlayer
+import com.app.music_app.string_names.NoteResources
+import com.app.music_app.components.colors.AppColor
+import com.app.music_app.components.text.AutoResizedText
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
@@ -212,7 +211,7 @@ class PianoKeyboard(
      * */
     @Composable
     private fun PianoKeyName(context: Context, note: Note) {
-        val text = NoteNameResolver.nameOf(context, note.name)
+        val text = NoteResources.nameOf(context, note.name)
 
         val pad = if (text.length == 1)
             (whiteKeyWidth / 3).dp

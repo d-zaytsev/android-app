@@ -1,13 +1,11 @@
-package com.app.music_app.names
+package com.app.music_app.string_names
 
 import android.content.Context
 import com.example.android_app.R
-import com.musiclib.intervals.Interval
-import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.note_metadata.NoteName
 
-class NoteNameResolver {
+class NoteResources {
     companion object {
         fun nameOf(context: Context, note: NoteName): String {
             return when (note) {

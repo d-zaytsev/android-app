@@ -12,11 +12,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.music_player.instruments.VirtualPiano
+import com.app.music_app.music_players.instruments.VirtualPiano
 import com.app.music_app.exercises.pages.ChooseTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
-import com.app.music_app.view.piano_keyboard.PianoKeyboard
-import com.app.music_app.view.progress_bar.TaskProgressBar
+import com.app.music_app.components.piano_keyboard.PianoKeyboard
+import com.app.music_app.components.custom_progress_bar.TaskProgressBar
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Melody

@@ -1,4 +1,4 @@
-package com.app.music_app.view.piano_keyboard
+package com.app.music_app.components.piano_keyboard
 
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.RoundRect

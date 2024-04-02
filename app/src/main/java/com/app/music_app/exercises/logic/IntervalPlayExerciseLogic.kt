@@ -24,11 +24,11 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.names.IntervalNameResolver
-import com.app.music_app.names.NoteNameResolver
+import com.app.music_app.string_names.MusicIntervalResources
+import com.app.music_app.string_names.NoteResources
 import com.app.music_app.exercises.pages.CountTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
-import com.app.music_app.view.progress_bar.TaskProgressBar
+import com.app.music_app.components.custom_progress_bar.TaskProgressBar
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
@@ -165,18 +165,18 @@ private fun getText(
     return buildAnnotatedString {
         // Вообще весь текст
         withStyle(SpanStyle(fontSize = 30.sp)) {
-            val intervalName = IntervalNameResolver.nameOf(context, interval)
+            val intervalName = MusicIntervalResources.nameOf(context, interval)
 
             val noteName = if (from)
-                "${NoteNameResolver.nameOf(context, pair.first.name)}${
-                    NoteNameResolver.nameOf(
+                "${NoteResources.nameOf(context, pair.first.name)}${
+                    NoteResources.nameOf(
                         context,
                         pair.first.sign
                     )
                 }"
             else
-                "${NoteNameResolver.nameOf(context, pair.second.name)}${
-                    NoteNameResolver.nameOf(
+                "${NoteResources.nameOf(context, pair.second.name)}${
+                    NoteResources.nameOf(
                         context,
                         pair.second.sign
                     )

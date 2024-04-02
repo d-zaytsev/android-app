@@ -20,10 +20,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.app.music_app.pitch_analyzer.NoteDetector
-import com.app.music_app.view.colors.AppColor
-import com.app.music_app.view.paino_box.PianoBox
-import com.app.music_app.view.piano_keyboard.PianoKeyboard
+import com.app.music_app.pitch_analyzer.NoteRecognizer
+import com.app.music_app.components.colors.AppColor
+import com.app.music_app.components.paino_box.PianoBox
+import com.app.music_app.components.piano_keyboard.PianoKeyboard
 import com.musiclib.notes.Note
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
@@ -74,7 +74,7 @@ buildAnnotatedString {
         // Распознавалка нот & отображение на фортепиано
         LaunchedEffect(Unit) {
             composableScope.launch(Dispatchers.IO) {
-                NoteDetector().run { note ->
+                NoteRecognizer().run { note ->
                     if (note != null && pianoRange.inRange(note)) {
                         piano.unmark()
 

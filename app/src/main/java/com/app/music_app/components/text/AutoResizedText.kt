@@ -1,4 +1,4 @@
-package com.app.music_app.view.text
+package com.app.music_app.components.text
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

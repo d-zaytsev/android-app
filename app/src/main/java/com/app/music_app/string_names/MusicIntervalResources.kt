@@ -1,4 +1,4 @@
-package com.app.music_app.names
+package com.app.music_app.string_names
 
 import android.content.Context
 import com.example.android_app.R
@@ -6,7 +6,7 @@ import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
 
-class IntervalNameResolver {
+class MusicIntervalResources {
     companion object {
         fun nameOf(context: Context, interval: Interval): String {
             return when (interval) {

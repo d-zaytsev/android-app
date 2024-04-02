@@ -1,6 +1,5 @@
 package com.app.music_app.pitch_analyzer
 
-import android.util.Log
 import be.tarsos.dsp.AudioProcessor
 import be.tarsos.dsp.io.android.AudioDispatcherFactory
 import be.tarsos.dsp.pitch.PitchDetectionHandler
@@ -17,7 +16,7 @@ import kotlin.math.round
  * @param bufferOverlap Количество сэмплов, которые перекрываются между последовательными кадрами аудиобуфера
  * @param pitchEstimationAlgorithm Применяемый алгоритм распознавания высоты звука
  */
-class NoteDetector(
+class NoteRecognizer(
     private val sampleRate: Int = 22050,
     private val audioBufferSize: Int = 1024,
     private val bufferOverlap: Int = 0,

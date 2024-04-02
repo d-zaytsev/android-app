@@ -1,4 +1,4 @@
-package com.app.music_app.view.progress_bar
+package com.app.music_app.components.custom_progress_bar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.app.music_app.view.colors.AppColor
+import com.app.music_app.components.colors.AppColor
 
 /**
  * @param points верные ответы

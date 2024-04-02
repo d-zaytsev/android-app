@@ -1,6 +1,5 @@
-package com.app.music_app.view.piano_keyboard
+package com.app.music_app.components.piano_keyboard
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable

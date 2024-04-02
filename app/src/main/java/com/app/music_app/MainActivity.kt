@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.app.music_app.exercises.logic.CountTask
-import com.app.music_app.view.progress_bar.TaskProgressBar
+import com.app.music_app.components.custom_progress_bar.TaskProgressBar
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType

@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import com.app.music_app.view.colors.AppColor
+import com.app.music_app.components.colors.AppColor
 
 /**
  * Экран с результатами упражнения

@@ -1,6 +1,6 @@
-package com.app.music_app.music_player.instruments
+package com.app.music_app.music_players.instruments
 
-import com.app.music_app.music_player.interfaces.AbstractInstrument
+import com.app.music_app.music_players.interfaces.AbstractInstrument
 import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
