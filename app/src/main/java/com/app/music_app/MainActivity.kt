@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.app.music_app.exercises.logic.CountTask
 import com.app.music_app.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.exercises.logic.CompareExercise
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -45,7 +46,24 @@ class MainActivity : ComponentActivity() {
 
     @Preview
     @Composable
-    private fun TaskPreview() {
+    private fun CompareExercisePreview() {
+        val task = CompareExercise(
+            LocalContext.current,
+            NoteRange(Note(NoteName.Do), Note(NoteName.Fa)),
+            2..2,
+            5,
+            possibleIntervals = arrayOf(
+                Interval(IntervalName.Secunda, IntervalType.Small),
+                Interval(IntervalName.Secunda, IntervalType.Large)
+            )
+        )
+
+        task.run()
+    }
+
+    @Preview
+    @Composable
+    private fun ProgressBarPreview() {
         Column(modifier = Modifier.fillMaxSize()) {
 
             var points by remember { mutableFloatStateOf(0f) }

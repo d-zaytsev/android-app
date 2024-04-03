@@ -34,18 +34,16 @@ import kotlinx.coroutines.launch
 /**
  * Страница с упражнением (выбор интервалов в порядке их звучания)
  * @param keyboards Клавиатуры для отрисовки (в правильном порядке)
+ * @param onPianoClick Действия, необходимые производить при выборе пользователя
  */
 @Composable
 fun ChooseTaskPage(
     context: Context,
     melodyToPlay: Melody,
     playInstrument: AbstractInstrument,
-    onEnd: (isSuccess: Boolean) -> Unit,
-    vararg keyboards: PianoKeyboard
+    onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
+    vararg shuffledKeyboards: PianoKeyboard
 ) {
-    //TODO перенести логику определения верного нажатия отсюда в логику
-    require(keyboards.size >= 2) { "Can't draw less than 2 intervals" }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,13 +51,11 @@ fun ChooseTaskPage(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // --- Наполнение страницы ---
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.4f)
         )
-        // TODO заменить на относительные размеры
         Box(
             modifier = Modifier
                 .height(50.dp)
@@ -68,43 +64,13 @@ fun ChooseTaskPage(
             PlayButton(context = context, melody = melodyToPlay, instrument = playInstrument)
         }
 
-        var success by remember { mutableStateOf(true) } // Текущий верный индекс
-
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)
         )
-
-        var curInd by remember { mutableIntStateOf(0) } // Текущий верный индекс
-
-        val shuffledKeyboards =
-            remember { keyboards.clone().also { it.shuffle() } } // Чтобы порядок был непредсказуем
-
         Box(modifier = Modifier.padding(30.dp)) {
-            // Через время переходим на следующий экран
-            val coroutineScope = rememberCoroutineScope()
-
-            PianoCheckbox(keyboards = shuffledKeyboards, onPianoClick =
-            { keyboard, isLast ->
-                val i = keyboards.indexOf(keyboard)
-                if (i == curInd) {
-                    // * Правильный ответ *
-                    curInd++
-
-                } else {
-                    // * Неправильный ответ *
-                    success = false
-                }
-
-                if (isLast) {
-                    coroutineScope.launch {
-                        delay(1500)
-                        onEnd(success)
-                    }
-                }
-
-            })
+            PianoCheckbox(keyboards = shuffledKeyboards, onPianoClick = onPianoClick)
         }
     }
 }

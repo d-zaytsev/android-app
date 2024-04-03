@@ -42,7 +42,7 @@ import com.musiclib.notes.range.NoteRange
 class PianoKeyboard(
     private val context: Context,
     val size: DpSize,
-    private val noteRange: NoteRange,
+    val noteRange: NoteRange,
     private val player: MelodyPlayer? = null
 ) {
     // Кол-во целых нот в диапазоне

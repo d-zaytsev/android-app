@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,8 @@ import com.musiclib.notes.Note
 import com.musiclib.notes.Pause
 import com.musiclib.notes.note_metadata.NoteDuration
 import com.musiclib.notes.interfaces.MusicPause
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 /**
@@ -67,6 +71,7 @@ class CompareExercise(
             TaskProgressBar(succeedPoints, points, taskCount.toFloat())
 
             val navController = rememberNavController()
+            val coroutineScope = rememberCoroutineScope()
 
             NavHost(navController, taskScreenNames[0]) {
                 // Экран с результатами
@@ -85,30 +90,36 @@ class CompareExercise(
                         }
                         val melodies = remember { getMelodies(pairs, fixDirection) }
                         val pianos = remember { getKeyboards(context, pairs) }
+                        val shuffledPianos = remember { pianos.clone().also { it.shuffle() } }
+                        var curPiano by remember { mutableIntStateOf(0) }
 
                         ChooseTaskPage(
                             context = context,
                             melodyToPlay = melodies,
                             playInstrument = VirtualPiano(),
-                            onEnd = { success ->
-                                if (success)
-                                    succeedPoints++
+                            shuffledKeyboards = shuffledPianos,
+                            onPianoClick = { clickedPiano, isLastVariant ->
                                 points++
+                                if (clickedPiano == pianos[curPiano])
+                                    succeedPoints++
 
-                                // Переход на экран с результатами
-                                if (screenId == taskCount - 1) {
-                                    navController.navigate(RESULTS_SCREEN) {
-                                        popUpTo(RESULTS_SCREEN)
-                                    }
-                                } else {
-                                    // Переход на следующий экран
-                                    navController.navigate(taskScreenNames[screenId.inc()]) {
-                                        popUpTo(taskScreenNames[screenId.inc()])
+                                curPiano++
+
+                                if (isLastVariant) {
+                                    coroutineScope.launch {
+                                        delay(1500)
+                                        if (screenId == taskCount - 1) {
+                                            navController.navigate(RESULTS_SCREEN) {
+                                                popUpTo(RESULTS_SCREEN)
+                                            }
+                                        } else {
+                                            navController.navigate(taskScreenNames[screenId.inc()]) {
+                                                popUpTo(taskScreenNames[screenId.inc()])
+                                            }
+                                        }
                                     }
                                 }
-
-                            },
-                            keyboards = pianos
+                            }
                         )
                     }
 
@@ -118,6 +129,9 @@ class CompareExercise(
         }
 
     }
+
+    private fun PianoKeyboard.equals(other: Any?) =
+        other is PianoKeyboard && this.noteRange == other.noteRange
 
     /** Откладывает интервал от переданной ноты */
     private fun getPair(first: Note, interval: Interval, notes: List<Note>): Pair<Note, Note> {
