@@ -1,20 +1,21 @@
 package com.app.music_app.exercises.interfaces
 
-interface AbstractExercise {
+import androidx.compose.runtime.Composable
+
+abstract class AbstractExercise {
 
     /**
      * Запуск упражнения
      */
-    abstract fun run(): ExerciseResults
+    @Composable
+    abstract fun run()
 
-    fun Float.toResultType(): ExerciseResults {
-        return when (this) {
-            in 0f..0.2f -> ExerciseResults.NOT_BAD
-            in 0.2f..0.5f -> ExerciseResults.FINE
-            in 0.5f..0.85f -> ExerciseResults.GREAT
-            in 0.85f..1f -> ExerciseResults.AMAZING
-            else -> throw IllegalArgumentException("Can't conver float to ExerciseResult")
-        }
+    /**
+     * Имена экранов, используемых в задании
+     */
+    companion object ScreenName {
+        const val TASK_SCREEN = "task_screen"
+        const val RESULTS_SCREEN = "results"
     }
 
 }

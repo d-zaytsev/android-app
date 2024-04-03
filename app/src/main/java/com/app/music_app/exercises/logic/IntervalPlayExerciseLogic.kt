@@ -29,6 +29,8 @@ import com.app.music_app.string_names.NoteResources
 import com.app.music_app.exercises.pages.CountTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
 import com.app.music_app.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.exercises.interfaces.AbstractExercise.ScreenName.RESULTS_SCREEN
+import com.app.music_app.exercises.interfaces.AbstractExercise.ScreenName.TASK_SCREEN
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
@@ -69,7 +71,7 @@ fun CountTask(
     var errorAttempts by remember { mutableFloatStateOf(0f) } // Кол-во ошибок, совершённое в текущем упражнении
 
     val navController = rememberNavController()
-    val screens = remember { Array(taskCount) { "${ScreenNames.TASK_SCREEN}:$it" } }
+    val screens = remember { Array(taskCount) { "${TASK_SCREEN}:$it" } }
 
     val notesList = remember { range.toList() }
 
@@ -84,7 +86,7 @@ fun CountTask(
             navController = navController,
             startDestination = screens[0]
         ) {
-            composable(ScreenNames.RESULTS_SCREEN) {
+            composable(RESULTS_SCREEN) {
                 ResultsPage(succeedPoints.toInt(), maxProgress.toInt())
             }
 
@@ -131,8 +133,8 @@ fun CountTask(
                             } else
                                 runBlocking {
                                     launch(Dispatchers.Main) {
-                                        navController.navigate(ScreenNames.RESULTS_SCREEN) {
-                                            popUpTo(ScreenNames.RESULTS_SCREEN)
+                                        navController.navigate(RESULTS_SCREEN) {
+                                            popUpTo(RESULTS_SCREEN)
                                         }
                                     }
                                 }
