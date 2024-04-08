@@ -50,7 +50,6 @@ class MainActivity : ComponentActivity() {
         val task = CompareExercise(
             LocalContext.current,
             NoteRange(Note(NoteName.Do), Note(NoteName.Fa)),
-            2..2,
             5,
             possibleIntervals = arrayOf(
                 Interval(IntervalName.Secunda, IntervalType.Small),

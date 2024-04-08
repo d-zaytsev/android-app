@@ -31,15 +31,17 @@ import com.example.android_app.R
 /**
  * Рисует checkbox с клавиатурами
  * @param keyboards Элементы для отрисовки
+ * @param onPianoClick (нажатая клавиатура, является ли она последней) -> правильный лм выбор
  * */
 @Composable
 fun PianoCheckbox(
     text: String = stringResource(R.string.piano_box_text),
     backColor: Color = Color.White,
     pianoBoxDefaultColor: Color = AppColor.NonPhotoBlue,
-    pianoBoxPressedColor: Color = AppColor.PacificCyan,
+    successColor: Color = AppColor.Emerald,
+    errorColor: Color = AppColor.CoralPink,
     textColor: Color = Color.Black,
-    onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
+    onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Boolean,
     vararg keyboards: PianoKeyboard,
 ) {
     require(keyboards.isNotEmpty()) { "Can't draw zero keyboards" }
@@ -77,17 +79,26 @@ fun PianoCheckbox(
                 repeat(keyboards.size) {
                     // Цвет каждого квадрата (меняется при нажатии)
                     var color by remember { mutableStateOf(pianoBoxDefaultColor) }
+                    val keyboardLength = remember { keyboards[it].noteRange.wholeNotesCount }
 
-                    PianoBox(keyboard = keyboards[it], widthMultiplier = 1.2f ,backgroundColor = color ,modifier = Modifier.pointerInput(Unit) {
-                        if (canClick) {
-                            color = pianoBoxPressedColor
-                            clicksCount++
-                            // Когда остаётся один вариант
-                            if (clicksCount >= keyboards.size - 1)
-                                canClick = false
-                            onPianoClick(keyboards[it], !canClick)
-                        }
-                    })
+                    PianoBox(
+                        keyboard = keyboards[it],
+                        widthMultiplier = if (keyboardLength == 2) 1.3f else if (keyboardLength == 3) 1.2f else 1.1f,
+                        backgroundColor = color,
+                        modifier = Modifier.pointerInput(Unit) {
+                            if (canClick) {
+                                clicksCount++
+                                // Когда остаётся один вариант
+                                if (clicksCount == keyboards.size - 1)
+                                    canClick = false
+
+                                // Окрашиваем в нужный цвет (в зависимости от правильности выбора)
+                                color = if (onPianoClick(keyboards[it], !canClick))
+                                    successColor
+                                else
+                                    errorColor
+                            }
+                        })
                 }
             }
 

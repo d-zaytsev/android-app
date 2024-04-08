@@ -36,7 +36,6 @@ import kotlin.math.abs
  * Упражнение на сопоставление звука и интервала
  * @param range Диапазон нот, в котором разрешено выбирать интервалы
  * @param possibleIntervals Какие интервалы будут в упражнении
- * @param chooseVariants Кол-во вариантов выбора
  * @param taskCount Кол-во заданий
  * @param fixFirstNote Если true, то все интервалы будут содержать общую одной ноты
  * @param fixDirection Если true, то интервал будут звучать только по возрастанию нот
@@ -44,7 +43,6 @@ import kotlin.math.abs
 class CompareExercise(
     private val context: Context,
     private val range: NoteRange,
-    private val chooseVariants: IntRange,
     private val taskCount: Int = 5,
     private val fixFirstNote: Boolean = true,
     private val fixDirection: Boolean = true,
@@ -55,7 +53,6 @@ class CompareExercise(
         require(possibleIntervals.size >= 2) { "Can't use less than 2 intervals" }
         require(range.wholeNotesCount >= 3) { "Can't such small note range" }
         require(taskCount > 0) { "Can't be less than 1 task" }
-        require(possibleIntervals.size >= chooseVariants.last - chooseVariants.first) { "Need more intervals to choose" }
         require(possibleIntervals.maxOf { it.distance } >= range.start.pitch - range.endInclusive.pitch) { "You choose too small range for such intervals" }
     }
 
@@ -82,7 +79,6 @@ class CompareExercise(
                         // Получаем данные для отрисовки страницы
                         val pairs = remember {
                             pairsByIntervals(
-                                chooseVariants,
                                 fixFirstNote,
                                 noteList,
                                 possibleIntervals
@@ -98,27 +94,31 @@ class CompareExercise(
                             melodyToPlay = melodies,
                             playInstrument = VirtualPiano(),
                             shuffledKeyboards = shuffledPianos,
-                            onPianoClick = { clickedPiano, isLastVariant ->
+                            onPianoClick = { clickedPiano, _ ->
                                 points++
-                                if (clickedPiano == pianos[curPiano])
+
+                                val correctVariant = clickedPiano == pianos[curPiano]
+                                if (correctVariant)
                                     succeedPoints++
 
                                 curPiano++
 
-                                if (isLastVariant) {
-                                    coroutineScope.launch {
-                                        delay(1500)
-                                        if (screenId == taskCount - 1) {
-                                            navController.navigate(RESULTS_SCREEN) {
-                                                popUpTo(RESULTS_SCREEN)
-                                            }
-                                        } else {
-                                            navController.navigate(taskScreenNames[screenId.inc()]) {
-                                                popUpTo(taskScreenNames[screenId.inc()])
-                                            }
+                                coroutineScope.launch {
+                                    delay(1500)
+                                    if (screenId == taskCount - 1) {
+                                        navController.navigate(RESULTS_SCREEN) {
+                                            popUpTo(RESULTS_SCREEN)
+                                        }
+                                    } else {
+                                        navController.navigate(taskScreenNames[screenId.inc()]) {
+                                            popUpTo(taskScreenNames[screenId.inc()])
                                         }
                                     }
                                 }
+
+
+                                // Красит в нужный цвет
+                                return@ChooseTaskPage correctVariant
                             }
                         )
                     }
@@ -148,19 +148,17 @@ class CompareExercise(
      * @return Список пар, состоящий из нот, находящихся друг от друга на опр-х интервалах
      * */
     private fun pairsByIntervals(
-        chooseVariants: IntRange,
         fixFirstNote: Boolean,
         noteList: List<Note>,
         possibleIntervals: Array<out Interval>
     ): Array<Pair<Note, Note>> {
-        val variantsCount = chooseVariants.random() // кол-во вариантов выбора
         val shuffledIntervals =
             possibleIntervals.copyOf(); shuffledIntervals.shuffle() // интервалы в случайном порядке
         val pairList = mutableListOf<Pair<Note, Note>>() // список с парами нот
 
         val fixedNote = noteList.random()
 
-        repeat(variantsCount) {
+        repeat(2) {
             // добавляем ноты с границ интервалов
             pairList.add(
                 // Каждый интервал содержит общую ноту

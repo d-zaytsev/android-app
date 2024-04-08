@@ -41,7 +41,7 @@ fun ChooseTaskPage(
     context: Context,
     melodyToPlay: Melody,
     playInstrument: AbstractInstrument,
-    onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Unit,
+    onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Boolean,
     vararg shuffledKeyboards: PianoKeyboard
 ) {
     Column(
