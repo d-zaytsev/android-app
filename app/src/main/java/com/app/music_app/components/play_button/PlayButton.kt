@@ -28,7 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.music_players.MelodyPlayer
 import com.app.music_app.music_players.interfaces.AbstractInstrument
-import com.app.music_app.components.colors.AppColor
+import com.app.music_app.app_theme.AppColor
+import com.app.music_app.app_theme.AppTheme
 import com.example.android_app.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +46,7 @@ import kotlinx.coroutines.launch
 fun PlayButton(
     context: Context,
     melody: com.musiclib.notes.Melody,
-    instrument: AbstractInstrument,
-    mainColor: Color = AppColor.PacificCyan
+    instrument: AbstractInstrument
 ) {
     val text = stringResource(R.string.repeat)
 
@@ -60,13 +60,13 @@ fun PlayButton(
         enabled = !isPlaying,
         onClick = {},
         colors = ButtonDefaults.buttonColors(
-            containerColor = mainColor,
-            disabledContainerColor = Color.Gray
+            containerColor = AppTheme.color.secondary,
+            disabledContainerColor = AppTheme.color.inactive
         ),
         modifier = Modifier
             .fillMaxSize()
             .scale(scale)
-            .shadow(20.dp, shape = RoundedCornerShape(10.dp))
+            .shadow(AppTheme.size.medium, shape = AppTheme.shape.button)
             .pointerInteropFilter {
                 // рассматриваются разные случаи action
                 when (it.action) {
@@ -94,14 +94,14 @@ fun PlayButton(
                 .scale(1.5f),
             imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
             contentDescription = "Refresh button",
-            tint = Color.White
+            tint = AppTheme.color.onSecondary
         )
         Text(
             text = text,
-            color = Color.White,
+            color = AppTheme.color.onSecondary,
             textAlign = TextAlign.Center,
-            fontSize = 25.sp,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            style = AppTheme.typography.body
         )
     }
 }
