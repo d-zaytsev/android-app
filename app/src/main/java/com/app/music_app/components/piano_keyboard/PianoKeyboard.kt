@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.music_app.app_theme.AppColor
 import com.app.music_app.music_players.MelodyPlayer
 import com.app.music_app.string_names.NoteResources
-import com.app.music_app.components.colors.AppColor
 import com.app.music_app.components.text.AutoResizedText
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
@@ -45,6 +45,9 @@ class PianoKeyboard(
     val noteRange: NoteRange,
     private val player: MelodyPlayer? = null
 ) {
+
+    // TODO ПЕРЕДЕЛАТЬ НАКОНЕЦ-ТО БРЕД ЭТОТ
+
     // Кол-во целых нот в диапазоне
     private val wholeNotesCount = noteRange.wholeNotesCount
 

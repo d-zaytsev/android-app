@@ -47,7 +47,7 @@ object AppTheme {
         @Composable get() = LocalAppShape.current
 }
 
-private object AppColor {
+object AppColor {
     // https://coolors.co/palette/03045e-0077b6-00b4d8-90e0ef-caf0f8 - App Palette
     val CoralPink: Color
         get() = Color(248, 131, 121)
