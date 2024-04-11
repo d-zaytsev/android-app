@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.app.music_app.music_players.interfaces.AbstractInstrument
 import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.view.components.paino_box.PianoCheckbox
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.components.play_button.PlayButton
@@ -39,7 +40,7 @@ fun ChooseTaskScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(AppColor.WhiteSmoke),
+            .background(AppTheme.color.surface),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -61,7 +62,7 @@ fun ChooseTaskScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)
         )
-        Box(modifier = Modifier.padding(30.dp)) {
+        Box(modifier = Modifier.padding(AppTheme.size.large)) {
             PianoCheckbox(keyboards = shuffledKeyboards, onPianoClick = onPianoClick)
         }
     }

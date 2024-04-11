@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.app.music_app.pitch_analyzer.NoteRecognizer
 import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.view.components.paino_box.PianoBox
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.musiclib.notes.Note
@@ -43,7 +44,7 @@ fun IntervalPlayScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(AppColor.WhiteSmoke),
+            .background(AppTheme.color.surface),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -62,12 +63,10 @@ fun IntervalPlayScreen(
         Text(
             text,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.padding(AppTheme.size.normal),
+            style = AppTheme.typography.title
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
-buildAnnotatedString {
-
-        }
         // Фортепиано
         PianoBox(piano)
 

@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.pages
+package com.app.music_app.view.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import com.app.music_app.components.colors.AppColor
+import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.app_theme.AppTheme
 
 /**
  * Экран с результатами упражнения
@@ -21,11 +22,11 @@ import com.app.music_app.components.colors.AppColor
  * @param maxPoints Сколько всего очков можно было заработать
  */
 @Composable
-fun ResultsPage(points: Int, maxPoints: Int) {
+fun ResultsScreen(points: Int, maxPoints: Int) {
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .background(AppColor.WhiteSmoke)
+            .background(AppTheme.color.surface)
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.fillMaxHeight(0.3f))
@@ -37,8 +38,8 @@ fun ResultsPage(points: Int, maxPoints: Int) {
         ) {
             Text(
                 "$points / $maxPoints",
-                fontSize = 30.sp,
-                color = AppColor.PacificCyan
+                style = AppTheme.typography.display,
+                color = AppTheme.color.primary
             )
         }
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
