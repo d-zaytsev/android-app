@@ -22,7 +22,7 @@ import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 @Composable
 fun PianoBox(
     keyboard: PianoKeyboard,
-    backgroundColor: Color = AppTheme.color.surface,
+    backgroundColor: Color = AppTheme.color.tertiary,
     widthMultiplier: Float = 1.1f,
     modifier: Modifier = Modifier
 ) {
