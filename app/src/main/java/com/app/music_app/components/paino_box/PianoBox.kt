@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import com.app.music_app.components.colors.AppColor
+import com.app.music_app.app_theme.AppTheme
 import com.app.music_app.components.piano_keyboard.PianoKeyboard
 
 /**
@@ -22,19 +22,24 @@ import com.app.music_app.components.piano_keyboard.PianoKeyboard
 @Composable
 fun PianoBox(
     keyboard: PianoKeyboard,
-    backgroundColor: Color = AppColor.NonPhotoBlue,
+    backgroundColor: Color = AppTheme.color.surface,
     widthMultiplier: Float = 1.1f,
     modifier: Modifier = Modifier
 ) {
 
     Box(
         modifier = modifier
-            .size(DpSize(keyboard.size.width.times(widthMultiplier), keyboard.size.height.times(1.2f)))
+            .size(
+                DpSize(
+                    keyboard.size.width.times(widthMultiplier),
+                    keyboard.size.height.times(1.2f)
+                )
+            )
             .border(
                 BorderStroke(1.dp, color = backgroundColor),
-                shape = RoundedCornerShape(15.dp)
+                shape = AppTheme.shape.container
             )
-            .background(backgroundColor, shape = RoundedCornerShape(15.dp))
+            .background(backgroundColor, shape = AppTheme.shape.container)
             .padding(3.dp),
         contentAlignment = Alignment.Center
     ) {

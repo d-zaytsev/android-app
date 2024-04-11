@@ -88,9 +88,9 @@ private val definedColor = AppColorScheme(
 )
 
 private val definedSize = AppSize(
-    large = 40.dp,
-    medium = 30.dp,
-    normal = 24.dp,
+    large = 30.dp,
+    medium = 24.dp,
+    normal = 16.dp,
     small = 12.dp
 )
 

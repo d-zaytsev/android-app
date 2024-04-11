@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.components.colors.AppColor
+import com.app.music_app.app_theme.AppTheme
 import com.app.music_app.components.piano_keyboard.PianoKeyboard
 import com.example.android_app.R
 
@@ -36,30 +36,25 @@ import com.example.android_app.R
 @Composable
 fun PianoCheckbox(
     text: String = stringResource(R.string.piano_box_text),
-    backColor: Color = Color.White,
-    pianoBoxDefaultColor: Color = AppColor.NonPhotoBlue,
-    successColor: Color = AppColor.Emerald,
-    errorColor: Color = AppColor.CoralPink,
-    textColor: Color = Color.Black,
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Boolean,
     vararg keyboards: PianoKeyboard,
 ) {
-    require(keyboards.isNotEmpty()) { "Can't draw zero keyboards" }
+    val pianoBoxDefaultColor: Color = AppTheme.color.tertiary
+    val successColor: Color = AppTheme.color.success
+    val errorColor: Color = AppTheme.color.error
 
     Column(
         modifier = Modifier
-            .shadow(1.dp, RoundedCornerShape(10.dp))
-            .background(backColor, RoundedCornerShape(10.dp)),
+            .shadow(6.dp, AppTheme.shape.container)
+            .background(AppTheme.color.surface, AppTheme.shape.container),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text,
             textAlign = TextAlign.Center,
-            color = textColor,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            fontFamily = FontFamily.SansSerif,
-            modifier = Modifier.padding(10.dp)
+            color = AppTheme.color.onSurface,
+            style = AppTheme.typography.title,
+            modifier = Modifier.padding(AppTheme.size.small)
         )
         // Общий контейнер
         Box(
