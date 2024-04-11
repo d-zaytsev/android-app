@@ -11,7 +11,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.components.piano_keyboard.PianoKeyShape
 
 /**
  * Впихивает значения в контекст
@@ -21,19 +20,19 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     val rippleIndication = rememberRipple()
-    // Проталкиваем наши значения
+    // Проталкиваем наши значения в контекст под определёнными ключами
     CompositionLocalProvider(
-        LocalAppColorScheme provides color,
-        LocalAppSize provides size,
-        LocalAppTypography provides typography,
-        LocalAppShape provides shape,
+        LocalAppColorScheme provides definedColor,
+        LocalAppSize provides definedSize,
+        LocalAppTypography provides definedTypography,
+        LocalAppShape provides definedShape,
         LocalIndication provides rippleIndication,
         content = content
     )
 }
 
 /**
- * Позволяет обращаться к значениям (выцепляет их из контекса)
+ * Позволяет обращаться к значениям (выцепляет их из контекса по ключу)
  */
 object AppTheme {
     val color: AppColorScheme
@@ -71,7 +70,7 @@ private object AppColor {
         get() = Color(219, 215, 210)
 }
 
-private val color = AppColorScheme(
+private val definedColor = AppColorScheme(
     surface = AppColor.WhiteSmoke,
     onSurface = Color.Black,
     primary = AppColor.HonoluluBlue,
@@ -88,14 +87,14 @@ private val color = AppColorScheme(
     outlineVariant = AppColor.TimberWolf,
 )
 
-private val size = AppSize(
+private val definedSize = AppSize(
     large = 40.dp,
     medium = 30.dp,
     normal = 24.dp,
     small = 12.dp
 )
 
-private val typography = AppTypography(
+private val definedTypography = AppTypography(
     display = TextStyle(
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.Bold,
@@ -116,7 +115,7 @@ private val typography = AppTypography(
     )
 )
 
-private val shape = AppShape(
+private val definedShape = AppShape(
     button = RoundedCornerShape(10.dp),
     container = RoundedCornerShape(15.dp)
 )
