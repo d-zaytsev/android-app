@@ -32,6 +32,7 @@ import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,6 +64,7 @@ class PlayIntervalExercise(
         require(possibleIntervals.none { it.distance > range.endInclusive.pitch - range.start.pitch }) { " Can't use intervals bigger than range " }
     }
 
+
     @Composable
     override fun run() {
 
@@ -70,11 +72,13 @@ class PlayIntervalExercise(
         var succeedPoints by remember { mutableFloatStateOf(0f) } // Правильные ответы
         var points by remember { mutableFloatStateOf(0f) } // Общий прогресс
         val maxProgress = remember { taskCount * maxAttemptsCount.toFloat() }
-        var curTaskErrors by remember { mutableFloatStateOf(0f) } // Кол-во ошибок, совершённое в текущем упражнении
+        var curTaskErrors = remember { 0f } // Кол-во ошибок, совершённое в текущем упражнении
 
         val navController = rememberNavController()
 
         val notesList = remember { range.toList() }
+        var lastNote =
+            remember { range.start.previousWhole() } // последняя нота, сыгранная в упр-ии
 
         // Интерфейс
         Column(modifier = Modifier.fillMaxSize()) {
@@ -100,8 +104,7 @@ class PlayIntervalExercise(
                             remember { Random.nextBoolean() } // true - откладываем от первой ноты
                         val text = remember { getText(context, pair, interval, moveFrom) }
 
-                        var first = remember { false }
-                        var second = remember { false }
+                        var firstNoteFlag = remember { false } // была ли угадана первая нота
 
                         CountTaskPage(
                             context,
@@ -112,13 +115,15 @@ class PlayIntervalExercise(
 
                             // Определение правильности нажатия
                             if (note == pair.first) {
-                                first = true
+                                firstNoteFlag = true
                                 return@CountTaskPage true
-                            } else if (note == pair.second && first && !second) {
-                                second = true
+                            } else if (note == pair.second && firstNoteFlag) {
+                                firstNoteFlag = false
                                 points += maxAttemptsCount
                                 succeedPoints += maxAttemptsCount - curTaskErrors
                                 curTaskErrors = 0f
+
+                                lastNote = note // иначе засчитаем ошибку в следующем этапе
 
                                 // Переход на следующее задание
                                 if (i < taskCount - 1) {
@@ -138,10 +143,13 @@ class PlayIntervalExercise(
                                         }
                                     }
 
+                                return@CountTaskPage true
                             }
 
-                            if (curTaskErrors < maxAttemptsCount)
+                            if (curTaskErrors < maxAttemptsCount && note != lastNote) {
                                 curTaskErrors++
+                                lastNote = note // иначе будем повторно засчитывать ошибки
+                            }
 
                             return@CountTaskPage false
 
@@ -203,11 +211,30 @@ class PlayIntervalExercise(
         }
     }
 
-    private fun getPair(notes: List<Note>, interval: Interval): Pair<Note, Note> {
-        val first = notes.random()
+    /**
+     * @param excludedNote Нота, которая не должна быть в паре на первом месте
+     */
+    private fun getPair(
+        notes: List<Note>,
+        interval: Interval,
+        excludedNote: Note? = null
+    ): Pair<Note, Note> {
+        val first = notes.filter { note -> note != excludedNote }.random()
         val second =
             notes.filter { note -> abs(first.pitch - note.pitch) == interval.distance }.random()
         return if (first < second) Pair(first, second) else Pair(second, first)
+    }
+
+    /**
+     * Меняет ноту со знаком алитерации на аналогичную, но с другим знаком
+     */
+    private fun Note.shuffleSign(): Note {
+        if (this.isWhole())
+            return this
+        else if (this.isExt())
+            return this.nextSemitone().previousWhole()
+        else
+            return this.previousWhole().nextSemitone()
     }
 
     /**

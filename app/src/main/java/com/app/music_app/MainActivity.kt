@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                 LocalContext.current,
                 this@MainActivity,
                 NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
-                3,
+                2,
                 10,
                 arrayOf(
                     Interval(IntervalName.Secunda, IntervalType.Small),
