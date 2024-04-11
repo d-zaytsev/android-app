@@ -34,26 +34,30 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Root element
         setContent {
-            val task = PlayIntervalExercise(
-                LocalContext.current,
-                this@MainActivity,
-                NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
-                2,
-                10,
-                arrayOf(
-                    Interval(IntervalName.Secunda, IntervalType.Small),
-                    Interval(IntervalName.Secunda, IntervalType.Large)
+            AppTheme {
+                val task = PlayIntervalExercise(
+                    LocalContext.current,
+                    this@MainActivity,
+                    NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
+                    2,
+                    10,
+                    arrayOf(
+                        Interval(IntervalName.Secunda, IntervalType.Small),
+                        Interval(IntervalName.Secunda, IntervalType.Large)
+                    )
                 )
-            )
 
-            task.run()
+                task.run()
+            }
         }
     }
 
     @Preview
     @Composable
     private fun TaskScreen() {
-        TaskDifficultyPage()
+        AppTheme {
+            TaskDifficultyPage()
+        }
     }
 
     @Preview

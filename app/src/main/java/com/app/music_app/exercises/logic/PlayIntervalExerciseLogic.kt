@@ -185,6 +185,8 @@ class PlayIntervalExercise(
                         )
                     }"
 
+                // Текст в ресурсах разделён % в местах где должны быть подстановки
+
                 val textParts =
                     (if (from) context.getString(R.string.note_delaying_from) else context.getString(
                         R.string.note_delaying_to
