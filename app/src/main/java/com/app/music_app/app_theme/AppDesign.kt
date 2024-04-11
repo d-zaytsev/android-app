@@ -25,6 +25,7 @@ data class AppColorScheme(
     val onSuccess: Color,       // Текст на эл-те с цветом успеха
     val outline: Color,         // Границы, например контур текстового поля
     val outlineVariant: Color,  // Границы для разделителей, не важные
+    val inactive: Color,        // Цвет неактивного элемента
 )
 
 data class AppSize(
@@ -64,7 +65,8 @@ val LocalAppColorScheme = staticCompositionLocalOf {
         success = Color.Unspecified,
         onSuccess = Color.Unspecified,
         outline = Color.Unspecified,
-        outlineVariant = Color.Unspecified
+        outlineVariant = Color.Unspecified,
+        inactive = Color.Unspecified
     )
 }
 

@@ -65,7 +65,6 @@ object AppColor {
         get() = Color(3, 4, 94)
     val WhiteSmoke: Color
         get() = Color(245, 245, 245)
-
     val TimberWolf: Color
         get() = Color(219, 215, 210)
 }
@@ -85,6 +84,7 @@ private val definedColor = AppColorScheme(
     onSuccess = AppColor.PacificCyan,
     outline = AppColor.TimberWolf,
     outlineVariant = AppColor.TimberWolf,
+    inactive = Color.Gray
 )
 
 private val definedSize = AppSize(
