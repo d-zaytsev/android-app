@@ -1,6 +1,7 @@
 package com.app.music_app.exercises.logic
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +20,7 @@ import com.app.music_app.exercises.pages.ChooseTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
 import com.app.music_app.components.piano_keyboard.PianoKeyboard
 import com.app.music_app.components.custom_progress_bar.TaskProgressBar
-import com.app.music_app.exercises.interfaces.AbstractExercise
+import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Melody
@@ -152,8 +153,7 @@ class CompareExercise(
         noteList: List<Note>,
         possibleIntervals: Array<out Interval>
     ): Array<Pair<Note, Note>> {
-        val shuffledIntervals =
-            possibleIntervals.copyOf(); shuffledIntervals.shuffle() // интервалы в случайном порядке
+        val shuffledIntervals = possibleIntervals.copyOf().also { it.shuffle() }
         val pairList = mutableListOf<Pair<Note, Note>>() // список с парами нот
 
         val fixedNote = noteList.random()

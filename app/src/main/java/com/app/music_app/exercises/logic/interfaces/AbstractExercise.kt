@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.interfaces
+package com.app.music_app.exercises.logic.interfaces
 
 import androidx.compose.runtime.Composable
 

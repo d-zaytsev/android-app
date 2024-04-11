@@ -15,9 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.exercises.logic.CountTask
 import com.app.music_app.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.logic.CompareExercise
+import com.app.music_app.exercises.logic.PlayIntervalExercise
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -32,15 +32,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Root element
         setContent {
-            CountTask(
+            val task = PlayIntervalExercise(
                 LocalContext.current,
                 this@MainActivity,
                 NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
                 3,
                 10,
-                Interval(IntervalName.Secunda, IntervalType.Small),
-                Interval(IntervalName.Secunda, IntervalType.Large)
+                arrayOf(
+                    Interval(IntervalName.Secunda, IntervalType.Small),
+                    Interval(IntervalName.Secunda, IntervalType.Large)
+                )
             )
+
+            task.run()
         }
     }
 
@@ -49,11 +53,11 @@ class MainActivity : ComponentActivity() {
     private fun CompareExercisePreview() {
         val task = CompareExercise(
             LocalContext.current,
-            NoteRange(Note(NoteName.Do), Note(NoteName.Fa)),
+            NoteRange(Note(NoteName.Do), Note(NoteName.Si, octave = 1)),
             5,
             possibleIntervals = arrayOf(
-                Interval(IntervalName.Secunda, IntervalType.Small),
-                Interval(IntervalName.Secunda, IntervalType.Large)
+                Interval(IntervalName.Tertia, IntervalType.Small),
+                Interval(IntervalName.Secunda, IntervalType.Small)
             )
         )
 
