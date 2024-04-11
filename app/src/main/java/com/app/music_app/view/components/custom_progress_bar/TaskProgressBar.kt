@@ -39,7 +39,7 @@ fun TaskProgressBar(
 
     // Animation for color changes
     val animatedColor by animateColorAsState(
-        targetValue = AppTheme.color.secondary.copy(alpha = calculateAlpha(points, progress)),
+        targetValue = AppTheme.color.primary.copy(alpha = calculateAlpha(points, progress)),
         label = ""
     )
 
