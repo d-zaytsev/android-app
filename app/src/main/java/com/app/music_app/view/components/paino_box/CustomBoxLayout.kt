@@ -1,4 +1,4 @@
-package com.app.music_app.components.paino_box
+package com.app.music_app.view.components.paino_box
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable

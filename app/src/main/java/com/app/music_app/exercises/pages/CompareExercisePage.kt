@@ -13,23 +13,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.app.music_app.music_players.interfaces.AbstractInstrument
-import com.app.music_app.components.colors.AppColor
-import com.app.music_app.components.paino_box.PianoCheckbox
-import com.app.music_app.components.piano_keyboard.PianoKeyboard
-import com.app.music_app.components.play_button.PlayButton
+import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.components.paino_box.PianoCheckbox
+import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
+import com.app.music_app.view.components.play_button.PlayButton
 import com.musiclib.notes.Melody
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 /**
  * Страница с упражнением (выбор интервалов в порядке их звучания)

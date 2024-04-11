@@ -1,4 +1,4 @@
-package com.app.music_app.components.piano_keyboard
+package com.app.music_app.view.components.piano_keyboard
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -26,10 +26,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.app_theme.AppColor
+import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.music_players.MelodyPlayer
-import com.app.music_app.string_names.NoteResources
-import com.app.music_app.components.text.AutoResizedText
+import com.app.music_app.view.string_names.NoteResources
+import com.app.music_app.view.components.text.AutoResizedText
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange

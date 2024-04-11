@@ -1,4 +1,4 @@
-package com.app.music_app.app_theme
+package com.app.music_app.view.app_theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color

@@ -1,4 +1,4 @@
-package com.app.music_app.components.play_button
+package com.app.music_app.view.components.play_button
 
 import android.content.Context
 import android.view.MotionEvent
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.music_players.MelodyPlayer
 import com.app.music_app.music_players.interfaces.AbstractInstrument
-import com.app.music_app.app_theme.AppColor
-import com.app.music_app.app_theme.AppTheme
+import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

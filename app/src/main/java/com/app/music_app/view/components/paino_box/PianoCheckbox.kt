@@ -1,4 +1,4 @@
-package com.app.music_app.components.paino_box
+package com.app.music_app.view.components.paino_box
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,8 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.app.music_app.app_theme.AppTheme
-import com.app.music_app.components.piano_keyboard.PianoKeyboard
+import com.app.music_app.view.app_theme.AppTheme
+import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.example.android_app.R
 
 /**

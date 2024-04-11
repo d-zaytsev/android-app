@@ -1,4 +1,4 @@
-package com.app.music_app.string_names
+package com.app.music_app.view.string_names
 
 import android.content.Context
 import com.example.android_app.R

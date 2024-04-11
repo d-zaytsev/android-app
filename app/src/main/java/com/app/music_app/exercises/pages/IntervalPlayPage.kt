@@ -21,9 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.app.music_app.pitch_analyzer.NoteRecognizer
-import com.app.music_app.components.colors.AppColor
-import com.app.music_app.components.paino_box.PianoBox
-import com.app.music_app.components.piano_keyboard.PianoKeyboard
+import com.app.music_app.view.app_theme.AppColor
+import com.app.music_app.view.components.paino_box.PianoBox
+import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.musiclib.notes.Note
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers

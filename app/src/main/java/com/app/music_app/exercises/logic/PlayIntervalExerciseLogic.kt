@@ -23,11 +23,11 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.string_names.MusicIntervalResources
-import com.app.music_app.string_names.NoteResources
+import com.app.music_app.view.string_names.MusicIntervalResources
+import com.app.music_app.view.string_names.NoteResources
 import com.app.music_app.exercises.pages.CountTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
-import com.app.music_app.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
@@ -217,9 +217,8 @@ class PlayIntervalExercise(
     private fun getPair(
         notes: List<Note>,
         interval: Interval,
-        excludedNote: Note? = null
     ): Pair<Note, Note> {
-        val first = notes.filter { note -> note != excludedNote }.random()
+        val first = notes.random()
         val second =
             notes.filter { note -> abs(first.pitch - note.pitch) == interval.distance }.random()
         return if (first < second) Pair(first, second) else Pair(second, first)

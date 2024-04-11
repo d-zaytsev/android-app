@@ -18,8 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import com.app.music_app.music_players.instruments.VirtualPiano
 import com.app.music_app.exercises.pages.ChooseTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
-import com.app.music_app.components.piano_keyboard.PianoKeyboard
-import com.app.music_app.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
+import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval

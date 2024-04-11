@@ -1,4 +1,4 @@
-package com.app.music_app.app_theme
+package com.app.music_app.view.app_theme
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.shape.RoundedCornerShape

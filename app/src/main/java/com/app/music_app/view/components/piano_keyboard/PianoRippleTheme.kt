@@ -1,4 +1,4 @@
-package com.app.music_app.components.piano_keyboard
+package com.app.music_app.view.components.piano_keyboard
 
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme

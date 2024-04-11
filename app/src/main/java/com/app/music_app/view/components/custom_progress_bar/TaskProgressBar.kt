@@ -1,4 +1,4 @@
-package com.app.music_app.components.custom_progress_bar
+package com.app.music_app.view.components.custom_progress_bar
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.app.music_app.components.colors.AppColor
+import com.app.music_app.view.app_theme.AppTheme
 
 /**
  * @param points верные ответы
@@ -26,9 +26,7 @@ import com.app.music_app.components.colors.AppColor
 fun TaskProgressBar(
     points: Float,
     progress: Float,
-    maxProgress: Float,
-    color: Color = AppColor.HonoluluBlue,
-    trackColor: Color = AppColor.WhiteSmoke
+    maxProgress: Float
 ) {
     // Animation for progress bar filling
     val animatedProgress = animateFloatAsState(
@@ -41,7 +39,7 @@ fun TaskProgressBar(
 
     // Animation for color changes
     val animatedColor by animateColorAsState(
-        targetValue = color.copy(alpha = calculateAlpha(points, progress)),
+        targetValue = AppTheme.color.secondary.copy(alpha = calculateAlpha(points, progress)),
         label = ""
     )
 
@@ -54,9 +52,9 @@ fun TaskProgressBar(
         LinearProgressIndicator(
             progress = { animatedProgress },
             color = animatedColor,
-            trackColor = trackColor,
+            trackColor = AppTheme.color.surface,
             modifier = Modifier
-                .height(15.dp)
+                .height(AppTheme.size.normal)
                 .fillMaxWidth()
         )
     }

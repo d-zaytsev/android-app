@@ -15,7 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.view.app_theme.AppTheme
+import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.exercises.difficulty.TaskDifficultyPage
 import com.app.music_app.exercises.logic.CompareExercise
 import com.app.music_app.exercises.logic.PlayIntervalExercise
 import com.musiclib.intervals.Interval
@@ -46,6 +48,12 @@ class MainActivity : ComponentActivity() {
 
             task.run()
         }
+    }
+
+    @Preview
+    @Composable
+    private fun TaskScreen() {
+        TaskDifficultyPage()
     }
 
     @Preview
