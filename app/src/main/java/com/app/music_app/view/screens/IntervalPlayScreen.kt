@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.pages
+package com.app.music_app.view.screens
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
  * @param onTouch Вызывается при нажатии на кнопку фортепиано
  */
 @Composable
-fun CountTaskPage(
+fun IntervalPlayScreen(
     context: Context,
     pianoRange: NoteRange,
     text: AnnotatedString,

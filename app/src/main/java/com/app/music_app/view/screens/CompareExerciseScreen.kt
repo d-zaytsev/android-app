@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.pages
+package com.app.music_app.view.screens
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -29,7 +29,7 @@ import com.musiclib.notes.Melody
  * @param onPianoClick Действия, необходимые производить при выборе пользователя
  */
 @Composable
-fun ChooseTaskPage(
+fun ChooseTaskScreen(
     context: Context,
     melodyToPlay: Melody,
     playInstrument: AbstractInstrument,

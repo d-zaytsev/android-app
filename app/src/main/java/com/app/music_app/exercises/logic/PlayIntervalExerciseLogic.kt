@@ -25,8 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.view.names.MusicIntervalResources
 import com.app.music_app.view.names.NoteResources
-import com.app.music_app.exercises.pages.CountTaskPage
-import com.app.music_app.exercises.pages.ResultsPage
+import com.app.music_app.view.screens.IntervalPlayScreen
+import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.example.android_app.R
@@ -92,7 +92,7 @@ class PlayIntervalExercise(
                 startDestination = START_SCREEN
             ) {
                 composable(RESULTS_SCREEN) {
-                    ResultsPage(succeedPoints.toInt(), maxProgress.toInt())
+                    ResultsScreen(succeedPoints.toInt(), maxProgress.toInt())
                 }
 
                 for (i in 0 until taskCount) {
@@ -105,7 +105,7 @@ class PlayIntervalExercise(
 
                         var firstNoteFlag = remember { false } // была ли угадана первая нота
 
-                        CountTaskPage(
+                        IntervalPlayScreen(
                             context,
                             range,
                             text
@@ -115,7 +115,7 @@ class PlayIntervalExercise(
                             // Определение правильности нажатия
                             if (note == pair.first) {
                                 firstNoteFlag = true
-                                return@CountTaskPage true
+                                return@IntervalPlayScreen true
                             } else if (note == pair.second && firstNoteFlag) {
                                 firstNoteFlag = false
                                 points += maxAttemptsCount
@@ -142,7 +142,7 @@ class PlayIntervalExercise(
                                         }
                                     }
 
-                                return@CountTaskPage true
+                                return@IntervalPlayScreen true
                             }
 
                             if (curTaskErrors < maxAttemptsCount && note != lastNote) {
@@ -150,7 +150,7 @@ class PlayIntervalExercise(
                                 lastNote = note // иначе будем повторно засчитывать ошибки
                             }
 
-                            return@CountTaskPage false
+                            return@IntervalPlayScreen false
 
                         }
                     }

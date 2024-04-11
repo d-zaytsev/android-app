@@ -1,7 +1,6 @@
 package com.app.music_app.exercises.logic
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,8 +15,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.music_players.instruments.VirtualPiano
-import com.app.music_app.exercises.pages.ChooseTaskPage
-import com.app.music_app.exercises.pages.ResultsPage
+import com.app.music_app.view.screens.ChooseTaskScreen
+import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.logic.interfaces.AbstractExercise
@@ -73,7 +72,7 @@ class CompareExercise(
 
             NavHost(navController, START_SCREEN) {
                 // Экран с результатами
-                composable(RESULTS_SCREEN) { ResultsPage(succeedPoints.toInt(), taskCount) }
+                composable(RESULTS_SCREEN) { ResultsScreen(succeedPoints.toInt(), taskCount) }
 
                 repeat(taskCount) { screenId ->
                     composable(screenNameOf(screenId)) {
@@ -90,7 +89,7 @@ class CompareExercise(
                         val shuffledPianos = remember { pianos.clone().also { it.shuffle() } }
                         var curPiano by remember { mutableIntStateOf(0) }
 
-                        ChooseTaskPage(
+                        ChooseTaskScreen(
                             context = context,
                             melodyToPlay = melodies,
                             playInstrument = VirtualPiano(),
@@ -119,7 +118,7 @@ class CompareExercise(
 
 
                                 // Красит в нужный цвет
-                                return@ChooseTaskPage correctVariant
+                                return@ChooseTaskScreen correctVariant
                             }
                         )
                     }
