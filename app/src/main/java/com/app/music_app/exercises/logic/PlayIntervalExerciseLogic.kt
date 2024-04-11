@@ -23,8 +23,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.view.string_names.MusicIntervalResources
-import com.app.music_app.view.string_names.NoteResources
+import com.app.music_app.view.names.MusicIntervalResources
+import com.app.music_app.view.names.NoteResources
 import com.app.music_app.exercises.pages.CountTaskPage
 import com.app.music_app.exercises.pages.ResultsPage
 import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
@@ -32,7 +32,6 @@ import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note
-import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

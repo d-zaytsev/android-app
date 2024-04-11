@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.music_players.MelodyPlayer
-import com.app.music_app.view.string_names.NoteResources
+import com.app.music_app.view.names.NoteResources
 import com.app.music_app.view.components.text.AutoResizedText
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
