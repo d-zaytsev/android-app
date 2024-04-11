@@ -66,19 +66,15 @@ class PlayIntervalExercise(
     @Composable
     override fun run() {
 
-        // Подсчёт правильных ответов/ошибок
+        // --- Оценка прогресса
         var succeedPoints by remember { mutableFloatStateOf(0f) } // Правильные ответы
         var points by remember { mutableFloatStateOf(0f) } // Общий прогресс
         val maxProgress = remember { taskCount * maxAttemptsCount.toFloat() }
         var curTaskErrors by remember { mutableFloatStateOf(0f) } // Кол-во ошибок, совершённое в текущем упражнении
 
         val navController = rememberNavController()
-        val screens = remember { Array(taskCount) { "${TASK_SCREEN}:$it" } }
 
         val notesList = remember { range.toList() }
-
-        // Эта штука нужна чтобы не спамить ошибками
-        var lastNote = remember { range.start.previousWhole() }
 
         // Интерфейс
         Column(modifier = Modifier.fillMaxSize()) {
@@ -90,14 +86,14 @@ class PlayIntervalExercise(
 
             NavHost( // Содержит все экраны
                 navController = navController,
-                startDestination = screens[0]
+                startDestination = START_SCREEN
             ) {
                 composable(RESULTS_SCREEN) {
                     ResultsPage(succeedPoints.toInt(), maxProgress.toInt())
                 }
 
                 for (i in 0 until taskCount) {
-                    composable(screens[i]) {
+                    composable(screenNameOf(i)) {
                         val interval = remember { possibleIntervals.random() }
                         val pair = remember { getPair(notesList, interval) }
                         val moveFrom =
@@ -123,14 +119,13 @@ class PlayIntervalExercise(
                                 points += maxAttemptsCount
                                 succeedPoints += maxAttemptsCount - curTaskErrors
                                 curTaskErrors = 0f
-                                lastNote = note
 
                                 // Переход на следующее задание
                                 if (i < taskCount - 1) {
                                     runBlocking {
                                         launch(Dispatchers.Main) {
-                                            navController.navigate(screens[i + 1]) {
-                                                popUpTo(screens[i + 1])
+                                            navController.navigate(screenNameOf(i + 1)) {
+                                                popUpTo(screenNameOf(i + 1))
                                             }
                                         }
                                     }
@@ -144,13 +139,9 @@ class PlayIntervalExercise(
                                     }
 
                             }
-                            // Если ошиблись
 
-                            if (note != lastNote) {
-                                if (curTaskErrors < maxAttemptsCount)
-                                    curTaskErrors++
-                                lastNote = note
-                            }
+                            if (curTaskErrors < maxAttemptsCount)
+                                curTaskErrors++
 
                             return@CountTaskPage false
 

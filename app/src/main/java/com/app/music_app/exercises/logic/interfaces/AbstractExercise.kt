@@ -13,9 +13,12 @@ abstract class AbstractExercise {
     /**
      * Имена экранов, используемых в задании
      */
-    companion object ScreenName {
+    companion object TaskScreenNames {
+        const val START_SCREEN = "task_start"
         const val TASK_SCREEN = "task_screen"
-        const val RESULTS_SCREEN = "results"
+        const val RESULTS_SCREEN = "task_results"
     }
+
+    protected fun screenNameOf(i: Int) = if (i == 0) START_SCREEN else "${TASK_SCREEN}:$i"
 
 }

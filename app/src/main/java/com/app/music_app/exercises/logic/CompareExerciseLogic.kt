@@ -71,12 +71,12 @@ class CompareExercise(
             val navController = rememberNavController()
             val coroutineScope = rememberCoroutineScope()
 
-            NavHost(navController, taskScreenNames[0]) {
+            NavHost(navController, START_SCREEN) {
                 // Экран с результатами
                 composable(RESULTS_SCREEN) { ResultsPage(succeedPoints.toInt(), taskCount) }
 
                 repeat(taskCount) { screenId ->
-                    composable(taskScreenNames[screenId]) {
+                    composable(screenNameOf(screenId)) {
                         // Получаем данные для отрисовки страницы
                         val pairs = remember {
                             pairsByIntervals(
@@ -111,8 +111,8 @@ class CompareExercise(
                                             popUpTo(RESULTS_SCREEN)
                                         }
                                     } else {
-                                        navController.navigate(taskScreenNames[screenId.inc()]) {
-                                            popUpTo(taskScreenNames[screenId.inc()])
+                                        navController.navigate(screenNameOf(screenId.inc())) {
+                                            popUpTo(screenNameOf(screenId.inc()))
                                         }
                                     }
                                 }
