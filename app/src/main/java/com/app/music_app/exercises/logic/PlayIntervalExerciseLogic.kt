@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -63,6 +64,8 @@ class PlayIntervalExercise(
         require(possibleIntervals.none { it.distance > range.endInclusive.pitch - range.start.pitch }) { " Can't use intervals bigger than range " }
     }
 
+    private var lastNote = range.start.previousWhole() // последняя нота, сыгранная в упр-ии
+    private val notesList = range.toList()
 
     @Composable
     override fun run() {
@@ -74,10 +77,6 @@ class PlayIntervalExercise(
         var curTaskErrors = remember { 0f } // Кол-во ошибок, совершённое в текущем упражнении
 
         val navController = rememberNavController()
-
-        val notesList = remember { range.toList() }
-        var lastNote =
-            remember { range.start.previousWhole() } // последняя нота, сыгранная в упр-ии
 
         // Интерфейс
         Column(modifier = Modifier.fillMaxSize()) {
@@ -217,22 +216,24 @@ class PlayIntervalExercise(
         notes: List<Note>,
         interval: Interval,
     ): Pair<Note, Note> {
-        val first = notes.random()
+        val first = notes.random().shuffleSign()
         val second =
             notes.filter { note -> abs(first.pitch - note.pitch) == interval.distance }.random()
+                .shuffleSign()
+        Log.d("AMOGUS", "$first $second")
         return if (first < second) Pair(first, second) else Pair(second, first)
     }
 
     /**
-     * Меняет ноту со знаком алитерации на аналогичную, но с другим знаком
+     * Может поменять ноту на аналогичную, но с другим знаком
      */
     private fun Note.shuffleSign(): Note {
-        if (this.isWhole())
-            return this
+        return if (this.isWhole() || !Random.nextBoolean())
+            this
         else if (this.isExt())
-            return this.nextSemitone().previousWhole()
+            this.nextSemitone().previousSemitone()
         else
-            return this.previousWhole().nextSemitone()
+            this.previousSemitone().nextSemitone()
     }
 
     /**
