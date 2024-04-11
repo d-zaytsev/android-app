@@ -1,4 +1,4 @@
-package com.app.music_app.components.colors
+package com.app.music_app.app_theme
 
 import androidx.compose.ui.graphics.Color
 
