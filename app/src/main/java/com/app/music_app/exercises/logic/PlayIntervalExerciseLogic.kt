@@ -145,11 +145,11 @@ class PlayIntervalExercise(
                                 return@IntervalPlayScreen true
                             }
 
-                            if (curTaskErrors < maxAttemptsCount && note != lastNote) {
+                            if (curTaskErrors < maxAttemptsCount && note != lastNote)
                                 curTaskErrors++
-                                lastNote = note // иначе будем повторно засчитывать ошибки
-                            }
 
+                            lastNote = note // иначе будем повторно засчитывать ошибки
+                            firstNoteFlag = false
                             return@IntervalPlayScreen false
 
                         }
