@@ -63,8 +63,7 @@ fun IntervalPlayScreen(
         Text(
             text,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(AppTheme.size.normal),
-            style = AppTheme.typography.title
+            modifier = Modifier.padding(AppTheme.size.normal)
         )
         Spacer(modifier = Modifier.fillMaxHeight(0.5f))
         // Фортепиано
