@@ -63,9 +63,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    //Fonts
-    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.5")
-
     // ---
 
     // TarsosDSP (audio processing) https://github.com/JorenSix/TarsosDSP

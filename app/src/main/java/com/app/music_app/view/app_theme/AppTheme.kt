@@ -7,10 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.android_app.R
 
 /**
  * Впихивает значения в контекст
@@ -19,6 +22,7 @@ import androidx.compose.ui.unit.sp
 fun AppTheme(
     content: @Composable () -> Unit
 ) {
+
     val rippleIndication = rememberRipple()
     // Проталкиваем наши значения в контекст под определёнными ключами
     CompositionLocalProvider(
@@ -69,6 +73,25 @@ object AppColor {
         get() = Color(219, 215, 210)
 }
 
+object AppFontFamily {
+    val Play: FontFamily
+        get() = FontFamily(
+            Font(R.font.play_regular),
+            Font(R.font.play_bold, FontWeight.SemiBold),
+            Font(R.font.play_bold, FontWeight.Bold),
+            Font(R.font.play_bold, FontWeight.ExtraBold)
+        )
+
+    val UbuntuMono: FontFamily
+        get() = FontFamily(
+            Font(R.font.ubuntumono_regular),
+            Font(R.font.ubuntumono_italic, style = FontStyle.Italic),
+            Font(R.font.ubuntumono_bold, FontWeight.SemiBold),
+            Font(R.font.ubuntumono_bold, FontWeight.Bold),
+            Font(R.font.ubuntumono_bold, FontWeight.ExtraBold)
+        )
+}
+
 private val definedColor = AppColorScheme(
     surface = AppColor.WhiteSmoke,
     onSurface = Color.Black,
@@ -96,17 +119,17 @@ private val definedSize = AppSize(
 
 private val definedTypography = AppTypography(
     display = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
+        fontFamily = AppFontFamily.Play,
+        fontWeight = FontWeight.ExtraBold,
         fontSize = 40.sp
     ),
     title = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = AppFontFamily.Play,
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp
     ),
     body = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = AppFontFamily.UbuntuMono,
         fontSize = 24.sp
     ),
     label = TextStyle(
