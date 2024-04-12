@@ -1,4 +1,6 @@
 package com.app.music_app.exercises.difficulty
 
-data class TaskDifficulty(val a: String) {
-}
+/**
+ * Сложность выбранного упражнения
+ */
+data class TaskDifficulty(val name: String, val description: String = "", val onClick: () -> Unit)

@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.app.music_app.exercises.difficulty.TaskDifficulty
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
 import com.app.music_app.exercises.difficulty.TaskDifficultyPage
@@ -55,49 +56,60 @@ class MainActivity : ComponentActivity() {
     @Preview
     @Composable
     private fun TaskScreen() {
+        val testTitle = "Заголовок"
+        val testDescription = "Зеленчук жоский пидр"
         AppTheme {
-            TaskDifficultyPage()
+            TaskDifficultyPage(
+                listOf(
+                    TaskDifficulty(testTitle, testDescription) {},
+                    TaskDifficulty(testTitle, testDescription) {},
+                    TaskDifficulty(testTitle, testDescription) {},
+                    TaskDifficulty(testTitle, testDescription) {},
+                    TaskDifficulty(testTitle, testDescription) {},
+                    TaskDifficulty(testTitle, testDescription) {},
+                )
+            ) {}
         }
     }
 
-    @Preview
-    @Composable
-    private fun CompareExercisePreview() {
-        val task = CompareExercise(
-            LocalContext.current,
-            NoteRange(Note(NoteName.Do), Note(NoteName.Si, octave = 1)),
-            5,
-            possibleIntervals = arrayOf(
-                Interval(IntervalName.Tertia, IntervalType.Small),
-                Interval(IntervalName.Secunda, IntervalType.Small)
-            )
-        )
+//    @Preview
+//    @Composable
+//    private fun CompareExercisePreview() {
+//        val task = CompareExercise(
+//            LocalContext.current,
+//            NoteRange(Note(NoteName.Do), Note(NoteName.Si, octave = 1)),
+//            5,
+//            possibleIntervals = arrayOf(
+//                Interval(IntervalName.Tertia, IntervalType.Small),
+//                Interval(IntervalName.Secunda, IntervalType.Small)
+//            )
+//        )
+//
+//        task.run()
+//    }
 
-        task.run()
-    }
-
-    @Preview
-    @Composable
-    private fun ProgressBarPreview() {
-        Column(modifier = Modifier.fillMaxSize()) {
-
-            var points by remember { mutableFloatStateOf(0f) }
-            var progress by remember { mutableFloatStateOf(0f) }
-            val maxPoints = 100f
-
-            TaskProgressBar(points = points, progress = progress, maxProgress = maxPoints)
-            Button(onClick = {
-                progress += 10f
-            }) {
-                Text("Add progress")
-            }
-            Button(onClick = {
-                points += 10f
-            }) {
-                Text("Add points")
-            }
-        }
-    }
+//    @Preview
+//    @Composable
+//    private fun ProgressBarPreview() {
+//        Column(modifier = Modifier.fillMaxSize()) {
+//
+//            var points by remember { mutableFloatStateOf(0f) }
+//            var progress by remember { mutableFloatStateOf(0f) }
+//            val maxPoints = 100f
+//
+//            TaskProgressBar(points = points, progress = progress, maxProgress = maxPoints)
+//            Button(onClick = {
+//                progress += 10f
+//            }) {
+//                Text("Add progress")
+//            }
+//            Button(onClick = {
+//                points += 10f
+//            }) {
+//                Text("Add points")
+//            }
+//        }
+//    }
 
 //    CountTask(
 //                LocalContext.current,
