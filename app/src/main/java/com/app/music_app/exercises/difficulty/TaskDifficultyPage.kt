@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.music_app.view.app_theme.AppTheme
 
@@ -28,16 +29,10 @@ fun TaskDifficultyPage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        item {
-            DifficultyCard()
-        }
-
-        item {
-            DifficultyCard()
-        }
-
-        item {
-            DifficultyCard()
+        repeat(3) {
+            item {
+                DifficultyCard()
+            }
         }
     }
 
@@ -53,6 +48,22 @@ private fun DifficultyCard() {
         elevation = 10.dp,
         shape = AppTheme.shape.container
     ) {
-        Text("Hello world!", color = AppTheme.color.onSecondary)
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                "Title text!!!",
+                textAlign = TextAlign.Center,
+                color = AppTheme.color.onSecondary,
+                style = AppTheme.typography.title,
+                modifier = Modifier.padding(AppTheme.size.small)
+            )
+            Text(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt consectetur.",
+                textAlign = TextAlign.Center,
+                color = AppTheme.color.onSecondary,
+                style = AppTheme.typography.body,
+                modifier = Modifier.padding(AppTheme.size.small)
+            )
+        }
+
     }
 }
