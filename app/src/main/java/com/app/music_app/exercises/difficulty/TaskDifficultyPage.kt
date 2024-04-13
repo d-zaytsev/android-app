@@ -89,8 +89,7 @@ private fun DifficultyCard(difficulty: TaskDifficulty) {
                 difficulty.name,
                 textAlign = TextAlign.Center,
                 color = AppTheme.color.onSecondary,
-                style = AppTheme.typography.title,
-                modifier = Modifier.padding(AppTheme.size.small)
+                style = AppTheme.typography.title
             )
             if (difficulty.description.isNotEmpty())
                 Text(
@@ -98,7 +97,7 @@ private fun DifficultyCard(difficulty: TaskDifficulty) {
                     textAlign = TextAlign.Center,
                     color = AppTheme.color.onSecondary,
                     style = AppTheme.typography.body,
-                    modifier = Modifier.padding(AppTheme.size.small)
+                    modifier = Modifier.padding(5.dp)
                 )
         }
 
