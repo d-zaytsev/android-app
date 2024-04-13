@@ -38,4 +38,5 @@
     <string name="pure_octave_short" translatable="false">P8</string>
     <string name="flat_sign">flat</string>
     <string name="sharp_sign">sharp</string>
+    <string name="custom">Custom</string>
 </resources>

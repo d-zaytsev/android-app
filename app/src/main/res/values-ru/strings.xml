@@ -26,4 +26,5 @@
     <string name="pure_octava">чистая октава</string>
     <string name="flat_sign">бемоль</string>
     <string name="sharp_sign">диез</string>
+    <string name="custom">Своя</string>
 </resources>
