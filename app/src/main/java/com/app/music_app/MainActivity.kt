@@ -3,24 +3,16 @@ package com.app.music_app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.exercises.difficulty.TaskDifficulty
 import com.app.music_app.view.app_theme.AppTheme
-import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
-import com.app.music_app.exercises.difficulty.TaskDifficultyPage
-import com.app.music_app.exercises.logic.CompareExercise
 import com.app.music_app.exercises.logic.PlayIntervalExercise
+import com.app.music_app.view.components.progress_bars.StripedProgressBar
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -53,22 +45,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+//    @Preview
+//    @Composable
+//    private fun TaskScreen() {
+//        val testTitle = "Title"
+//        val testDescription = "Short difficulty description"
+//        AppTheme {
+//            TaskDifficultyPage(
+//                listOf(
+//                    TaskDifficulty(testTitle, testDescription) {},
+//                    TaskDifficulty(testTitle, testDescription) {},
+//                    TaskDifficulty(testTitle, testDescription) {},
+//                    TaskDifficulty(testTitle, testDescription) {},
+//                )
+//            ) {}
+//        }
+//    }
+
     @Preview
     @Composable
-    private fun TaskScreen() {
-        val testTitle = "Заголовок"
-        val testDescription = "Зеленчук жоский пидр"
+    private fun ProgressBar() {
         AppTheme {
-            TaskDifficultyPage(
-                listOf(
-                    TaskDifficulty(testTitle, testDescription) {},
-                    TaskDifficulty(testTitle, testDescription) {},
-                    TaskDifficulty(testTitle, testDescription) {},
-                    TaskDifficulty(testTitle, testDescription) {},
-                    TaskDifficulty(testTitle, testDescription) {},
-                    TaskDifficulty(testTitle, testDescription) {},
-                )
-            ) {}
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(AppTheme.color.surface)) {
+                StripedProgressBar(progress = 0.7f)
+            }
         }
     }
 
