@@ -25,7 +25,6 @@ fun StripedProgressBar(
     Box(
         modifier = Modifier
             .clip(AppTheme.shape.container)
-            .background(AppTheme.color.tertiary)
             .height(AppTheme.size.normal)
     ) {
         Box(
