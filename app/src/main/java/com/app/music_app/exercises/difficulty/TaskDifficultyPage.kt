@@ -21,11 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.music_app.view.app_theme.AppTheme
-import com.app.music_app.view.components.CardInfo
 import com.example.android_app.R
 
 @Composable
-fun TaskDifficultyPage(difficulties: List<CardInfo>, onCustomClick: (() -> Unit)? = null) {
+fun TaskDifficultyPage(difficulties: List<DifficultyInfo>, onCustomClick: (() -> Unit)? = null) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +68,7 @@ fun TaskDifficultyPage(difficulties: List<CardInfo>, onCustomClick: (() -> Unit)
 }
 
 @Composable
-private fun DifficultyCard(difficulty: CardInfo) {
+private fun DifficultyCard(difficulty: DifficultyInfo) {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.95f)
