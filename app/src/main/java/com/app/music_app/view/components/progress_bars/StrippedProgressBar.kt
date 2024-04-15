@@ -19,16 +19,19 @@ import com.app.music_app.view.app_theme.AppTheme
 @Composable
 fun StripedProgressBar(
     progress: Float,
+    firstColor: Color = AppTheme.color.success,
+    secondColor: Color = AppTheme.color.onSuccess,
 ) {
     Box(
         modifier = Modifier
             .clip(AppTheme.shape.container)
+            .background(AppTheme.color.tertiary)
             .height(AppTheme.size.normal)
     ) {
         Box(
             modifier = Modifier
                 .clip(AppTheme.shape.container)
-                .background(StripeBrush(AppTheme.color.success, AppTheme.color.onSuccess, 5.dp))
+                .background(StripeBrush(firstColor, secondColor, 5.dp))
                 .fillMaxHeight()
                 .fillMaxWidth(progress)
         )
