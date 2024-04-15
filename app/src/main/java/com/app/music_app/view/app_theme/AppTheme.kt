@@ -76,22 +76,23 @@ object AppColor {
 }
 
 object AppFontFamily {
-    val Play: FontFamily
-        get() = FontFamily(
-            Font(R.font.play_regular),
-            Font(R.font.play_bold, FontWeight.SemiBold),
-            Font(R.font.play_bold, FontWeight.Bold),
-            Font(R.font.play_bold, FontWeight.ExtraBold)
-        )
 
-    val UbuntuMono: FontFamily
+    val Roboto: FontFamily
         get() = FontFamily(
-            Font(R.font.ubuntumono_regular),
-            Font(R.font.ubuntumono_italic, style = FontStyle.Italic),
-            Font(R.font.ubuntumono_bold, FontWeight.SemiBold),
-            Font(R.font.ubuntumono_bold, FontWeight.Bold),
-            Font(R.font.ubuntumono_bold, FontWeight.ExtraBold)
-        )
+            Font(R.font.roboto_regular),
+            Font(R.font.roboto_black, FontWeight.Black),
+            Font(R.font.roboto_bold, FontWeight.Bold),
+            Font(R.font.roboto_light, FontWeight.Light),
+            Font(R.font.roboto_medium, FontWeight.Medium),
+            Font(R.font.roboto_thin, FontWeight.Thin),
+            Font(R.font.roboto_black_italic, FontWeight.Black, style = FontStyle.Italic),
+            Font(R.font.roboto_light_italic, FontWeight.Light, style = FontStyle.Italic),
+            Font(R.font.roboto_medium_italic, FontWeight.Medium, style = FontStyle.Italic),
+            Font(R.font.roboto_bold_italic, FontWeight.Bold, style = FontStyle.Italic),
+            Font(R.font.roboto_thin_italic, FontWeight.Thin, style = FontStyle.Italic),
+            Font(R.font.roboto_italic, style = FontStyle.Italic),
+
+            )
 }
 
 private val definedColor = AppColorScheme(
@@ -121,21 +122,21 @@ private val definedSize = AppSize(
 
 private val definedTypography = AppTypography(
     display = TextStyle(
-        fontFamily = AppFontFamily.Play,
-        fontWeight = FontWeight.ExtraBold,
+        fontFamily = AppFontFamily.Roboto,
+        fontWeight = FontWeight.Bold,
         fontSize = 40.sp
     ),
     title = TextStyle(
-        fontFamily = AppFontFamily.Play,
+        fontFamily = AppFontFamily.Roboto,
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp
     ),
     body = TextStyle(
-        fontFamily = AppFontFamily.UbuntuMono,
+        fontFamily = AppFontFamily.Roboto,
         fontSize = 24.sp
     ),
     label = TextStyle(
-        fontFamily = FontFamily.SansSerif,
+        fontFamily = AppFontFamily.Roboto,
         fontSize = 12.sp
     )
 )
