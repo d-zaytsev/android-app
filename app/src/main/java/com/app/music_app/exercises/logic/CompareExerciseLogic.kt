@@ -18,7 +18,7 @@ import com.app.music_app.music_players.instruments.VirtualPiano
 import com.app.music_app.view.screens.ChooseTaskScreen
 import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
-import com.app.music_app.view.components.custom_progress_bar.TaskProgressBar
+import com.app.music_app.view.components.progress_bars.TaskProgressBar
 import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval
