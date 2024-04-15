@@ -27,4 +27,9 @@
     <string name="flat_sign">бемоль</string>
     <string name="sharp_sign">диез</string>
     <string name="custom">Своя</string>
+    <string name="congratulations">Поздавляем!</string>
+    <string name="not_bad">НЕПЛОХО</string>
+    <string name="fine">ХОРОШО</string>
+    <string name="good">ОТЛИЧНО</string>
+    <string name="amazing">ПРЕВОСХОДНО</string>
 </resources>

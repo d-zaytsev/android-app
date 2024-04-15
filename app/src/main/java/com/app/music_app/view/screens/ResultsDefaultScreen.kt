@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.music_app.view.app_theme.AppTheme
+import com.example.android_app.R
 
 /**
  * Экран с результатами упражнения
@@ -39,7 +41,7 @@ fun ResultsScreen(points: Int, maxPoints: Int) {
     ) {
         Spacer(modifier = Modifier.fillMaxHeight(0.35f))
         Text(
-            "Congratulations!",
+            stringResource(R.string.congratulations),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = AppTheme.size.medium),
@@ -70,22 +72,22 @@ private fun SuccessBar(progress: Float) {
         // Надписи
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
             Text(
-                "NOT BAD",
+                stringResource(R.string.not_bad),
                 style = AppTheme.typography.label,
                 color = AppTheme.color.onSurface
             )
             Text(
-                "FINE",
+                stringResource(R.string.fine),
                 style = AppTheme.typography.label,
                 color = AppTheme.color.onSurface
             )
             Text(
-                "GOOD",
+                stringResource(R.string.good),
                 style = AppTheme.typography.label,
                 color = AppTheme.color.onSurface
             )
             Text(
-                "AMAZING",
+                stringResource(R.string.amazing),
                 style = AppTheme.typography.label,
                 color = AppTheme.color.onSurface
             )
