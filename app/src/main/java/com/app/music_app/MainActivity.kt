@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.exercises.logic.PlayIntervalExercise
 import com.app.music_app.view.components.progress_bars.StripedProgressBar
+import com.app.music_app.view.screens.ResultsScreen
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -66,11 +67,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun ProgressBar() {
         AppTheme {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(AppTheme.color.surface)) {
-                StripedProgressBar(progress = 0.7f)
-            }
+            ResultsScreen(points = 6, maxPoints = 10)
         }
     }
 

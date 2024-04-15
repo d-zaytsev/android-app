@@ -137,6 +137,7 @@ private val definedTypography = AppTypography(
     ),
     label = TextStyle(
         fontFamily = AppFontFamily.Roboto,
+        fontWeight = FontWeight.Medium,
         fontSize = 12.sp
     )
 )
