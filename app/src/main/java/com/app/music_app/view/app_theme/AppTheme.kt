@@ -71,6 +71,8 @@ object AppColor {
         get() = Color(245, 245, 245)
     val TimberWolf: Color
         get() = Color(219, 215, 210)
+    val IndiaGreen: Color
+        get() = Color(19, 136, 8)
 }
 
 object AppFontFamily {
@@ -104,7 +106,7 @@ private val definedColor = AppColorScheme(
     error = AppColor.CoralPink,
     onError = AppColor.PacificCyan,
     success = AppColor.Emerald,
-    onSuccess = AppColor.PacificCyan,
+    onSuccess = AppColor.IndiaGreen,
     outline = AppColor.TimberWolf,
     outlineVariant = AppColor.TimberWolf,
     inactive = Color.Gray
