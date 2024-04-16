@@ -1,5 +1,9 @@
 package com.app.music_app.view.screens
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +21,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
+import kotlinx.coroutines.delay
 
 /**
  * Экран с результатами упражнения
@@ -49,7 +60,23 @@ fun ResultsScreen(points: Int, maxPoints: Int) {
             color = AppTheme.color.success,
             style = AppTheme.typography.display
         )
-        SuccessBar(progress = points / maxPoints.toFloat())
+
+        // Анимированный прогресс бар
+
+        var progress by remember { mutableFloatStateOf(0f) }
+
+        val progressAnimation by animateFloatAsState(
+            targetValue = progress,
+            animationSpec = tween(durationMillis = 3000, easing = FastOutSlowInEasing),
+            label = "",
+        )
+
+        SuccessBar(progress = progressAnimation)
+
+        LaunchedEffect(Unit) {
+            delay(300)
+            progress = points / maxPoints.toFloat()
+        }
     }
 }
 
