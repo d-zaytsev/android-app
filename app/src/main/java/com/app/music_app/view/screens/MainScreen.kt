@@ -15,10 +15,12 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -88,15 +90,17 @@ private fun ExerciseCard(title: String, description: String, onClick: () -> Unit
 
 @Composable
 private fun DisplayText() {
+    val lineColor = AppTheme.color.primary
+
     Text(
         stringResource(R.string.exercises),
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .drawBehind {
-                val strokeWidthPx = 1.dp.toPx()
+                val strokeWidthPx = 2.dp.toPx()
                 val verticalOffset = size.height - 2.sp.toPx()
                 drawLine(
-                    color = AppColor.FederalBlue,
+                    color = lineColor,
                     strokeWidth = strokeWidthPx,
                     start = Offset(-5f, verticalOffset),
                     end = Offset(size.width + 5, verticalOffset)
