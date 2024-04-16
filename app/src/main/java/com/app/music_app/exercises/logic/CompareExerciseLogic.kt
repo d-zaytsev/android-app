@@ -19,7 +19,6 @@ import com.app.music_app.view.screens.ChooseTaskScreen
 import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.components.progress_bars.TaskProgressBar
-import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.musiclib.notes.range.NoteRange
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Melody
@@ -57,7 +56,6 @@ class CompareExercise(
     }
 
     private val noteList = range.toList()
-    private val taskScreenNames = Array(taskCount) { "${TASK_SCREEN}:$it" }
 
     @Composable
     override fun run() {
