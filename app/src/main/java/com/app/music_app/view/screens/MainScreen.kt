@@ -18,11 +18,13 @@ import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.view.app_theme.AppTheme
+import com.example.android_app.R
 
 @Composable
 fun MainScreen() {
@@ -34,7 +36,7 @@ fun MainScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "Exercises",
+            stringResource(R.string.exercises),
             modifier = Modifier
                 .padding(horizontal = 10.dp)
                 .drawBehind {
