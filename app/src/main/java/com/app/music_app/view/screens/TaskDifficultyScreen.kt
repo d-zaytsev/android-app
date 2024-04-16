@@ -38,15 +38,14 @@ fun TaskDifficultyScreen(difficulties: Array<DifficultyInfo>, onCustomClick: (()
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            repeat(difficulties.size) {
-                item {
-                    DifficultyCard(difficulties[it])
-                }
-            }
+            difficulties.forEach { item { DifficultyCard(it) } }
         }
 
         if (onCustomClick != null) {
-            Divider(modifier = Modifier.padding(horizontal = AppTheme.size.normal),color = AppTheme.color.outline)
+            Divider(
+                modifier = Modifier.padding(horizontal = AppTheme.size.normal),
+                color = AppTheme.color.outline
+            )
 
             Button(
                 modifier = Modifier
@@ -82,6 +81,7 @@ private fun DifficultyCard(difficulty: DifficultyInfo) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 difficulty.name,
+                modifier = Modifier.padding(horizontal = 5.dp),
                 textAlign = TextAlign.Center,
                 color = AppTheme.color.onSecondary,
                 style = AppTheme.typography.title
