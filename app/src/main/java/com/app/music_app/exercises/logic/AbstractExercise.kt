@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.logic.interfaces
+package com.app.music_app.exercises.logic
 
 import androidx.compose.runtime.Composable
 
@@ -19,6 +19,6 @@ abstract class AbstractExercise {
         const val RESULTS_SCREEN = "task_results"
     }
 
-    protected fun screenNameOf(i: Int) = if (i == 0) START_SCREEN else "${TASK_SCREEN}:$i"
+    protected fun screenNameOf(i: Int) = if (i == 0) START_SCREEN else "$TASK_SCREEN:$i"
 
 }
