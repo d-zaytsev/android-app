@@ -22,12 +22,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.app.music_app.exercises.builder.ExerciseBuilder
 import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
 
 @Composable
-fun MainScreen() {
+fun MainScreen(vararg exercises: ExerciseBuilder) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,11 +55,10 @@ fun MainScreen() {
         )
 
         LazyRow {
-            item {
-                ExerciseCard("Interval comparison", "You need to compare different intervals")
-            }
-            item {
-                ExerciseCard("Interval playing", "Play different intervals by yourself")
+            exercises.forEach {
+                item {
+                    ExerciseCard(it.name, it.description)
+                }
             }
         }
     }

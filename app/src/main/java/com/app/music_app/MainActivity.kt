@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.app.music_app.exercises.builder.CompareExerciseBuilder
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.exercises.logic.PlayIntervalExercise
 import com.app.music_app.view.components.progress_bars.StripedProgressBar
+import com.app.music_app.view.screens.MainScreen
 import com.app.music_app.view.screens.ResultsScreen
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
@@ -63,11 +65,19 @@ class MainActivity : ComponentActivity() {
 //        }
 //    }
 
-    @Preview
+//    @Preview(locale = "ru")
+//    @Composable
+//    private fun ProgressBar() {
+//        AppTheme {
+//            ResultsScreen(points = 3, maxPoints = 10)
+//        }
+//    }
+
+    @Preview(locale = "en")
     @Composable
     private fun ProgressBar() {
         AppTheme {
-            ResultsScreen(points = 6, maxPoints = 10)
+            MainScreen(CompareExerciseBuilder())
         }
     }
 

@@ -130,9 +130,6 @@ class CompareExercise(
 
     }
 
-//    private fun PianoKeyboard.equals(other: Any?) =
-//        other is PianoKeyboard && this.noteRange == other.noteRange
-
     /** Откладывает интервал от переданной ноты */
     private fun getPair(first: Note, interval: Interval, notes: List<Note>): Pair<Note, Note> {
         // Все подходящие ноты (по расстоянию друг от друга),
