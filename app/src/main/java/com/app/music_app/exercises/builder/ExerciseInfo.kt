@@ -1,5 +1,6 @@
 package com.app.music_app.exercises.builder
 
+import androidx.compose.runtime.Composable
 import com.app.music_app.exercises.difficulty.DifficultyInfo
 
 /**
@@ -15,6 +16,7 @@ interface ExerciseInfo {
     /**
      * @return все сложности, доступные для данного упражнения
      */
+    @Composable
     fun buildDifficulties(): Array<DifficultyInfo>
 
 }
