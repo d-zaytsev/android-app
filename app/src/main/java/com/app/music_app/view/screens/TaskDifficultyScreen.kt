@@ -25,7 +25,7 @@ import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
 
 @Composable
-fun TaskDifficultyPage(difficulties: List<DifficultyInfo>, onCustomClick: (() -> Unit)? = null) {
+fun TaskDifficultyScreen(difficulties: List<DifficultyInfo>, onCustomClick: (() -> Unit)? = null) {
     Column(
         modifier = Modifier
             .fillMaxSize()
