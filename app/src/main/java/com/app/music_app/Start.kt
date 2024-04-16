@@ -28,7 +28,9 @@ fun StartApp(vararg exercises: ExerciseInfo) {
 
         exercises.forEach {exerciseInfo ->
             composable("${Screen.DIFFICULTY}_${exerciseInfo.name}") {
-                TaskDifficultyScreen(exerciseInfo.buildDifficulties())
+                TaskDifficultyScreen(exerciseInfo.buildDifficulties()) {
+                    //TODO добавить кнопку custom
+                }
             }
         }
     }
