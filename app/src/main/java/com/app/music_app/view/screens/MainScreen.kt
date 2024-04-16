@@ -1,5 +1,6 @@
 package com.app.music_app.view.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,17 +23,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.app.music_app.exercises.builder.ExerciseInfo
 import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
 
 /**
- * Выполняет отрисовку главного экрана с выбором упражнений
- * @param exercises Класс с данными о каждом упражнении (имя, описание, как запускать)
+ * Отрисовывает главный экран
+ * @param onClick Передаёт наружу параметр упражнения, которое было выбрано
  */
 @Composable
-fun MainScreen(vararg exercises: ExerciseInfo) {
+fun DrawMainScreen(exercises: Array<out ExerciseInfo>, onClick: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,13 +51,16 @@ fun MainScreen(vararg exercises: ExerciseInfo) {
         LazyRow {
             exercises.forEach {
                 item {
-                    ExerciseCard(it.name, it.description) {}
+                    ExerciseCard(it.name, it.description) { onClick(it.name) }
                 }
             }
         }
     }
 }
 
+/**
+ * Рисует карточку упражнения
+ */
 @Composable
 private fun ExerciseCard(title: String, description: String, onClick: () -> Unit) {
     Card(
@@ -77,6 +85,7 @@ private fun ExerciseCard(title: String, description: String, onClick: () -> Unit
 
     }
 }
+
 @Composable
 private fun DisplayText() {
     Text(
