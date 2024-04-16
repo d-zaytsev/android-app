@@ -1,6 +1,6 @@
-package com.app.music_app.exercises.difficulty
+package com.app.music_app.logic.exercises.difficulty
 
-import com.app.music_app.exercises.logic.AbstractExercise
+import com.app.music_app.logic.exercises.logic.AbstractExercise
 
 /**
  * Информация для заполнения карточки (сложность, упражнение

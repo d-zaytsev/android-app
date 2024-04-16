@@ -1,10 +1,10 @@
-package com.app.music_app
+package com.app.music_app.logic
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.exercises.difficulty.DifficultyInfo
+import com.app.music_app.logic.exercises.difficulty.DifficultyInfo
 import com.app.music_app.view.screens.DrawDifficultyScreen
 
 /**

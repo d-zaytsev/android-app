@@ -29,7 +29,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.music_app.exercises.builder.ExerciseInfo
+import com.app.music_app.logic.exercises.builder.ExerciseInfo
 import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R

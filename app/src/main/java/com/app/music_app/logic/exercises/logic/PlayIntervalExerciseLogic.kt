@@ -1,4 +1,4 @@
-package com.app.music_app.exercises.logic
+package com.app.music_app.logic.exercises.logic
 
 import android.Manifest
 import android.app.Activity

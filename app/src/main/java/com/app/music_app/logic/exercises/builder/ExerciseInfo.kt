@@ -1,7 +1,7 @@
-package com.app.music_app.exercises.builder
+package com.app.music_app.logic.exercises.builder
 
 import androidx.compose.runtime.Composable
-import com.app.music_app.exercises.difficulty.DifficultyInfo
+import com.app.music_app.logic.exercises.difficulty.DifficultyInfo
 
 /**
  * Задаёт возможные варианты конструкций упражнения (какие сложности могут быть)

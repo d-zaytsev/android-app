@@ -1,9 +1,9 @@
-package com.app.music_app.exercises.builder
+package com.app.music_app.logic.exercises.builder
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.app.music_app.exercises.difficulty.DifficultyInfo
-import com.app.music_app.exercises.logic.CompareExercise
+import com.app.music_app.logic.exercises.difficulty.DifficultyInfo
+import com.app.music_app.logic.exercises.logic.CompareExercise
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType

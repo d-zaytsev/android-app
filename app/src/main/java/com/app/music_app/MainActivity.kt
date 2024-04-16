@@ -6,9 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.exercises.builder.CompareExerciseInfo
+import com.app.music_app.logic.exercises.builder.CompareExerciseInfo
 import com.app.music_app.view.app_theme.AppTheme
-import com.app.music_app.exercises.logic.PlayIntervalExercise
+import com.app.music_app.logic.exercises.logic.PlayIntervalExercise
+import com.app.music_app.logic.StartApp
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
