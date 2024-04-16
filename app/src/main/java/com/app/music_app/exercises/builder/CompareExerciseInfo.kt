@@ -2,7 +2,7 @@ package com.app.music_app.exercises.builder
 
 import com.app.music_app.exercises.difficulty.DifficultyInfo
 
-class CompareExerciseBuilder : ExerciseBuilder {
+class CompareExerciseInfo : ExerciseInfo {
     override val name: String
         get() = "Interval comparison"
     override val description: String

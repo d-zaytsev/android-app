@@ -3,19 +3,13 @@ package com.app.music_app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.app.music_app.exercises.builder.CompareExerciseBuilder
+import com.app.music_app.exercises.builder.CompareExerciseInfo
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.exercises.logic.PlayIntervalExercise
-import com.app.music_app.view.components.progress_bars.StripedProgressBar
 import com.app.music_app.view.screens.MainScreen
-import com.app.music_app.view.screens.ResultsScreen
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -77,7 +71,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun ProgressBar() {
         AppTheme {
-            MainScreen(CompareExerciseBuilder())
+            MainScreen(CompareExerciseInfo())
         }
     }
 

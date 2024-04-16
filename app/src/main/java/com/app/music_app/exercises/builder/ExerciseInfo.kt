@@ -5,7 +5,7 @@ import com.app.music_app.exercises.difficulty.DifficultyInfo
 /**
  * Задаёт возможные варианты конструкций упражнения (какие сложности могут быть)
  */
-interface ExerciseBuilder {
+interface ExerciseInfo {
 
     // Название упражнения
     val name: String
