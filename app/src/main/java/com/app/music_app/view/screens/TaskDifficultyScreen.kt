@@ -25,7 +25,11 @@ import com.app.music_app.view.app_theme.AppTheme
 import com.example.android_app.R
 
 @Composable
-fun TaskDifficultyScreen(difficulties: Array<DifficultyInfo>, onCustomClick: (() -> Unit)? = null) {
+fun DrawDifficultyScreen(
+    difficulties: Array<DifficultyInfo>,
+    onDifficultySelect: (DifficultyInfo) -> Unit,
+    onCustomButtonClick: (() -> Unit)? = null
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,47 +37,42 @@ fun TaskDifficultyScreen(difficulties: Array<DifficultyInfo>, onCustomClick: (()
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight(0.85f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            difficulties.forEach { item { DifficultyCard(it) } }
-        }
 
-        if (onCustomClick != null) {
-            Divider(
-                modifier = Modifier.padding(horizontal = AppTheme.size.normal),
-                color = AppTheme.color.outline
-            )
+        DrawDifficultyCards(difficulties) { onDifficultySelect(it) }
 
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth(0.95f)
-                    .padding(10.dp),
-                colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.color.tertiary),
-                elevation = ButtonDefaults.elevation(2.dp),
-                shape = AppTheme.shape.container,
-                onClick = onCustomClick
-            ) {
-                Text(
-                    stringResource(R.string.custom),
-                    textAlign = TextAlign.Center,
-                    color = AppTheme.color.onTertiary,
-                    style = AppTheme.typography.title
-                )
+        if (onCustomButtonClick != null) DrawCustomButtonArea(onCustomButtonClick)
+    }
+}
+
+/**
+ * Рисует список из сложностей
+ * @param onClick Возвращает какую сложность выбрал пользователь
+ */
+@Composable
+private fun DrawDifficultyCards(
+    difficulties: Array<DifficultyInfo>,
+    onClick: (DifficultyInfo) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier.fillMaxHeight(0.85f),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top
+    ) {
+        difficulties.forEach { data ->
+            item {
+                DifficultyCard(data) { onClick(data) }
             }
         }
     }
 }
 
 @Composable
-private fun DifficultyCard(difficulty: DifficultyInfo) {
+private fun DifficultyCard(difficulty: DifficultyInfo, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth(0.95f)
             .padding(AppTheme.size.normal)
-            .clickable(onClick = difficulty.onClick),
+            .clickable(onClick = onClick),
         backgroundColor = AppTheme.color.secondary,
         elevation = 5.dp,
         shape = AppTheme.shape.container
@@ -96,5 +95,33 @@ private fun DifficultyCard(difficulty: DifficultyInfo) {
                 )
         }
 
+    }
+}
+
+/**
+ * Рисует кнопку и разделитель
+ */
+@Composable
+private fun DrawCustomButtonArea(onCustomButtonClick: (() -> Unit)) {
+    Divider(
+        modifier = Modifier.padding(horizontal = AppTheme.size.normal),
+        color = AppTheme.color.outline
+    )
+
+    Button(
+        modifier = Modifier
+            .fillMaxWidth(0.95f)
+            .padding(10.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = AppTheme.color.tertiary),
+        elevation = ButtonDefaults.elevation(2.dp),
+        shape = AppTheme.shape.container,
+        onClick = onCustomButtonClick
+    ) {
+        Text(
+            stringResource(R.string.custom),
+            textAlign = TextAlign.Center,
+            color = AppTheme.color.onTertiary,
+            style = AppTheme.typography.title
+        )
     }
 }
