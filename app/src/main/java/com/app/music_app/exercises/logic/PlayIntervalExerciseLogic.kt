@@ -29,7 +29,6 @@ import com.app.music_app.view.names.NoteResources
 import com.app.music_app.view.screens.IntervalPlayScreen
 import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.progress_bars.TaskProgressBar
-import com.app.music_app.exercises.logic.interfaces.AbstractExercise
 import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.notes.Note

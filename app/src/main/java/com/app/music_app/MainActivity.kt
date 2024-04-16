@@ -9,7 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.app.music_app.exercises.builder.CompareExerciseInfo
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.exercises.logic.PlayIntervalExercise
-import com.app.music_app.view.screens.MainScreen
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
@@ -45,15 +44,15 @@ class MainActivity : ComponentActivity() {
 //    @Preview
 //    @Composable
 //    private fun TaskScreen() {
-//        val testTitle = "Title"
-//        val testDescription = "Short difficulty description"
+//        val testTitle = "Title title title title title"
+//        val testDescription = "Short difficulty description short difficulty description"
 //        AppTheme {
-//            TaskDifficultyPage(
-//                listOf(
-//                    TaskDifficulty(testTitle, testDescription) {},
-//                    TaskDifficulty(testTitle, testDescription) {},
-//                    TaskDifficulty(testTitle, testDescription) {},
-//                    TaskDifficulty(testTitle, testDescription) {},
+//            TaskDifficultyScreen(
+//                arrayOf(
+//                    DifficultyInfo(testTitle, testDescription) {},
+//                    DifficultyInfo(testTitle, testDescription) {},
+//                    DifficultyInfo(testTitle, testDescription) {},
+//                    DifficultyInfo(testTitle, testDescription) {},
 //                )
 //            ) {}
 //        }
@@ -69,13 +68,13 @@ class MainActivity : ComponentActivity() {
 
     @Preview(locale = "en")
     @Composable
-    private fun ProgressBar() {
+    private fun App() {
         AppTheme {
-            MainScreen(CompareExerciseInfo())
+            StartApp(CompareExerciseInfo())
         }
     }
 
-//    @Preview
+//    @Preview1
 //    @Composable
 //    private fun CompareExercisePreview() {
 //        val task = CompareExercise(
