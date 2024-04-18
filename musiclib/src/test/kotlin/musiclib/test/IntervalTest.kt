@@ -70,18 +70,25 @@ class IntervalTest {
     @Nested
     inner class `Interval equal check` {
         @Test
-        fun `Equal check #1`() {
+        fun `Compare check #1`() {
             assertEquals(0, Interval(IntervalName.Secunda, IntervalType.Small).compareTo(Interval(IntervalName.Secunda, IntervalType.Small)))
         }
 
         @Test
-        fun `Equal check #2`() {
+        fun `Compare check #2`() {
             assertTrue(Interval(IntervalName.Secunda, IntervalType.Small) > Interval(IntervalName.Prima, IntervalType.Pure))
         }
 
         @Test
-        fun `Equal check #3`() {
+        fun `Compare check #3`() {
             assertTrue(Interval(IntervalName.Prima, IntervalType.Pure) < Interval(IntervalName.Secunda, IntervalType.Small))
+        }
+
+        @Test
+        fun `Equal check`() {
+            assertTrue(
+                Interval(IntervalName.Secunda, IntervalType.Small) == Interval(IntervalName.Secunda, IntervalType.Small)
+            )
         }
     }
 

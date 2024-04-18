@@ -38,4 +38,11 @@
     <string name="pure_octave_short" translatable="false">P8</string>
     <string name="flat_sign">flat</string>
     <string name="sharp_sign">sharp</string>
+    <string name="custom">Custom</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="not_bad">NOT BAD</string>
+    <string name="fine">FINE</string>
+    <string name="good">GOOD</string>
+    <string name="amazing">AMAZING</string>
+    <string name="exercises">Exercises</string>
 </resources>

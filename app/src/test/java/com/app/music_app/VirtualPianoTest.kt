@@ -1,6 +1,6 @@
 package com.app.music_app
 
-import com.app.music_app.music_player.instruments.VirtualPiano
+import com.app.music_app.music_players.instruments.VirtualPiano
 import com.musiclib.notes.note_metadata.Alteration
 import com.musiclib.notes.Note
 import com.musiclib.notes.note_metadata.NoteName
