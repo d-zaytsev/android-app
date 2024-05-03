@@ -1,11 +1,14 @@
 package com.app.music_app.view.components.paino_box
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,14 +40,17 @@ import com.example.android_app.R
 fun PianoCheckbox(
     text: String = stringResource(R.string.piano_box_text),
     onPianoClick: (keyboard: PianoKeyboard, isLast: Boolean) -> Boolean,
+    modifier: Modifier = Modifier,
     vararg keyboards: PianoKeyboard,
 ) {
     val pianoBoxDefaultColor: Color = AppTheme.color.tertiary
     val successColor: Color = AppTheme.color.success
     val errorColor: Color = AppTheme.color.error
 
+    // Контейнер для текста и бокса
     Column(
-        modifier = Modifier
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
             .shadow(6.dp, AppTheme.shape.container)
             .background(AppTheme.color.surface, AppTheme.shape.container),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -56,26 +62,30 @@ fun PianoCheckbox(
             style = AppTheme.typography.title,
             modifier = Modifier.padding(AppTheme.size.small)
         )
-        // Общий контейнер
+        // Контейнер для пианин
         Box(
             modifier = Modifier
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            // Контейнер который под пианины растягивается
             RowWithWrap(
-                horizontalSpacer = keyboards[0].size.height / 5,
-                verticalSpacer = keyboards[0].size.width / 5
+                horizontalSpacer = AppTheme.size.small,
+                verticalSpacer = AppTheme.size.small
             ) {
+                // Наполнение
+
                 var clicksCount by remember { mutableIntStateOf(0) }
                 // Чтобы элемент переставал работать после всех выборов
                 var canClick by remember { mutableStateOf(true) }
 
-                // Box с клавиатурой
+                // Каждая клавиатура
                 repeat(keyboards.size) {
                     // Цвет каждого квадрата (меняется при нажатии)
                     var color by remember { mutableStateOf(pianoBoxDefaultColor) }
                     val keyboardLength = remember { keyboards[it].noteRange.wholeNotesCount }
 
+                    // Пианина и обводка вокруг неё
                     PianoBox(
                         keyboard = keyboards[it],
                         widthMultiplier = if (keyboardLength == 2) 1.3f else if (keyboardLength == 3) 1.2f else 1.1f,
