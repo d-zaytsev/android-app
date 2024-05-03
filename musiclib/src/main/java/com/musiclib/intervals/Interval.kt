@@ -3,7 +3,7 @@ package com.musiclib.intervals
 import com.musiclib.notes.Note
 import kotlin.math.abs
 
-class Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = IntervalType.Pure) :
+class   Interval(name: IntervalName = IntervalName.Prima, type: IntervalType = IntervalType.Pure) :
     MusicInterval {
     override var name: IntervalName
         private set

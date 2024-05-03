@@ -22,7 +22,7 @@ class NoteResources {
 
         }
 
-        fun nameOf(context: Context, sign: Alteration): String {
+        fun nameOf(sign: Alteration): String {
             return when (sign) {
 
                 Alteration.None -> ""

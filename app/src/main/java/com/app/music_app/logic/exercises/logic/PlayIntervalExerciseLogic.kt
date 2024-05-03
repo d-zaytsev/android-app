@@ -173,14 +173,14 @@ class PlayIntervalExercise(
                     "${NoteResources.nameOf(context, pair.first.name)}${
                         NoteResources.nameOf(
                             context,
-                            pair.first.sign
+                            pair.first.name
                         )
                     }"
                 else
                     "${NoteResources.nameOf(context, pair.second.name)}${
                         NoteResources.nameOf(
                             context,
-                            pair.second.sign
+                            pair.second.name
                         )
                     }"
 
