@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -49,66 +50,69 @@ fun PianoCheckbox(
     val errorColor: Color = AppTheme.color.error
 
     // Контейнер для текста и бокса
-    Column(
+    LazyColumn(
         modifier = modifier
-            .verticalScroll(rememberScrollState())
             .shadow(6.dp, AppTheme.shape.container)
             .background(AppTheme.color.surface, AppTheme.shape.container),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text,
-            textAlign = TextAlign.Center,
-            color = AppTheme.color.onSurface,
-            style = AppTheme.typography.title,
-            modifier = Modifier.padding(AppTheme.size.small)
-        )
-        // Контейнер для пианин
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            // Контейнер который под пианины растягивается
-            RowWithWrap(
-                horizontalSpacer = AppTheme.size.small,
-                verticalSpacer = AppTheme.size.small
+        item {
+            Text(
+                text,
+                textAlign = TextAlign.Center,
+                color = AppTheme.color.onSurface,
+                style = AppTheme.typography.title,
+                modifier = Modifier.padding(AppTheme.size.small)
+            )
+        }
+        item {
+            // Контейнер для пианин
+            Box(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                // Наполнение
+                // Контейнер который под пианины растягивается
+                RowWithWrap(
+                    horizontalSpacer = AppTheme.size.small,
+                    verticalSpacer = AppTheme.size.small
+                ) {
+                    // Наполнение
 
-                var clicksCount by remember { mutableIntStateOf(0) }
-                // Чтобы элемент переставал работать после всех выборов
-                var canClick by remember { mutableStateOf(true) }
+                    var clicksCount by remember { mutableIntStateOf(0) }
+                    // Чтобы элемент переставал работать после всех выборов
+                    var canClick by remember { mutableStateOf(true) }
 
-                // Каждая клавиатура
-                repeat(keyboards.size) {
-                    // Цвет каждого квадрата (меняется при нажатии)
-                    var color by remember { mutableStateOf(pianoBoxDefaultColor) }
-                    val keyboardLength = remember { keyboards[it].noteRange.wholeNotesCount }
+                    // Каждая клавиатура
+                    repeat(keyboards.size) {
+                        // Цвет каждого квадрата (меняется при нажатии)
+                        var color by remember { mutableStateOf(pianoBoxDefaultColor) }
+                        val keyboardLength = remember { keyboards[it].noteRange.wholeNotesCount }
 
-                    // Пианина и обводка вокруг неё
-                    PianoBox(
-                        keyboard = keyboards[it],
-                        widthMultiplier = if (keyboardLength == 2) 1.3f else if (keyboardLength == 3) 1.2f else 1.1f,
-                        backgroundColor = color,
-                        modifier = Modifier.pointerInput(Unit) {
-                            if (canClick) {
-                                clicksCount++
-                                // Когда остаётся один вариант
-                                if (clicksCount == keyboards.size - 1)
-                                    canClick = false
+                        // Пианина и обводка вокруг неё
+                        PianoBox(
+                            keyboard = keyboards[it],
+                            widthMultiplier = if (keyboardLength == 2) 1.3f else if (keyboardLength == 3) 1.2f else 1.1f,
+                            backgroundColor = color,
+                            modifier = Modifier.pointerInput(Unit) {
+                                if (canClick) {
+                                    clicksCount++
+                                    // Когда остаётся один вариант
+                                    if (clicksCount == keyboards.size - 1)
+                                        canClick = false
 
-                                // Окрашиваем в нужный цвет (в зависимости от правильности выбора)
-                                color = if (onPianoClick(keyboards[it], !canClick))
-                                    successColor
-                                else
-                                    errorColor
-                            }
-                        })
+                                    // Окрашиваем в нужный цвет (в зависимости от правильности выбора)
+                                    color = if (onPianoClick(keyboards[it], !canClick))
+                                        successColor
+                                    else
+                                        errorColor
+                                }
+                            })
+                    }
                 }
-            }
 
+            }
         }
     }
 }
