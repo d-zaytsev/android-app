@@ -40,21 +40,26 @@ fun CompareExerciseScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(AppTheme.color.surface),
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         PlayButton(
             modifier = Modifier
-                .fillMaxHeight(0.1f)
+                .fillMaxHeight(0.08f)
                 .fillMaxWidth(0.5f),
             context = context,
             melody = melodyToPlay,
             instrument = playInstrument
         )
 
+        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+
         PianoCheckbox(
-            modifier = Modifier.fillMaxHeight(0.5f).fillMaxWidth(0.9f).padding(AppTheme.size.small),
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 20.dp)
+                .fillMaxHeight(0.6f)
+                .fillMaxWidth(0.9f),
             keyboards = shuffledKeyboards,
             onPianoClick = onPianoClick
         )

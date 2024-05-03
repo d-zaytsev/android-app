@@ -2,6 +2,7 @@ package com.app.music_app.view.components.paino_box
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,7 +54,8 @@ fun PianoCheckbox(
             .verticalScroll(rememberScrollState())
             .shadow(6.dp, AppTheme.shape.container)
             .background(AppTheme.color.surface, AppTheme.shape.container),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             text,
