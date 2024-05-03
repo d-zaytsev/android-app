@@ -15,7 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.music_app.music_players.instruments.VirtualPiano
-import com.app.music_app.view.screens.ChooseTaskScreen
+import com.app.music_app.view.screens.CompareExerciseScreen
 import com.app.music_app.view.screens.ResultsScreen
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
 import com.app.music_app.view.components.progress_bars.TaskProgressBar
@@ -87,7 +87,7 @@ class CompareExercise(
                         val shuffledPianos = remember { pianos.clone().also { it.shuffle() } }
                         var curPiano by remember { mutableIntStateOf(0) }
 
-                        ChooseTaskScreen(
+                        CompareExerciseScreen(
                             context = context,
                             melodyToPlay = melodies,
                             playInstrument = VirtualPiano(),
@@ -116,7 +116,7 @@ class CompareExercise(
 
 
                                 // Красит в нужный цвет
-                                return@ChooseTaskScreen correctVariant
+                                return@CompareExerciseScreen correctVariant
                             }
                         )
                     }
