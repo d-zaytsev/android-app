@@ -3,7 +3,13 @@ package com.app.music_app.view.components.play_button
 import android.content.Context
 import android.view.MotionEvent
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.QueueMusic
@@ -16,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -46,7 +53,8 @@ import kotlinx.coroutines.launch
 fun PlayButton(
     context: Context,
     melody: com.musiclib.notes.Melody,
-    instrument: AbstractInstrument
+    instrument: AbstractInstrument,
+    modifier: Modifier = Modifier
 ) {
     val text = stringResource(R.string.repeat)
 
@@ -63,9 +71,8 @@ fun PlayButton(
             containerColor = AppTheme.color.secondary,
             disabledContainerColor = AppTheme.color.inactive
         ),
-        modifier = Modifier
-            .fillMaxSize()
-            .scale(scale)
+        modifier = modifier
+            .scale(scale) // анимация при нажатии
             .shadow(AppTheme.size.medium, shape = AppTheme.shape.button)
             .pointerInteropFilter {
                 // рассматриваются разные случаи action
@@ -89,19 +96,24 @@ fun PlayButton(
                 true
             }
     ) {
-        Icon(
-            modifier = Modifier
-                .scale(1.5f),
-            imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
-            contentDescription = "Refresh button",
-            tint = AppTheme.color.onSecondary
-        )
-        Text(
-            text = text,
-            color = AppTheme.color.onSecondary,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxSize(),
-            style = AppTheme.typography.body
-        )
+
+        Row(horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                modifier = Modifier
+                    .scale(1.5f),
+                imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
+                contentDescription = "Refresh button",
+                tint = AppTheme.color.onSecondary
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = text,
+                color = AppTheme.color.onSecondary,
+                textAlign = TextAlign.Center,
+                style = AppTheme.typography.body
+            )
+        }
+
     }
 }
