@@ -1,26 +1,32 @@
 package com.app.music_app.logic.exercises.builder
 
+import android.app.Activity
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.app.music_app.MainActivity
 import com.app.music_app.logic.exercises.difficulty.DifficultyInfo
 import com.app.music_app.logic.exercises.logic.CompareExercise
+import com.app.music_app.logic.exercises.logic.PlayIntervalExercise
+import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
 import com.musiclib.notes.range.NoteRange
 
-class PlayExerciseInfo : ExerciseInfo {
+class PlayExerciseInfo(private val context: Context, private val activity: Activity) : ExerciseInfo {
     override val name: String
-        get() = "Playing intervals on an instrument"
+        get() = context.getString(R.string.play_task_name)
     override val description: String
-        get() = "You need to play the intervals using your instrument"
+        get() = context.getString(R.string.play_task_description)
 
     @Composable
     override fun buildDifficulties(): Array<DifficultyInfo> {
         return arrayOf(
             DifficultyInfo(
-                "Basic",
-                "Basic intervals: minor and major seconds",
+                stringResource(R.string.task_difficulty_basic),
+                stringResource(R.string.task_difficulty_basic_description),
                 defaultExerciseOf(
                     intervals = arrayOf(
                         Interval(IntervalName.Secunda, IntervalType.Small),
@@ -29,8 +35,8 @@ class PlayExerciseInfo : ExerciseInfo {
                 )
             ),
             DifficultyInfo(
-                "Normal",
-                "Learning to recognize thirds",
+                stringResource(R.string.task_difficulty_intermidiate),
+                stringResource(R.string.task_difficulty_description_intermidiate_2),
                 defaultExerciseOf(
                     intervals = arrayOf(
                         Interval(IntervalName.Tertia, IntervalType.Small),
@@ -39,8 +45,8 @@ class PlayExerciseInfo : ExerciseInfo {
                 )
             ),
             DifficultyInfo(
-                "Hard",
-                "Playing fourths and fifths",
+                stringResource(R.string.task_difficulty_advanced),
+                stringResource(R.string.task_difficulty_advanced_description),
                 defaultExerciseOf(
                     intervals = arrayOf(
                         Interval(IntervalName.Quarta, IntervalType.Extended),
@@ -49,22 +55,34 @@ class PlayExerciseInfo : ExerciseInfo {
                         Interval(IntervalName.Sexta, IntervalType.Large)
                     )
                 )
+            ),
+            DifficultyInfo(
+                stringResource(R.string.task_difficulty_expert),
+                stringResource(R.string.task_difficulty_description_expert_2),
+                defaultExerciseOf(
+                    intervals = arrayOf(
+                        Interval(IntervalName.Octava, IntervalType.Pure),
+                        Interval(IntervalName.Septima, IntervalType.Small),
+                        Interval(IntervalName.Septima, IntervalType.Large)
+                    )
+                )
             )
         )
     }
+
     companion object {
         private val range = NoteRange(-4, 4)
-        private const val TASK_COUNT = 5
+        private const val TASK_COUNT = 10
     }
 
     @Composable
-    private fun defaultExerciseOf(intervals: Array<Interval>): CompareExercise {
-        return CompareExercise(
-            LocalContext.current,
+    private fun defaultExerciseOf(intervals: Array<Interval>): PlayIntervalExercise {
+        return PlayIntervalExercise(
+            context,
+            activity,
             range,
             TASK_COUNT,
-            false,
-            fixDirection = false,
+            5,
             possibleIntervals = intervals
         )
     }
