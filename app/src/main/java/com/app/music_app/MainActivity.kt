@@ -57,14 +57,33 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @Preview(locale = "ru")
+    @Preview(device = Devices.NEXUS_5, locale = "ru")
     @Composable
     private fun PianoBoxPreview() {
         AppTheme {
             val context = LocalContext.current
             val activity = this@MainActivity
 
-            StartApp(CompareExerciseInfo(context), PlayExerciseInfo(context, activity))
+            val size = DpSize(100.dp, 100.dp)
+            val keyboard1 =
+                PianoKeyboard(context, size, NoteRange(Note(NoteName.Do), Note(NoteName.Mi)))
+            val keyboard2 =
+                PianoKeyboard(context, size, NoteRange(Note(NoteName.Do), Note(NoteName.Mi)))
+
+            CompareExerciseScreen(
+                context = context,
+                melodyToPlay = Melody(
+                    listOf(
+                        MelodyNote(Note(NoteName.Do)),
+                        MelodyNote(Note(NoteName.Do)),
+                        MelodyNote(Note(NoteName.Do)),
+                        MelodyNote(Note(NoteName.Do))
+                    )
+                ),
+                playInstrument = VirtualPiano(),
+                onPianoClick = { _, _ -> true },
+                shuffledKeyboards = arrayOf(keyboard1, keyboard2)
+            )
         }
     }
 

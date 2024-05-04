@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import com.app.music_app.music_players.interfaces.AbstractInstrument
 import com.app.music_app.view.app_theme.AppTheme
@@ -47,7 +48,7 @@ fun CompareExerciseScreen(
         PlayButton(
             modifier = Modifier
                 .fillMaxHeight(0.08f)
-                .fillMaxWidth(0.5f),
+                .fillMaxWidth(if (Locale.current.language == "ru") 0.6f else 0.5f),
             context = context,
             melody = melodyToPlay,
             instrument = playInstrument
