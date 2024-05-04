@@ -59,4 +59,5 @@
     <string name="play_task_description">Learn to find musical intervals relative to notes and play them</string>
     <string name="task_difficulty_description_intermidiate_2">Playing thirds</string>
     <string name="task_difficulty_description_expert_2">Learning octaves and sevenths</string>
+    <string name="select_difficulty_level">Select difficulty level</string>
 </resources>

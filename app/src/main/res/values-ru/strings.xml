@@ -26,7 +26,7 @@
     <string name="pure_octava">чистая октава</string>
     <string name="flat_sign">бемоль</string>
     <string name="sharp_sign">диез</string>
-    <string name="custom">Своя</string>
+    <string name="custom">Своя сложность</string>
     <string name="congratulations">Поздавляем!</string>
     <string name="not_bad">НЕПЛОХО</string>
     <string name="fine">ХОРОШО</string>
@@ -47,4 +47,5 @@
     <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы относительно нот и играть их</string>
     <string name="task_difficulty_description_intermidiate_2">Играем кварты</string>
     <string name="task_difficulty_description_expert_2">Изучаем септимы и октавы</string>
+    <string name="select_difficulty_level">Выбери сложность</string>
 </resources>

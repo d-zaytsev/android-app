@@ -13,6 +13,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
+import androidx.compose.material.Typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +38,14 @@ fun DrawDifficultyScreen(
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        Text(
+            stringResource(R.string.select_difficulty_level),
+            color = AppTheme.color.secondary,
+            style = AppTheme.typography.title
+        )
+
+        CustomDivider()
 
         DrawDifficultyCards(difficulties) { onDifficultySelect(it) }
 
@@ -99,14 +108,24 @@ private fun DifficultyCard(difficulty: DifficultyInfo, onClick: () -> Unit) {
 }
 
 /**
- * Рисует кнопку и разделитель
+ * Разделитель, вписанный в тему экрана
+ *
  */
 @Composable
-private fun DrawCustomButtonArea(onCustomButtonClick: (() -> Unit)) {
+private fun CustomDivider() {
     Divider(
         modifier = Modifier.padding(horizontal = AppTheme.size.normal),
         color = AppTheme.color.outline
     )
+}
+
+/**
+ * Рисует кнопку и разделитель
+ */
+@Composable
+private fun DrawCustomButtonArea(onCustomButtonClick: (() -> Unit)) {
+
+    CustomDivider()
 
     Button(
         modifier = Modifier
