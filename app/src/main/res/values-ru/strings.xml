@@ -33,4 +33,14 @@
     <string name="good">ОТЛИЧНО</string>
     <string name="amazing">ПРЕВОСХОДНО</string>
     <string name="exercises">Упражнения</string>
+    <string name="interval_comparison_task_name">Interval match</string>
+    <string name="interval_comparison_task_description">Compare two intervals and determine who was played the first</string>
+    <string name="task_difficulty_advanced">Сложные задания</string>
+    <string name="task_difficulty_basic">Основы</string>
+    <string name="task_difficulty_intermidiate">Средний уровень</string>
+    <string name="task_difficulty_expert">Октавы!</string>
+    <string name="task_difficulty_basic_description">Простые интервалы: секунды и терции</string>
+    <string name="task_difficulty_intermidiate_description">Различаем кварты</string>
+    <string name="task_difficulty_advanced_description">Квинты и сексты</string>
+    <string name="task_difficulty_expert_description">Распознаём септимы и октавы</string>
 </resources>

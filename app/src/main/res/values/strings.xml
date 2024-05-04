@@ -45,4 +45,14 @@
     <string name="good">GOOD</string>
     <string name="amazing">AMAZING</string>
     <string name="exercises">Exercises</string>
+    <string name="interval_comparison_task_name">Interval match</string>
+    <string name="interval_comparison_task_description">Compare two intervals and determine who was played the first</string>
+    <string name="task_difficulty_basic">Basic</string>
+    <string name="task_difficulty_intermidiate">Intermediate</string>
+    <string name="task_difficulty_advanced">Advanced</string>
+    <string name="task_difficulty_expert">Expert</string>
+    <string name="task_difficulty_basic_description">Basic intervals: minor and major seconds</string>
+    <string name="task_difficulty_intermidiate_description">Recognizing thirds</string>
+    <string name="task_difficulty_advanced_description">Mastering fourths and fifths</string>
+    <string name="task_difficulty_expert_description">Distinguishing octaves and sevenths</string>
 </resources>
