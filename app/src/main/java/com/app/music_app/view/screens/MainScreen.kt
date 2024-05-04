@@ -5,10 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Divider
 import androidx.compose.material3.Card
@@ -68,7 +71,8 @@ private fun ExerciseCard(title: String, description: String, onClick: () -> Unit
     Card(
         modifier = Modifier
             .padding(5.dp)
-            .size(DpSize(250.dp, 250.dp))
+            .width(300.dp)
+            .height(300.dp)
             .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
             containerColor = AppTheme.color.secondary,

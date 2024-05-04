@@ -43,7 +43,7 @@
     <string name="task_difficulty_intermidiate_description">Различаем кварты</string>
     <string name="task_difficulty_advanced_description">Квинты и сексты</string>
     <string name="task_difficulty_expert_description">Распознаём септимы и октавы</string>
-    <string name="play_task_name">Играйте интервалы на своём инструменте</string>
+    <string name="play_task_name">Исполнение интервалов</string>
     <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы относительно нот и играть их</string>
     <string name="task_difficulty_description_intermidiate_2">Играем кварты</string>
     <string name="task_difficulty_description_expert_2">Изучаем септимы и октавы</string>
