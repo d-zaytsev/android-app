@@ -13,6 +13,8 @@ import com.example.android_app.R
 import com.musiclib.intervals.Interval
 import com.musiclib.intervals.IntervalName
 import com.musiclib.intervals.IntervalType
+import com.musiclib.notes.Note
+import com.musiclib.notes.note_metadata.NoteName
 import com.musiclib.notes.range.NoteRange
 
 class PlayExerciseInfo(private val context: Context, private val activity: Activity) : ExerciseInfo {
@@ -71,7 +73,7 @@ class PlayExerciseInfo(private val context: Context, private val activity: Activ
     }
 
     companion object {
-        private val range = NoteRange(-1, 1)
+        private val range = NoteRange(Note(NoteName.Si, octave = -1), Note(NoteName.Do, octave = 1))
         private const val TASK_COUNT = 10
     }
 
