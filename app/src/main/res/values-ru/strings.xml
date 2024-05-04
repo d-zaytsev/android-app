@@ -7,7 +7,7 @@
     <string name="note_name_sol">Соль</string>
     <string name="note_name_la">Ля</string>
     <string name="note_name_si">Си</string>
-    <string name="repeat">Ещё раз</string>
+    <string name="repeat">Послушать</string>
     <string name="piano_box_text">Выбери элементы в порядке их звучания</string>
     <string name="note_delaying_from">Сыграй интервал % от %</string>
     <string name="note_delaying_to">Сыграй интервал %, заканчивая %</string>

@@ -7,7 +7,7 @@
     <string name="note_name_sol">G</string>
     <string name="note_name_la">A</string>
     <string name="note_name_si">B</string>
-    <string name="repeat">Repeat</string>
+    <string name="repeat">Play</string>
     <string name="piano_box_text">Choose the elements in the order they sounded</string>
     <string name="note_delaying_from">Play a % from the %</string>
     <string name="note_delaying_to">Play % ending on %</string>
