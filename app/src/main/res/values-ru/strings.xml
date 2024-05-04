@@ -35,12 +35,16 @@
     <string name="exercises">Упражнения</string>
     <string name="interval_comparison_task_name">Interval match</string>
     <string name="interval_comparison_task_description">Compare two intervals and determine who was played the first</string>
-    <string name="task_difficulty_advanced">Сложные задания</string>
-    <string name="task_difficulty_basic">Основы</string>
-    <string name="task_difficulty_intermidiate">Средний уровень</string>
-    <string name="task_difficulty_expert">Октавы!</string>
+    <string name="task_difficulty_advanced">Почти у цели</string>
+    <string name="task_difficulty_basic">Самое начало</string>
+    <string name="task_difficulty_intermidiate">Продолжаем изучать</string>
+    <string name="task_difficulty_expert">Последние штрихи</string>
     <string name="task_difficulty_basic_description">Простые интервалы: секунды и терции</string>
     <string name="task_difficulty_intermidiate_description">Различаем кварты</string>
     <string name="task_difficulty_advanced_description">Квинты и сексты</string>
     <string name="task_difficulty_expert_description">Распознаём септимы и октавы</string>
+    <string name="play_task_name">Играйте интервалы на своём инструменте</string>
+    <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы относительно нот и играть их</string>
+    <string name="task_difficulty_description_intermidiate_2">Играем кварты</string>
+    <string name="task_difficulty_description_expert_2">Изучаем септимы и октавы</string>
 </resources>

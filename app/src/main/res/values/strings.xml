@@ -55,4 +55,8 @@
     <string name="task_difficulty_intermidiate_description">Recognizing thirds</string>
     <string name="task_difficulty_advanced_description">Mastering fourths and fifths</string>
     <string name="task_difficulty_expert_description">Distinguishing octaves and sevenths</string>
+    <string name="play_task_name">Playing intervals on your instrument</string>
+    <string name="play_task_description">Learn to find musical intervals relative to notes and play them</string>
+    <string name="task_difficulty_description_intermidiate_2">Playing thirds</string>
+    <string name="task_difficulty_description_expert_2">Learning octaves and sevenths</string>
 </resources>
