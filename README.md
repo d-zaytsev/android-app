@@ -29,3 +29,10 @@ This led to the development of an application that caters to both novice and exp
 3. Install the APK file on your device: ```adb install -r app/build/outputs/apk/debug/app-debug.apk```
 
 ## 🔧Tech Stack
+
+- Android
+- Kotlin
+- JUnit 5
+- Jetpack Compose
+- TarsosDSP
+- Android Studio
