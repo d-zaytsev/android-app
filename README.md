@@ -20,7 +20,7 @@ This led to the development of an application that caters to both novice and exp
 ## 🚀How to Install
 
 ### Using APK from GitHub Actions
-1. Download the latest APK file from the [GitHub actions page](https://github.com/d-zaytsev/android-app/actions/runs)
+1. Download the latest APK file from the [GitHub actions page](https://github.com/d-zaytsev/android-app/actions)
 2. Transfer the APK file to your Android device
 3. Open the APK file on your device to install the application
 ### Building from Source
