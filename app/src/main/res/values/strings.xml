@@ -45,8 +45,8 @@
     <string name="good">GOOD</string>
     <string name="amazing">AMAZING</string>
     <string name="exercises">Exercises</string>
-    <string name="interval_comparison_task_name">Interval match</string>
-    <string name="interval_comparison_task_description">Compare two intervals and determine who was played the first</string>
+    <string name="interval_comparison_task_name">Intervals comparison</string>
+    <string name="interval_comparison_task_description">Compare the two intervals by sound and determine who played first</string>
     <string name="task_difficulty_basic">Basic</string>
     <string name="task_difficulty_intermidiate">Intermediate</string>
     <string name="task_difficulty_advanced">Advanced</string>

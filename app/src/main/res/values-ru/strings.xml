@@ -33,8 +33,8 @@
     <string name="good">ОТЛИЧНО</string>
     <string name="amazing">ПРЕВОСХОДНО</string>
     <string name="exercises">Упражнения</string>
-    <string name="interval_comparison_task_name">Interval match</string>
-    <string name="interval_comparison_task_description">Compare two intervals and determine who was played the first</string>
+    <string name="interval_comparison_task_name">Сравнение интервалов</string>
+    <string name="interval_comparison_task_description">Сравните два интервала по звуку и определите, кто играл первым</string>
     <string name="task_difficulty_advanced">Почти у цели</string>
     <string name="task_difficulty_basic">Самое начало</string>
     <string name="task_difficulty_intermidiate">Продолжаем изучать</string>
