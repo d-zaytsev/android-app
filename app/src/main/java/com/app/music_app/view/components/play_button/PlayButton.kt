@@ -104,12 +104,12 @@ fun PlayButton(
                     .scale(1.5f),
                 imageVector = Icons.AutoMirrored.Rounded.QueueMusic,
                 contentDescription = "Refresh button",
-                tint = AppTheme.color.onSecondary
+                tint = AppTheme.color.surface
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = text,
-                color = AppTheme.color.onSecondary,
+                color = AppTheme.color.surface,
                 textAlign = TextAlign.Center,
                 style = AppTheme.typography.body
             )

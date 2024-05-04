@@ -34,7 +34,7 @@
     <string name="amazing">ПРЕВОСХОДНО</string>
     <string name="exercises">Упражнения</string>
     <string name="interval_comparison_task_name">Сравнение интервалов</string>
-    <string name="interval_comparison_task_description">Сравните два интервала по звуку и определите, кто играл первым</string>
+    <string name="interval_comparison_task_description">Сравните два интервала по звуку и определите, какой из них играл первым</string>
     <string name="task_difficulty_advanced">Почти у цели</string>
     <string name="task_difficulty_basic">Самое начало</string>
     <string name="task_difficulty_intermidiate">Продолжаем изучать</string>
@@ -44,7 +44,7 @@
     <string name="task_difficulty_advanced_description">Квинты и сексты</string>
     <string name="task_difficulty_expert_description">Распознаём септимы и октавы</string>
     <string name="play_task_name">Исполнение интервалов</string>
-    <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы относительно нот и играть их</string>
+    <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы от нот и играть их</string>
     <string name="task_difficulty_description_intermidiate_2">Играем кварты</string>
     <string name="task_difficulty_description_expert_2">Изучаем септимы и октавы</string>
     <string name="select_difficulty_level">Выбери сложность</string>

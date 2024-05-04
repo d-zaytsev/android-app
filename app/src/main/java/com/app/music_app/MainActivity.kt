@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
+import com.app.music_app.logic.DifficultyScreen
 import com.app.music_app.logic.exercises.builder.CompareExerciseInfo
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.logic.exercises.logic.PlayIntervalExercise
@@ -48,49 +49,23 @@ class MainActivity : ComponentActivity() {
         // Root element
         setContent {
             AppTheme {
-                val task = PlayIntervalExercise(
-                    LocalContext.current,
-                    this@MainActivity,
-                    NoteRange(Note(NoteName.Do), Note(NoteName.Si)),
-                    2,
-                    10,
-                    arrayOf(
-                        Interval(IntervalName.Secunda, IntervalType.Small),
-                        Interval(IntervalName.Secunda, IntervalType.Large)
-                    )
-                )
+                val context = LocalContext.current
+                val activity = this@MainActivity
 
-                task.run()
+                StartApp(CompareExerciseInfo(context), PlayExerciseInfo(context, activity))
             }
         }
     }
 
-    @Preview(name = "NEXUS_7", device = Devices.NEXUS_7, locale = "ru")
-    @Preview(name = "PIXEL_C", device = Devices.PIXEL_C, locale = "ru")
-    @Preview(name = "PIXEL", device = Devices.PIXEL, locale = "ru")
-
+    @Preview(locale = "ru")
     @Composable
     private fun PianoBoxPreview() {
-        val octave = NoteRange(Note(NoteName.Do), Note(NoteName.Si))
-        val melody = Melody(
-            listOf(
-                MelodyNote(Note(NoteName.Do)),
-                MelodyNote(Note(NoteName.Si)),
-                MelodyNote(Note(NoteName.Do)),
-                MelodyNote(Note(NoteName.Si))
-            )
-        )
-
-        val size = DpSize(
-            min((LocalConfiguration.current.screenWidthDp / 2), 300).dp,
-            min((LocalConfiguration.current.screenHeightDp / 7), 200).dp
-        )
-
-        val keyboard1 = PianoKeyboard(LocalContext.current, size, octave)
-        val keyboard2 = PianoKeyboard(LocalContext.current, size, octave)
-
         AppTheme {
+            val context = LocalContext.current
+            val activity = this@MainActivity
 
+            StartApp(CompareExerciseInfo(context), PlayExerciseInfo(context, activity))
         }
-
     }
+
+}

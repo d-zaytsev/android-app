@@ -68,7 +68,7 @@ class CompareExerciseInfo(private val context: Context) : ExerciseInfo {
     }
 
     companion object {
-        private val range = NoteRange(-4, 4)
+        private val range = NoteRange(-1, 1)
         private const val TASK_COUNT = 5
     }
 

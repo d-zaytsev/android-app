@@ -138,7 +138,8 @@ class PianoKeyboard(
                 for (whiteKey in whiteKeys) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
-                        verticalArrangement = Arrangement.Bottom
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         PianoKeyName(context, whiteKey)
                     }
@@ -228,11 +229,11 @@ class PianoKeyboard(
             text = text,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Visible,
-            softWrap = false,
+            softWrap = true,
             modifier = Modifier
                 .alpha(0.5f)
-                .padding(pad, textVertPadding),
-            style = TextStyle(fontSize = 15.sp)
+                .padding(vertical = textVertPadding),
+            style = TextStyle(fontSize = 13.sp)
         )
 
     }

@@ -71,7 +71,7 @@ class PlayExerciseInfo(private val context: Context, private val activity: Activ
     }
 
     companion object {
-        private val range = NoteRange(-4, 4)
+        private val range = NoteRange(-1, 1)
         private const val TASK_COUNT = 10
     }
 
