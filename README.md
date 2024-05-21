@@ -32,6 +32,7 @@ This led to the development of an application that caters to both novice and exp
 
 - Android
 - Kotlin
+- Gradle
 - JUnit 5
 - Jetpack Compose
 - TarsosDSP
