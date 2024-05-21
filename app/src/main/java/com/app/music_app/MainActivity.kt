@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -43,7 +44,6 @@ import kotlin.math.min
 
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Root element
@@ -56,35 +56,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    @Preview(device = Devices.NEXUS_5, locale = "ru")
-    @Composable
-    private fun PianoBoxPreview() {
-        AppTheme {
-            val context = LocalContext.current
-            val activity = this@MainActivity
-
-            val size = DpSize(100.dp, 100.dp)
-            val keyboard1 =
-                PianoKeyboard(context, size, NoteRange(Note(NoteName.Do), Note(NoteName.Mi)))
-            val keyboard2 =
-                PianoKeyboard(context, size, NoteRange(Note(NoteName.Do), Note(NoteName.Mi)))
-
-            CompareExerciseScreen(
-                context = context,
-                melodyToPlay = Melody(
-                    listOf(
-                        MelodyNote(Note(NoteName.Do)),
-                        MelodyNote(Note(NoteName.Do)),
-                        MelodyNote(Note(NoteName.Do)),
-                        MelodyNote(Note(NoteName.Do))
-                    )
-                ),
-                playInstrument = VirtualPiano(),
-                onPianoClick = { _, _ -> true },
-                shuffledKeyboards = arrayOf(keyboard1, keyboard2)
-            )
-        }
-    }
-
 }
