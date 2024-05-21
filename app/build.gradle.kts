@@ -63,6 +63,9 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
+    // Accompanist (google). I use it for custom status bar
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
     // ---
 
     // TarsosDSP (audio processing) https://github.com/JorenSix/TarsosDSP

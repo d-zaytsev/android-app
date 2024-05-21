@@ -7,7 +7,7 @@
     <string name="note_name_sol">Соль</string>
     <string name="note_name_la">Ля</string>
     <string name="note_name_si">Си</string>
-    <string name="repeat">Ещё раз</string>
+    <string name="repeat">Послушать</string>
     <string name="piano_box_text">Выбери элементы в порядке их звучания</string>
     <string name="note_delaying_from">Сыграй интервал % от %</string>
     <string name="note_delaying_to">Сыграй интервал %, заканчивая %</string>
@@ -26,11 +26,26 @@
     <string name="pure_octava">чистая октава</string>
     <string name="flat_sign">бемоль</string>
     <string name="sharp_sign">диез</string>
-    <string name="custom">Своя</string>
+    <string name="custom">Своя сложность</string>
     <string name="congratulations">Поздавляем!</string>
     <string name="not_bad">НЕПЛОХО</string>
     <string name="fine">ХОРОШО</string>
     <string name="good">ОТЛИЧНО</string>
     <string name="amazing">ПРЕВОСХОДНО</string>
     <string name="exercises">Упражнения</string>
+    <string name="interval_comparison_task_name">Сравнение интервалов</string>
+    <string name="interval_comparison_task_description">Сравните два интервала по звуку и определите, какой из них играл первым</string>
+    <string name="task_difficulty_advanced">Почти у цели</string>
+    <string name="task_difficulty_basic">Самое начало</string>
+    <string name="task_difficulty_intermidiate">Продолжаем изучать</string>
+    <string name="task_difficulty_expert">Последние штрихи</string>
+    <string name="task_difficulty_basic_description">Простые интервалы: секунды и терции</string>
+    <string name="task_difficulty_intermidiate_description">Различаем кварты</string>
+    <string name="task_difficulty_advanced_description">Квинты и сексты</string>
+    <string name="task_difficulty_expert_description">Распознаём септимы и октавы</string>
+    <string name="play_task_name">Исполнение интервалов</string>
+    <string name="play_task_description">Научитесь быстро откладывать музыкальные интервалы от нот и играть их</string>
+    <string name="task_difficulty_description_intermidiate_2">Играем кварты</string>
+    <string name="task_difficulty_description_expert_2">Изучаем септимы и октавы</string>
+    <string name="select_difficulty_level">Выбери сложность</string>
 </resources>

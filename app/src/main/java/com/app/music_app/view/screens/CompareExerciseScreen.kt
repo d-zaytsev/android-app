@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import com.app.music_app.music_players.interfaces.AbstractInstrument
-import com.app.music_app.view.app_theme.AppColor
 import com.app.music_app.view.app_theme.AppTheme
 import com.app.music_app.view.components.paino_box.PianoCheckbox
 import com.app.music_app.view.components.piano_keyboard.PianoKeyboard
@@ -30,7 +30,7 @@ import com.musiclib.notes.Melody
  * @param onPianoClick Действия, необходимые производить при выборе пользователя
  */
 @Composable
-fun ChooseTaskScreen(
+fun CompareExerciseScreen(
     context: Context,
     melodyToPlay: Melody,
     playInstrument: AbstractInstrument,
@@ -41,29 +41,28 @@ fun ChooseTaskScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(AppTheme.color.surface),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.4f)
-        )
-        Box(
-            modifier = Modifier
-                .height(50.dp)
-                .width(300.dp)
-        ) {
-            PlayButton(context = context, melody = melodyToPlay, instrument = playInstrument)
-        }
 
-        Spacer(
+        PlayButton(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.2f)
+                .fillMaxHeight(0.08f)
+                .fillMaxWidth(if (Locale.current.language == "ru") 0.6f else 0.5f),
+            context = context,
+            melody = melodyToPlay,
+            instrument = playInstrument
         )
-        Box(modifier = Modifier.padding(AppTheme.size.large)) {
-            PianoCheckbox(keyboards = shuffledKeyboards, onPianoClick = onPianoClick)
-        }
+
+        Spacer(modifier = Modifier.fillMaxHeight(0.1f))
+
+        PianoCheckbox(
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 20.dp)
+                .fillMaxHeight(0.6f)
+                .fillMaxWidth(0.9f),
+            keyboards = shuffledKeyboards,
+            onPianoClick = onPianoClick
+        )
     }
 }

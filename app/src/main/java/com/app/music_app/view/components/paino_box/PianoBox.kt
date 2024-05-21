@@ -40,7 +40,7 @@ fun PianoBox(
                 shape = AppTheme.shape.container
             )
             .background(backgroundColor, shape = AppTheme.shape.container)
-            .padding(3.dp),
+            .padding(5.dp),
         contentAlignment = Alignment.Center
     ) {
         // Рисуем клавиатуру внутри каждого квадратика

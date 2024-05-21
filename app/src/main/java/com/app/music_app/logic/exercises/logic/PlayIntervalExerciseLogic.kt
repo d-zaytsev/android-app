@@ -56,7 +56,7 @@ class PlayIntervalExercise(
 ) : AbstractExercise() {
 
     init {
-        require(checkAudioPermission(context, activity)) { "Can't get voice recording permission" }
+        require(checkAudioPermission(context, activity)) { "Can't get audio requirement" }
         require(possibleIntervals.isNotEmpty()) { "Intervals count = 0" }
         require(maxAttemptsCount > 0) { "Attempts count can't be less than 1" }
         require(taskCount > 0) { "Task count can't be less than 1" }
@@ -105,7 +105,7 @@ class PlayIntervalExercise(
 
                         IntervalPlayScreen(
                             context,
-                            range,
+                            NoteRange(pair.first.octave, pair.second.octave),
                             text
                         )
                         { note ->
@@ -171,17 +171,11 @@ class PlayIntervalExercise(
 
                 val noteName = if (from)
                     "${NoteResources.nameOf(context, pair.first.name)}${
-                        NoteResources.nameOf(
-                            context,
-                            pair.first.sign
-                        )
+                        NoteResources.nameOf(pair.first.sign)
                     }"
                 else
                     "${NoteResources.nameOf(context, pair.second.name)}${
-                        NoteResources.nameOf(
-                            context,
-                            pair.second.sign
-                        )
+                        NoteResources.nameOf(pair.second.sign)
                     }"
 
                 // Текст в ресурсах разделён % в местах где должны быть подстановки
@@ -217,7 +211,7 @@ class PlayIntervalExercise(
         notes: List<Note>,
         interval: Interval,
     ): Pair<Note, Note> {
-        val first = notes.random().shuffleSign()
+        val first = notes.filter { note -> abs(notes.last().pitch - note.pitch) >= interval.distance }.random().shuffleSign()
         val second =
             notes.filter { note -> abs(first.pitch - note.pitch) == interval.distance }.random()
                 .shuffleSign()

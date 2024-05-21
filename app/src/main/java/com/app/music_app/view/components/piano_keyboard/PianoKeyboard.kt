@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateMapOf
@@ -22,6 +23,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -59,7 +63,6 @@ class PianoKeyboard(
 
     // Text
     private val textVertPadding = (whiteKeySize.height.value / 10).dp
-    private val keyNameFont = androidx.compose.ui.text.TextStyle(fontSize = 13.sp)
 
     private val pressedWhiteButtonColor: Color = AppColor.LightCyan
     private val pressedBlackButtonColor: Color = AppColor.HonoluluBlue
@@ -135,7 +138,8 @@ class PianoKeyboard(
                 for (whiteKey in whiteKeys) {
                     Column(
                         modifier = Modifier.size(whiteKeySize),
-                        verticalArrangement = Arrangement.Bottom
+                        verticalArrangement = Arrangement.Bottom,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         PianoKeyName(context, whiteKey)
                     }
@@ -221,12 +225,15 @@ class PianoKeyboard(
         else
             (whiteKeyWidth / 4 - text.length).dp
 
-        AutoResizedText(
+        Text(
             text = text,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Visible,
+            softWrap = true,
             modifier = Modifier
                 .alpha(0.5f)
-                .padding(pad, textVertPadding),
-            style = keyNameFont,
+                .padding(vertical = textVertPadding),
+            style = TextStyle(fontSize = 13.sp)
         )
 
     }
