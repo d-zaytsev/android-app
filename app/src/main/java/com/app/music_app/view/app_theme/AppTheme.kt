@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.android_app.R
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
  * Впихивает значения в контекст
@@ -24,6 +25,9 @@ fun AppTheme(
 ) {
 
     val rippleIndication = rememberRipple()
+    // Из accompanist, доп. функции
+    val systemUiController = rememberSystemUiController()
+
     // Проталкиваем наши значения в контекст под определёнными ключами
     CompositionLocalProvider(
         LocalAppColorScheme provides definedColor,
@@ -32,6 +36,11 @@ fun AppTheme(
         LocalAppShape provides definedShape,
         LocalIndication provides rippleIndication,
         content = content
+    )
+
+    // Статус бар кастомный
+    systemUiController.setSystemBarsColor(
+        color = AppColor.WhiteSmoke
     )
 }
 
